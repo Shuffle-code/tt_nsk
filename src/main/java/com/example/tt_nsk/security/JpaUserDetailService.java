@@ -1,48 +1,150 @@
 package com.example.tt_nsk.security;
 
+import com.example.tt_nsk.dao.security.AccountRoleDao;
 import com.example.tt_nsk.dao.security.AccountUserDao;
 import com.example.tt_nsk.dao.security.ConfirmationCodeDao;
+import com.example.tt_nsk.dto.UserDto;
+import com.example.tt_nsk.dto.mapper.UserMapper;
+import com.example.tt_nsk.entity.security.AccountRole;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.ConfirmationCode;
+import com.example.tt_nsk.entity.security.enums.AccountStatus;
+import com.example.tt_nsk.exception.UsernameAlreadyExistsException;
+import com.example.tt_nsk.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
-public class JpaUserDetailService implements UserDetailsService {
-
+@Slf4j
+public class JpaUserDetailService implements UserDetailsService, UserService {
     private final AccountUserDao accountUserDao;
-//    private final ConfirmationCodeDao confirmationCodeDao;
+    private final AccountRoleDao accountRoleDao;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
+    //    private final ConfirmationCode confirmationCode;
+    private final ConfirmationCodeDao confirmationCodeDao;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AccountUser accountUser = accountUserDao.findByUsername(username).orElseThrow(
+        return accountUserDao.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("Username: " + username + " not found")
         );
-//        String code = getConfirmationCode();
-//        generateConfirmationCode(username, code);
-//        System.out.println(code);
-        return accountUser;
+
     }
 
-
+    @Override
     public String getConfirmationCode() {
         String confirmationCode;
         return confirmationCode = RandomStringUtils.randomAscii(8);
     }
+    @Override
+    public UserDto register(UserDto userDto) {
+        if (accountUserDao.findByUsername(userDto.getUsername()).isPresent()) {
+            throw  new UsernameAlreadyExistsException(String.format(
+                    "User with username %s already exists", userDto.getUsername()));
+        }
+        AccountUser accountUser = userMapper.toAccountUser(userDto);
+        AccountRole roleUser = accountRoleDao.findByName("ROLE_USER");
 
-//    public void generateConfirmationCode(String username, String code) {
-//        AccountUser accountUser = accountUserDao.findByUsername(username).get();
-//        ConfirmationCode confirmationCode = ConfirmationCode.builder().
-//                confirmationCode(code)
-//                .accountUser(accountUser)
-//                .build();
-//        confirmationCodeDao.save(confirmationCode);
-//    }
+        accountUser.setRoles(Set.of(roleUser));
+        accountUser.setStatus(AccountStatus.ACTIVE);
+        accountUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        AccountUser registeredAccountUser = accountUserDao.save(accountUser);
+        log.debug("User with username {} was registered successfully", registeredAccountUser.getUsername());
+        return userMapper.toUserDto(registeredAccountUser);
+    }
+
+    @Override
+    @Transactional
+    public UserDto update(UserDto userDto) {
+        AccountUser user = userMapper.toAccountUser(userDto);
+        if (user.getId() != null) {
+            accountUserDao.findById(userDto.getId()).ifPresent(
+                    (p) -> {
+                        user.setVersion(p.getVersion());
+                        user.setStatus(p.getStatus());
+                    }
+            );
+        }
+        return userMapper.toUserDto(accountUserDao.save(user));
+    }
+
+    @Override
+    public AccountUser findByUsername(String username) {
+        return accountUserDao.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("Username: " + username + " not found")
+        );
+    }
+    public AccountUser update(AccountUser accountUser) {
+        if (accountUser.getId() != null) {
+            accountUserDao.findById(accountUser.getId()).ifPresent(
+                    (user) -> accountUser.setVersion(user.getVersion())
+            );
+        }
+        return accountUserDao.save(accountUser);
+    }
+    @Override
+    public void generateConfirmationCode(UserDto thisUser, String code) {
+        ConfirmationCode confirmationCode = ConfirmationCode.builder().
+                code(code)
+                .accountUser(userMapper.toAccountUser(thisUser))
+                .build();
+        confirmationCodeDao.save(confirmationCode);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDto findById(Long id) {
+        return userMapper.toUserDto(accountUserDao.findById(id).orElse(null));
+    }
+
+    @Override
+    public List<UserDto> findAll() {
+        return accountUserDao.findAll().stream()
+                .map(userMapper::toUserDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        final AccountUser accountUser = accountUserDao.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException(
+                        String.format("User with id %s not found", id)
+                )
+        );
+        disable(accountUser);
+        update(accountUser);
+    }
+
+    private void enable(final AccountUser accountUser) {
+        accountUser.setStatus(AccountStatus.ACTIVE);
+        accountUser.setAccountNonLocked(true);
+        accountUser.setAccountNonExpired(true);
+        accountUser.setEnabled(true);
+        accountUser.setCredentialsNonExpired(true);
+    }
+
+    private void disable(final AccountUser accountUser) {
+        accountUser.setStatus(AccountStatus.DELETED);
+        accountUser.setAccountNonLocked(false);
+        accountUser.setAccountNonExpired(false);
+        accountUser.setEnabled(false);
+        accountUser.setCredentialsNonExpired(false);
+    }
 }

@@ -25,8 +25,6 @@ import java.util.Optional;
 public class PlayerService {
     private final PlayerDao playerDao;
     private final PlayerImageService playerImageService;
-//    @Autowired
-//    private final PlayerMapper playerMapper;
 
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
     public long count() {
@@ -122,7 +120,6 @@ public class PlayerService {
             playerDao.save(p);
         });
     }
-//    @Transactional(readOnly = true)
     public List<Player> findAll(int page, int size) {
         return playerDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size));
     }
