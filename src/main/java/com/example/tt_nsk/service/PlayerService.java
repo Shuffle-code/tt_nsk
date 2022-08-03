@@ -99,11 +99,6 @@ public class PlayerService {
         return save(player, (MultipartFile) null);
     }
 
-//    @Transactional(readOnly = true)
-//    public Player findById(Long id) {
-//        return playerDao.findById(id).orElse(null);
-//    }
-//    @Transactional(readOnly = true)
     public List<Player> findAll() {
         return playerDao.findAll();
     }
@@ -132,12 +127,16 @@ public class PlayerService {
         return playerDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size));
     }
     @Transactional(readOnly = true)
-    public List<Player> findAllSortedById() {
+    public List<Player> findAllActiveSortedById() {
         return playerDao.findAllByStatus(Status.ACTIVE, Sort.by("id"));
     }
     @Transactional(readOnly = true)
     public List<Player> findAllSortedById(int page, int size) {
         return playerDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));
+    }
+    @Transactional(readOnly = true)
+    public List<Player> findAllSortedByRating() {
+        return playerDao.findAll(Sort.by(Sort.Direction.DESC,"rating"));
     }
 
 //    @Transactional(readOnly = true)

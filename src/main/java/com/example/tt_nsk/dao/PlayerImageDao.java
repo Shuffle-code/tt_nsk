@@ -6,11 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
-/**
- * @author Artem Kropotov
- * created at 26.06.2022
- **/
 public interface PlayerImageDao extends JpaRepository<PlayerImage, Long> {
 
     @Query(value = "SELECT player_image.path FROM player_image WHERE player_image.player_id = :id LIMIT 1", nativeQuery = true)

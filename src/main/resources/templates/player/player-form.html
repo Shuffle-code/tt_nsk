@@ -66,15 +66,15 @@
                         th:text="${statusValue.title}"></option>
             </select>
         </div>
-        <div class="col-md-8">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="image">Изображение</span>
-                <input type="file" name="file" class="form-control-file" accept="image/*">
-            </div>
-        </div>
-        <div class="col-12">
-            <button class="btn btn-primary" type="submit">Сохранить</button>
-        </div>
+<!--        <div class="col-md-8">-->
+<!--            <div class="input-group mb-3">-->
+<!--                <span class="input-group-text" id="image">Изображение</span>-->
+<!--                <input type="file" name="file" class="form-control-file" accept="image/*">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-12">-->
+<!--            <button class="btn btn-primary" type="submit">Сохранить</button>-->
+<!--        </div>-->
         <form method="post" enctype="multipart/form-data" th:action="@{/player/upload}">
         <div class="col-md-8">
             <div class="input-group mb-3">
@@ -86,8 +86,8 @@
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Сохранить</button>
         </div>
+        </form>
     </form>
-
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
 

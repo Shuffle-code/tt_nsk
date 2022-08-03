@@ -25,11 +25,6 @@ import java.nio.file.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-/**
- * @author Artem Kropotov
- * created at 26.06.2022
- **/
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -45,7 +40,6 @@ public class PlayerImageService {
 
     private final PlayerImageDao playerImageDao;
     private final PlayerDao playerDao;
-//    private final ProductMapper productMapper;
 
 
     private Path rootLocation;
@@ -97,26 +91,18 @@ public class PlayerImageService {
         return filename;
     }
 
-//    public ProductDto saveProductImage(Long productId, MultipartFile multipartFile) {
-//        Product product = productDao.getById(productId);
-//        String pathToSavedFile = save(multipartFile);
-//        ProductImage productImage = ProductImage.builder()
-//                .path(pathToSavedFile)
-//                .product(product)
-//                .build();
-//        product.addImage(productImage);
-//        return productMapper.toProductDto(productDao.save(product));
-//    }
-
     public Player savePlayerImage(Long playerId, MultipartFile multipartFile) {
-        Player player = playerDao.getReferenceById(playerId);
-        String pathToSavedFile = save(multipartFile);
-        PlayerImage playerImage = PlayerImage.builder()
-                .path(pathToSavedFile)
-                .player(player)
-                .build();
-        player.addImage(playerImage);
-        return playerDao.save(player);
+        if (!multipartFile.isEmpty()) {
+            Player player = playerDao.getReferenceById(playerId);
+            String pathToSavedFile = save(multipartFile);
+            PlayerImage playerImage = PlayerImage.builder()
+                    .path(pathToSavedFile)
+                    .player(player)
+                    .build();
+            player.addImage(playerImage);
+            return playerDao.save(player);
+        }
+        return null;
     }
 
 
