@@ -73,7 +73,8 @@ public class PlayerController {
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
     public String savePlayer(Player player, @RequestParam("files") MultipartFile[] files) {
         playerService.save(player);
-        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
+//        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
+        uploadMultipleFiles(files, playerDao.findById(player.getId()).get().getId());
 
         return "redirect:/player/all";
     }

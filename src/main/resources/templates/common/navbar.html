@@ -14,7 +14,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navi(activeTab)">
     <<div class="d-flex p-2">
-    <a class="navbar-brand" th:href="@{/product/all}">TT NSk</a>
+    <a class="navbar-brand" th:href="@{/player/all}">TT NSk</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -28,20 +28,21 @@
                 <a class="nav-link" th:classappend="${activeTab == 'PlayerForm' ? 'active' : ''}" aria-current="page" th:href="@{/player}">Добавить игрока</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'ProductForm' ? 'active' : ''}" th:href="@{/product}">Турниры</a>
+                <a class="nav-link" th:classappend="${activeTab == 'TourInfo' ? 'active' : ''}" th:href="@{/tour}">Турниры</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'ProductForm' ? 'active' : ''}" th:href="@{/product}">Трансляция</a>
+                <a class="nav-link" th:classappend="${activeTab == 'Video' ? 'active' : ''}" th:href="@{/video}">Трансляция</a>
             </li>
             <li sec:authorize="hasAuthority('player.create')" class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'ProductForm' ? 'active' : ''}" th:href="@{/product}">Создать турнир</a>
+                <a class="nav-link" th:classappend="${activeTab == 'TourForm' ? 'active' : ''}" th:href="@{/tour/new}">Создать турнир</a>
             <li class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'Cart' ? 'active' : ''}" th:href="@{/cart}"
-                   th:text="'Участвовать(' + ${session.cart == null ? '0)' : session.cart.totalQuantity + ')'}"></a>
+                <a class="nav-link" th:classappend="${activeTab == 'Participate' ? 'active' : ''}" th:href="@{/tour/all}"
+                   th:text="'Участвовать(' + ${session.player == null ? '0)' : session.player + ')'}"></a>
+<!--                    th:text="'Участвовать(' + ${players.size() == null ? '0)' : players.size() + ')'}"></a>-->
             </li>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'ProductForm' ? 'active' : ''}" th:href="@{/product}">Барахолка</a>
+                <a class="nav-link" th:classappend="${activeTab == 'Rules' ? 'active' : ''}" th:href="@{/rules}">Правила турнира</a>
             </li>
 <!--            <li class="nav-item">-->
 <!--                <a class="nav-link" th:classappend="${activeTab == 'Cart' ? 'active' : ''}" th:href="@{/cart}"-->

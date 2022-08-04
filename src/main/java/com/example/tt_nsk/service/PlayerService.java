@@ -125,7 +125,11 @@ public class PlayerService {
     }
     @Transactional(readOnly = true)
     public List<Player> findAllActiveSortedById() {
-        return playerDao.findAllByStatus(Status.ACTIVE, Sort.by("id"));
+        return playerDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"id"));
+    }
+    @Transactional(readOnly = true)
+    public List<Player> findAllActiveSortedByRating() {
+        return playerDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
     }
     @Transactional(readOnly = true)
     public List<Player> findAllSortedById(int page, int size) {
