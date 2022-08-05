@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,9 @@ public class PlayerController {
     private final PlayerImageService playerImageService;
 
     @GetMapping("/all")
-    public String getPlayerList(Model model) {
+    public String getPlayerList(Model model, HttpSession httpSession) {
+        httpSession.setAttribute("count", playerService.count().toString());
+        httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("players", playerService.findAllSortedByRating());
         return "player/players-list";
     }

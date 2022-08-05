@@ -1,5 +1,6 @@
 package com.example.tt_nsk.entity;
 
+import com.example.tt_nsk.entity.common.InfoEntity;
 import com.example.tt_nsk.entity.enums.Status;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -17,17 +18,17 @@ import java.util.Objects;
 
 @Setter
 @Getter
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+//@Builder
 @Entity
 @Table (name = "player")
 @EntityListeners(AuditingEntityListener.class)
-public class Player {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Player extends InfoEntity {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id")
+//    private Long id;
     @Column(name = "firstname")
     private String firstname;
     @Column(name = "patronymic")
@@ -45,21 +46,21 @@ public class Player {
 //    @ManyToOne
 //    @JoinColumn(name = "manufacturer_id")
 //    private Manufacturer manufacturer;
-    @Version
-    @Column(name = "VERSION")
-    private int version;
-    @CreatedBy
-    @Column(name = "CREATED_BY")
-    private String createdBy;
-    @CreatedDate
-    @Column(name = "CREATED_DATE")
-    private LocalDateTime createdDate;
-    @LastModifiedBy
-    @Column(name = "LAST_MODIFIED_BY")
-    private String lastModifiedBy;
-    @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_DATE")
-    private LocalDateTime lastModifiedDate;
+//    @Version
+//    @Column(name = "VERSION")
+//    private int version;
+//    @CreatedBy
+//    @Column(name = "CREATED_BY")
+//    private String createdBy;
+//    @CreatedDate
+//    @Column(name = "CREATED_DATE")
+//    private LocalDateTime createdDate;
+//    @LastModifiedBy
+//    @Column(name = "LAST_MODIFIED_BY")
+//    private String lastModifiedBy;
+//    @LastModifiedDate
+//    @Column(name = "LAST_MODIFIED_DATE")
+//    private LocalDateTime lastModifiedDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -84,7 +85,7 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "id=" + id +
+                "id=" + getId() +
                 ", firstname ='" + firstname + '\'' +
                 ", patronymic =" + patronymic +
                 ", lastname =" + lastname +
@@ -100,33 +101,34 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return id.equals(player.id) && firstname.equals(player.firstname) && patronymic.equals(player.patronymic) && lastname.equals(player.lastname) && rating.equals(player.rating)&& ratingTtw.equals(player.ratingTtw)&& yearOfBirth.equals(player.yearOfBirth);
+        return getId().equals(player.getId()) && firstname.equals(player.firstname) && patronymic.equals(player.patronymic) && lastname.equals(player.lastname) && rating.equals(player.rating)&& ratingTtw.equals(player.ratingTtw)&& yearOfBirth.equals(player.yearOfBirth);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, patronymic, lastname, rating,
+        return Objects.hash(getId(), firstname, patronymic, lastname, rating,
                 ratingTtw, yearOfBirth);
     }
 
-//    @Builder
-//    public Player(Long id, String firstname, String patronymic, String lastname,
-//                  BigDecimal rating, BigDecimal ratingTtw, Integer yearOfBirth, int version,
-//                  String createdBy, LocalDateTime createdDate, String lastModifiedBy,
-//                  LocalDateTime lastModifiedDate, Status status, List<PlayerImage> images) {
+    @Builder
+    public Player(Long id, String firstname, String patronymic, String lastname,
+                  BigDecimal rating, BigDecimal ratingTtw, Integer yearOfBirth, int version,
+                  String createdBy, LocalDateTime createdDate, String lastModifiedBy,
+                  LocalDateTime lastModifiedDate, Status status, List<PlayerImage> images) {
+        super(id, version, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
 //        this.id = id;
-//        this.firstname = firstname;
-//        this.patronymic = patronymic;
-//        this.lastname = lastname;
-//        this.rating = rating;
-//        this.ratingTtw = ratingTtw;
-//        this.yearOfBirth = yearOfBirth;
+        this.firstname = firstname;
+        this.patronymic = patronymic;
+        this.lastname = lastname;
+        this.rating = rating;
+        this.ratingTtw = ratingTtw;
+        this.yearOfBirth = yearOfBirth;
 //        this.version = version;
 //        this.createdBy = createdBy;
 //        this.createdDate = createdDate;
 //        this.lastModifiedBy = lastModifiedBy;
 //        this.lastModifiedDate = lastModifiedDate;
-//        this.status = status;
-//        this.images = images;
-//    }
+        this.status = status;
+        this.images = images;
+    }
 }

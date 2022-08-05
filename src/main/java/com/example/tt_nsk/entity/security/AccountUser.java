@@ -1,5 +1,6 @@
 package com.example.tt_nsk.entity.security;
 
+import com.example.tt_nsk.entity.common.InfoEntity;
 import com.example.tt_nsk.entity.security.enums.AccountStatus;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -18,15 +19,11 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder
+//@NoArgsConstructor
+//@Builder
 @Entity
 @Table(name = "ACCOUNT_USER")
-//public class AccountUser implements UserDetails {
-    public class AccountUser implements UserDetails{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public class AccountUser extends InfoEntity implements UserDetails{
 
     private String username;
     private String password;
@@ -59,22 +56,6 @@ import java.util.stream.Collectors;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AccountStatus status;
-    @Version
-    @Column(name = "VERSION")
-    private int version;
-    @CreatedBy
-    @Column(name = "CREATED_BY", updatable = false)
-    private String createdBy;
-    @CreatedDate
-    @Column(name = "CREATED_DATE", updatable = false)
-    private LocalDateTime createdDate;
-    @LastModifiedBy
-    @Column(name = "LAST_MODIFIED_BY")
-    private String lastModifiedBy;
-    @LastModifiedDate
-    @Column(name = "LAST_MODIFIED_DATE")
-    private LocalDateTime lastModifiedDate;
-
     @Override
     public Set<GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = roles.stream()
@@ -86,6 +67,26 @@ import java.util.stream.Collectors;
                 .collect(Collectors.toList()));
         return authorities;
     }
+    public AccountUser() {
+    }
 
-
+    @Builder
+    public AccountUser(Long id, int version, String createdBy, LocalDateTime createdDate, String lastModifiedBy,
+                       LocalDateTime lastModifiedDate, String username, String password, String firstname,
+                       String lastname, String email, String phone, AccountStatus status, Set<AccountRole> roles,
+                       boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+        super(id, version, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+        this.status = status;
+        this.roles = roles;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.enabled = enabled;
+    }
 }

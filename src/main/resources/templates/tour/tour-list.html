@@ -12,7 +12,7 @@
 <body>
 
 
-<div th:replace="~{common/navbar :: navi(Tour)}"></div>
+<div th:replace="~{common/navbar :: navi(TourInfo)}"></div>
 
 <div class="d-flex justify-content-center">
     <span th:if="${tours.size() == 0}">Турниров нет</span>
@@ -37,27 +37,28 @@
 <!--                th:classappend="${player.status.name() == 'ACTIVE'} ? 'table-success' : 'table-secondary'"-->
 <!--                th:attr="play_index=${player.id}">-->
                 <th scope="row" th:text="${i.count}"></th>
-                <td th:text="${tour.data}"></td>
-                <td th:text="${tour.title}"></td>
-                <td th:text="${tour.address_id}"></td>
-                <td th:text="${tour.amount_players}"></td>
-                <td th:text="${tour.winner_id}"></td>
-                <td sec:authorize="hasAuthority('player.update')">
-                    <a type="button"  th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>
-                </td>
-                <td sec:authorize="hasAuthority('player.read') || isAnonymous()">
-                    <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning">Просмотреть</a>
-                </td>
-                <td sec:authorize="hasAuthority('player.delete')">
-                    <a type="button"  th:href="@{${'/player/delete/' + player.id}}" class="btn btn-danger">Удалить</a>
-                </td>
+<!--                <td th:text="${tour.data}"></td>-->
+<!--                <td th:text="${tour.title}"></td>-->
+<!--                <td th:text="${tour.address_id}"></td>-->
+<!--                <td th:text="${tour.amount_players}"></td>-->
+<!--                <td th:text="${tour.winner_id}"></td>-->
+<!--                <td sec:authorize="hasAuthority('player.update')">-->
+<!--                    <a type="button"  th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>-->
+<!--                </td>-->
+<!--                <td sec:authorize="hasAuthority('player.read') || isAnonymous()">-->
+<!--                    <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning">Просмотреть</a>-->
+<!--                </td>-->
+<!--                <td sec:authorize="hasAuthority('player.delete')">-->
+<!--                    <a type="button"  th:href="@{${'/player/delete/' + player.id}}" class="btn btn-danger">Удалить</a>-->
+<!--                </td>-->
             </tr>
             </tbody>
         </table>
     </div>
+    </div>
 </div>
-<div th:replace="~{common/footer :: footerBlock}"/>
 
+<div th:replace="~{common/footer :: footerBlock}"/>
 
 </body>
 </html>

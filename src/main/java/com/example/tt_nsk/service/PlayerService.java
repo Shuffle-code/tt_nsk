@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
@@ -27,9 +28,13 @@ public class PlayerService {
     private final PlayerImageService playerImageService;
 
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
-    public long count() {
-        System.out.println(playerDao.count());
+    public Long count() {
         return playerDao.count();
+    }
+
+    @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
+    public Integer countPlaying() {
+        return playerDao.findAllByStatus(Status.ACTIVE).size();
     }
 
     public Player save(Player player, File file) {
