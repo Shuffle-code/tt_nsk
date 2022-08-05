@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,11 +29,26 @@ public class TourController {
     private final PlayerDao playerDao;
     private final PlayerImageService playerImageService;
 
-    @GetMapping("/all")
-    public String findAllActiveSortedRating(Model model) {
+    @GetMapping
+    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
         model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
+
 //        System.out.println(playerService.findAllActiveSortedById());
         return "tour/tour-form";
+    }
+
+    @GetMapping("/all")
+    public String getTourList(Model model) {
+        model.addAttribute("tours", playerService.findAllSortedByRating());
+        return "tour/tour-list";
+    }
+
+    @GetMapping("/participate")
+    public String participate(Model model) {
+        model.addAttribute("tours", playerService.findAllSortedByRating());
+//        List<Long> imagesId = new ArrayList<>(playerImageService.uploadMultipleFiles(id));
+//        model.addAttribute("playerImagesId", imagesId);
+        return "tour/tour-list";
     }
 
 
