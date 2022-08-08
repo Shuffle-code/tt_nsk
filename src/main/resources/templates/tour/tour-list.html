@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Список игроков</title>
+    <title>Список сыгранных турниров</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -18,7 +18,7 @@
     <span th:if="${tours.size() == 0}">Турниров нет</span>
     <div th:unless="${tours.size() == 0}">
     <div>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">№</th>
@@ -34,23 +34,21 @@
             </thead>
             <tbody data-mdb-spy="scroll">
             <tr th:each="tour, i : ${tours}">
-<!--                th:classappend="${player.status.name() == 'ACTIVE'} ? 'table-success' : 'table-secondary'"-->
-<!--                th:attr="play_index=${player.id}">-->
                 <th scope="row" th:text="${i.count}"></th>
-<!--                <td th:text="${tour.data}"></td>-->
-<!--                <td th:text="${tour.title}"></td>-->
-<!--                <td th:text="${tour.address_id}"></td>-->
-<!--                <td th:text="${tour.amount_players}"></td>-->
-<!--                <td th:text="${tour.winner_id}"></td>-->
-<!--                <td sec:authorize="hasAuthority('player.update')">-->
-<!--                    <a type="button"  th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>-->
-<!--                </td>-->
-<!--                <td sec:authorize="hasAuthority('player.read') || isAnonymous()">-->
-<!--                    <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning">Просмотреть</a>-->
-<!--                </td>-->
-<!--                <td sec:authorize="hasAuthority('player.delete')">-->
-<!--                    <a type="button"  th:href="@{${'/player/delete/' + player.id}}" class="btn btn-danger">Удалить</a>-->
-<!--                </td>-->
+                <td th:text="${tour.date}"></td>
+                <td th:text="${tour.title}"></td>
+                <td th:text="${tour.address.getStreet}"></td>
+                <td th:text="${'играли: ' + tour.amountPlayers}"></td>
+                <td th:text="${tour.player.getFirstname + ' ' + tour.player.getLastname}"></td>
+                <td sec:authorize="hasAuthority('player.update')">
+                    <a type="button"  th:href="@{/tour/new(id=${tour.id})}" class="btn btn-warning">Редактировать</a>
+                </td>
+                <td sec:authorize="hasAuthority('player.read') || isAnonymous()">
+                    <a type="button" th:href="@{'/tour/' + ${tour.id}}" class="btn btn-warning">Просмотреть</a>
+                </td>
+                <td sec:authorize="hasAuthority('player.delete')">
+                    <a type="button"  th:href="@{${'/tour/delete/' + tour.id}}" class="btn btn-danger">Удалить</a>
+                </td>
             </tr>
             </tbody>
         </table>

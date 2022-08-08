@@ -2,8 +2,12 @@ package com.example.tt_nsk.service;
 
 import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.PlayerImageDao;
+import com.example.tt_nsk.dao.TourDao;
+import com.example.tt_nsk.dao.TourImageDao;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.PlayerImage;
+import com.example.tt_nsk.entity.Tour;
+import com.example.tt_nsk.entity.TourImage;
 import com.example.tt_nsk.exception.StorageException;
 import com.example.tt_nsk.exception.StorageFileNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,15 +38,12 @@ public class TourImageService {
 
 //    private List<String> paths; // пути внутри storageLocation
 
-    private static final String path = "players";
+    private static final String path = "tours";
 
     @Value("${storage.location}")
     private String storagePath;
-
-    private final PlayerImageDao playerImageDao;
-    private final PlayerDao playerDao;
-
-
+    private final TourImageDao tourImageDao;
+    private final TourDao tourDao;
     private Path rootLocation;
 
     @PostConstruct
@@ -92,23 +93,23 @@ public class TourImageService {
         return filename;
     }
 
-    public Player savePlayerImage(Long playerId, MultipartFile multipartFile) {
+    public Tour saveTourImage(Long tourId, MultipartFile multipartFile) {
         if (!multipartFile.isEmpty()) {
-            Player player = playerDao.getReferenceById(playerId);
+            Tour tour = tourDao.getReferenceById(tourId);
             String pathToSavedFile = save(multipartFile);
-            PlayerImage playerImage = PlayerImage.builder()
+            TourImage tourImage = TourImage.builder()
                     .path(pathToSavedFile)
-                    .player(player)
+                    .tour(tour)
                     .build();
-            player.addImage(playerImage);
-            return playerDao.save(player);
+            tour.addImage(tourImage);
+            return tourDao.save(tour);
         }
         return null;
     }
 
 
     public BufferedImage loadFileAsImage(Long id) throws IOException {
-        String imageName = uploadMultipleFilesByPlayerId(id);
+        String imageName = uploadMultipleFilesByTourId(id);
         Resource resource = loadAsResource(imageName);
         return ImageIO.read(resource.getFile());
     }
@@ -124,16 +125,16 @@ public class TourImageService {
 //        return ImageIO.read(resource.getFile());
 //    }
 
-    public String uploadMultipleFilesByPlayerId(Long id) {
-        return playerImageDao.findImageNameByPlayerId(id);
+    public String uploadMultipleFilesByTourId(Long id) {
+        return tourImageDao.findImageNameByTourId(id);
     }
 
     public String uploadMultipleFilesByImageId(Long id) {
-        return playerImageDao.findImageNameByImageId(id);
+        return tourImageDao.findImageNameByImageId(id);
     }
 
     public List<Long> uploadMultipleFiles(Long id) {
-        return playerImageDao.findAllIdImagesByPlayerId(id);
+        return tourImageDao.findAllIdImagesByTourId(id);
     }
 
 
@@ -159,6 +160,4 @@ public class TourImageService {
             throw new StorageFileNotFoundException(String.format("Filename cannot be empty: %s", filename));
         }
     }
-
-
 }

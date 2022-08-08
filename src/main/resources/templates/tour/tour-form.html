@@ -73,11 +73,17 @@
             </tbody>
         </table>
      </div>
-<!--        <form method="post" enctype="multipart/form-data" th:action="@{/player/upload}">-->
-            <div class="col-12">
+
+        <div class="col-md-5" th:object="${tour}">
+            <div class="input-group" >
                 <button class="btn btn-primary" type="submit">Сохранить</button>
+                <input type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" th:field="*{title}">
             </div>
+        </div>
+
         </form>
+
     </div>
 
 </div>

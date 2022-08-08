@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Slf4j
 @Controller
@@ -43,11 +44,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String handleRegistrationForm(@Valid UserDto userDto, BindingResult bindingResult, Model model) {
+    public String handleRegistrationForm(@Valid UserDto userDto, BindingResult bindingResult, Model model) throws IOException {
         if (bindingResult.hasErrors()) {
             return "auth/registration-form";
         }
-
         final String username = userDto.getUsername();
         try {
             userService.findByUsername(username);
@@ -61,7 +61,6 @@ public class AuthController {
         System.out.println("Confirmation code! " + confirmationCode);
         userService.generateConfirmationCode(thisUser, confirmationCode);
         model.addAttribute("id", thisUser.getId());
-        System.out.println(thisUser.getId());// todo
         return "auth/registration-confirmation";
     }
 

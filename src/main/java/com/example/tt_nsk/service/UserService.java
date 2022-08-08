@@ -4,6 +4,7 @@ import com.example.tt_nsk.dto.UserDto;
 import com.example.tt_nsk.entity.security.AccountUser;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDto register(UserDto userDto);
+    UserDto register(UserDto userDto) throws IOException;
     UserDto update(UserDto userDto);
     AccountUser findByUsername(String username);
     AccountUser update(AccountUser userDto);

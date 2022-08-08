@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,11 @@ public class PlayerService {
         }
         return playerDao.save(player);
     }
+
+    public Long maxId(){
+        return playerDao.maxId();
+    }
+
 //    @Transactional
     public Player save(Player player, MultipartFile multipartFile) {
 //        Product product = productMapper.toProduct(productDto, manufacturerDao, categoryDao);

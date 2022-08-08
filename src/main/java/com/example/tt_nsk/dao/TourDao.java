@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TourDao extends JpaRepository<Tour, Long> {
-//    List<Player> findAllByStatus(Status status);
-//    List<Player> findAllByStatus(Status status, Pageable pageable);
-//    List<Player> findAllByStatus(Status status, Sort sort);
-//
-//    Optional<Player> findByLastname(String title);
-//    List<Player> findAllByTitleContaining(String title);
+//    List<Tour> findAllByStatus(Status status, Sort sort);
+    List<Tour> findAllByStatus(Status status, Pageable pageable);
+    List<Tour> findAllByStatus(Status status, Sort sort);
+    Tour findTourByStatus(Status status);
+
+    Optional<Tour> findByTitle(String title);
+    List<Tour> findAllByTitleContaining(String title);
 
 }

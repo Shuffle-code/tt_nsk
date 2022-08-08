@@ -25,6 +25,22 @@ public class PlayerImage {
     @Column(name = "path")
     private String path;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PlayerImage)) return false;
+
+        PlayerImage that = (PlayerImage) o;
+
+        return path.equals(that.path);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return path.hashCode();
+    }
+
     @Builder
     public PlayerImage(Long id, Player player, String path) {
         this.id = id;

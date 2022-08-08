@@ -1,5 +1,6 @@
 package com.example.tt_nsk.entity.security;
 
+import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.common.InfoEntity;
 import com.example.tt_nsk.entity.security.enums.AccountStatus;
 import lombok.*;
@@ -30,6 +31,10 @@ import java.util.stream.Collectors;
 
     private String firstname;
     private String lastname;
+
+    @OneToOne(targetEntity = Player.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id", referencedColumnName = "ID")
+    private Player player;
 
     @Singular
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)

@@ -35,7 +35,7 @@
                 <a class="nav-link" th:classappend="${activeTab == 'Video' ? 'active' : ''}" th:href="@{/video}">Трансляция</a>
             </li>
             <li sec:authorize="hasAuthority('player.create')" class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'TourForm' ? 'active' : ''}" th:href="@{/tour/new}">Создать турнир</a>
+                <a class="nav-link" th:classappend="${activeTab == 'TourNew' ? 'active' : ''}" th:href="@{/tour/new}">Создать турнир</a>
             <li class="nav-item">
                 <a class="nav-link" th:classappend="${activeTab == 'Participate' ? 'active' : ''}" th:href="@{/tour}"
                    th:text="'Участники(' + ${session.countPlaying == null ? '0)' : session.countPlaying + ')'}"></a>

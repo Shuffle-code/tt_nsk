@@ -128,9 +128,9 @@ values ('ROLE_ADMIN'),
        ('ROLE_USER');
 
 
-insert into user_role(user_id, role_id)
-values (1, 2),
-       (2, 1);
+# insert into user_role(user_id, role_id)
+# values (1, 2),
+#        (2, 1);
 
 insert into role_authority(ROLE_ID, AUTHORITY_ID)
 values (1, 1),

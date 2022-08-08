@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,9 +42,9 @@ public class TourService {
                 Tour tourFromDB = tourFromDBOptional.get();
                 tourFromDB.setDate(tour.getDate());
                 tourFromDB.setTitle(tour.getTitle());
-                tourFromDB.setAddressId(tour.getAddressId());
+                tourFromDB.setAddress(tour.getAddress());
                 tourFromDB.setAmountPlayers(tour.getAmountPlayers());
-//                tourFromDB.setWinnerId(tour.getWinnerId());
+                tourFromDB.setPlayer(tour.getPlayer());
                 return tourDao.save(tourFromDB);
             }
         }
@@ -91,21 +92,21 @@ public class TourService {
         }
     }
 
-//    public List<Tour> findAll(int page, int size) {
-//        return tourDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size));
-//    }
-//    @Transactional(readOnly = true)
-//    public List<Tour> findAllActiveSortedById() {
-//        return tourDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"id"));
-//    }
-//    @Transactional(readOnly = true)
-//    public List<Tour> findAllActiveSortedByRating() {
-//        return tourDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
-//    }
-//    @Transactional(readOnly = true)
-//    public List<Tour> findAllSortedById(int page, int size) {
-//        return tourDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));
-//    }
+    public List<Tour> findAll(int page, int size) {
+        return tourDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size));
+    }
+    @Transactional(readOnly = true)
+    public List<Tour> findAllActiveSortedById() {
+        return tourDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"id"));
+    }
+    @Transactional(readOnly = true)
+    public List<Tour> findAllActiveSortedByRating() {
+        return tourDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
+    }
+    @Transactional(readOnly = true)
+    public List<Tour> findAllSortedById(int page, int size) {
+        return tourDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));
+    }
     @Transactional(readOnly = true)
     public List<Tour> findAllSortedByRating() {
         return tourDao.findAll(Sort.by(Sort.Direction.DESC,"data"));

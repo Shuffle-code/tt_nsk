@@ -17,7 +17,6 @@
 <div class="d-flex justify-content-center">
     <span th:if="${players.size() == 0}">Игроков нет</span>
     <div th:unless="${players.size() == 0}">
-    <div>
         <table class="table">
             <thead>
             <tr>
@@ -68,7 +67,5 @@
     </div>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
-
-
 </body>
 </html>
