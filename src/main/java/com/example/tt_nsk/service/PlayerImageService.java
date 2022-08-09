@@ -24,12 +24,8 @@ import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
-
-/**
- * @author Artem Kropotov
- * created at 26.06.2022
- **/
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -45,7 +41,6 @@ public class PlayerImageService {
 
     private final PlayerImageDao playerImageDao;
     private final PlayerDao playerDao;
-//    private final ProductMapper productMapper;
 
 
     private Path rootLocation;
@@ -93,33 +88,35 @@ public class PlayerImageService {
         } catch (IOException e) {
             throw new StorageException(String.format("Error while saving file %s", filename));
         }
-
         return filename;
     }
 
-//    public ProductDto saveProductImage(Long productId, MultipartFile multipartFile) {
-//        Product product = productDao.getById(productId);
-//        String pathToSavedFile = save(multipartFile);
-//        ProductImage productImage = ProductImage.builder()
-//                .path(pathToSavedFile)
-//                .product(product)
-//                .build();
-//        product.addImage(productImage);
-//        return productMapper.toProductDto(productDao.save(product));
-//    }
-
     public Player savePlayerImage(Long playerId, MultipartFile multipartFile) {
-        Player player = playerDao.getReferenceById(playerId);
-        String pathToSavedFile = save(multipartFile);
-        PlayerImage playerImage = PlayerImage.builder()
-                .path(pathToSavedFile)
-                .player(player)
-                .build();
-        player.addImage(playerImage);
-        return playerDao.save(player);
+        if (!multipartFile.isEmpty()) {
+            Player player = playerDao.getReferenceById(playerId);
+            String pathToSavedFile = save(multipartFile);
+            PlayerImage playerImage = PlayerImage.builder()
+                    .path(pathToSavedFile)
+                    .player(player)
+                    .build();
+            player.addImage(playerImage);
+            Player savePlayer = playerDao.save(player);
+            deleteStartImage(playerImage);
+            return savePlayer;
+
+        }
+
+        return null;
     }
 
-
+    public void deleteStartImage(PlayerImage playerImage){
+        Long idPlayer = playerImage.getPlayer().getId();
+        PlayerImage image = playerImageDao.findFirstByPlayerId(idPlayer);
+        if (playerImageDao.count(playerImage.getPlayer().getId()) > 1 && image.getPath().equals("image104-66.jpg")){
+            System.out.println(image.getPath());
+            playerImageDao.delete(image);
+        }
+    }
     public BufferedImage loadFileAsImage(Long id) throws IOException {
         String imageName = uploadMultipleFilesByPlayerId(id);
         Resource resource = loadAsResource(imageName);
@@ -140,18 +137,14 @@ public class PlayerImageService {
     public String uploadMultipleFilesByPlayerId(Long id) {
         return playerImageDao.findImageNameByPlayerId(id);
     }
-
     public String uploadMultipleFilesByImageId(Long id) {
         return playerImageDao.findImageNameByImageId(id);
     }
-
     public List<Long> uploadMultipleFiles(Long id) {
         return playerImageDao.findAllIdImagesByPlayerId(id);
     }
 
-
     public Resource loadAsResource(String filename) {
-
         if (StringUtils.hasText(filename)) {
             try {
                 Path file = rootLocation.resolve(path).resolve(filename);
@@ -159,7 +152,6 @@ public class PlayerImageService {
 //                8e6d4478-ee77-4d43-96ef-0d6df9fb1589_i.jpg
 //                products/8e6d4478-ee77-4d43-96ef-0d6df9fb1589_i.jpg
                 Resource resource = new UrlResource(file.toUri());
-//                System.out.println(resource);
                 if (resource.exists() || resource.isReadable()) {
                     return resource;
                 } else {
@@ -172,6 +164,4 @@ public class PlayerImageService {
             throw new StorageFileNotFoundException(String.format("Filename cannot be empty: %s", filename));
         }
     }
-
-
 }

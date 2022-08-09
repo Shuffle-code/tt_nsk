@@ -15,7 +15,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,13 +27,15 @@ import java.util.Optional;
 public class PlayerService {
     private final PlayerDao playerDao;
     private final PlayerImageService playerImageService;
-//    @Autowired
-//    private final PlayerMapper playerMapper;
 
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
-    public long count() {
-        System.out.println(playerDao.count());
+    public Long count() {
         return playerDao.count();
+    }
+
+    @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
+    public Integer countPlaying() {
+        return playerDao.findAllByStatus(Status.ACTIVE).size();
     }
 
     public Player save(Player player, File file) {
@@ -50,6 +54,11 @@ public class PlayerService {
         }
         return playerDao.save(player);
     }
+
+    public Long maxId(){
+        return playerDao.maxId();
+    }
+
 //    @Transactional
     public Player save(Player player, MultipartFile multipartFile) {
 //        Product product = productMapper.toProduct(productDto, manufacturerDao, categoryDao);
@@ -99,11 +108,6 @@ public class PlayerService {
         return save(player, (MultipartFile) null);
     }
 
-//    @Transactional(readOnly = true)
-//    public Player findById(Long id) {
-//        return playerDao.findById(id).orElse(null);
-//    }
-//    @Transactional(readOnly = true)
     public List<Player> findAll() {
         return playerDao.findAll();
     }
@@ -127,17 +131,24 @@ public class PlayerService {
             playerDao.save(p);
         });
     }
-//    @Transactional(readOnly = true)
     public List<Player> findAll(int page, int size) {
         return playerDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size));
     }
     @Transactional(readOnly = true)
-    public List<Player> findAllSortedById() {
-        return playerDao.findAllByStatus(Status.ACTIVE, Sort.by("id"));
+    public List<Player> findAllActiveSortedById() {
+        return playerDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"id"));
+    }
+    @Transactional(readOnly = true)
+    public List<Player> findAllActiveSortedByRating() {
+        return playerDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
     }
     @Transactional(readOnly = true)
     public List<Player> findAllSortedById(int page, int size) {
         return playerDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));
+    }
+    @Transactional(readOnly = true)
+    public List<Player> findAllSortedByRating() {
+        return playerDao.findAll(Sort.by(Sort.Direction.DESC,"rating"));
     }
 
 //    @Transactional(readOnly = true)

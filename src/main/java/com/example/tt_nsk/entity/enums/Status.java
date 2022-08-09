@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum Status {
-    ACTIVE("Частый участник турниров"), DISABLE("Редкий гость"), ;
-
+    ACTIVE("Участник следующего турнира"), DISABLE("Регулярный участник турниров"), NOT_ACTIVE("Почетный гость турнира"), DELETED("Покинул чат");
+//    ACTIVE("Участник следующего турниров"), DISABLE("Регулярный участник турнира");
     private final String title;
 }

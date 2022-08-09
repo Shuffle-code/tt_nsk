@@ -7,7 +7,6 @@ import javax.persistence.*;
 @Setter
 @Getter
 @AllArgsConstructor
-//@RequiredArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
@@ -17,8 +16,17 @@ public class ConfirmationCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "code")
-    private String confirmationCode;
+    private String code;
     @OneToOne(targetEntity = AccountUser.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "ID")
     private AccountUser accountUser;
+    public boolean equals(String s) {
+        if (this.code == s) return true;
+
+        return code.equals(s);
+    }
+    @Override
+    public int hashCode() {
+        return code.hashCode();
+    }
 }
