@@ -55,7 +55,7 @@
                     <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning">Просмотреть</a>
                 </td>
                 <td sec:authorize="hasAuthority('player.delete')">
-                    <a type="button"  th:href="@{${'/player/delete/' + player.id}}" class="btn btn-danger">Удалить</a>
+                    <a type="button"  th:href="@{${'/player/status_delete/' + player.id}}" class="btn btn-danger">Удалить</a>
                 </td>
 <!--                <td>-->
 <!--                    <a type="button" sec:authorize="hasAuthority('player.read')" th:href="@{/player/addToCart(id=${player.id})}" class="btn btn-success">Добавить в корзину</a>-->

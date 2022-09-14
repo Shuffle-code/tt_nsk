@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.ByteArrayOutputStream;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,11 +35,13 @@ public class PlayerController {
     private final PlayerDao playerDao;
     private final PlayerImageService playerImageService;
 
+
+
     @GetMapping("/all")
     public String getPlayerList(Model model, HttpSession httpSession) {
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
-        model.addAttribute("players", playerService.findAllSortedByRating());
+        model.addAttribute("players", playerService.addListForMainPage());
         return "player/players-list";
     }
 
@@ -94,6 +97,14 @@ public class PlayerController {
         playerService.deleteById(id);
         return "redirect:/player/all";
     }
+
+    @GetMapping("/status_delete/{id}")
+    @PreAuthorize("hasAnyAuthority('player.delete')")
+    public String statusDeleteById(@PathVariable(name = "id") Long id) {
+        playerService.statusDelete(id);
+        return "redirect:/player/all";
+    }
+
     @GetMapping(value = "/image/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     @PreAuthorize("hasAnyAuthority('player.read') || isAnonymous()")

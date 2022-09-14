@@ -121,11 +121,16 @@ insert into authority (permission)
 values ('player.create'),
        ('player.update'),
        ('player.read'),
-       ('player.delete');
+       ('player.delete'),
+       ('player.player');
+
 
 insert into account_role (name)
 values ('ROLE_ADMIN'),
-       ('ROLE_USER');
+       ('ROLE_USER'),
+       ('ROLE_PLAYER'),
+       ('ROLE_GUEST');
+
 
 
 # insert into user_role(user_id, role_id)
@@ -137,7 +142,10 @@ values (1, 1),
        (1, 2),
        (1, 3),
        (1, 4),
-       (2, 3);
+       (2, 3),
+       (3, 3),
+       (3, 5);
+
 
 insert into player(firstname, patronymic, lastname, rating, rating_ttw, year_of_birth)
 values ('Корендович', 'Вадим', 'Валентинович', 547.1, 500, 1974),

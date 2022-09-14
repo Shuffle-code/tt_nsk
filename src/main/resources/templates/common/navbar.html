@@ -48,6 +48,9 @@
             <li class="nav-item">
                 <a class="nav-link" th:classappend="${activeTab == 'Rules' ? 'active' : ''}" th:href="@{/rules}">Правила турнира</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${activeTab == 'PersonalArea' ? 'active' : ''}" th:href="@{/auth/registration}">Личный кабинет</a>
+            </li>
         </ul>
 <!--            <li class="nav-item">-->
 <!--                <a class="nav-link" th:classappend="${activeTab == 'Cart' ? 'active' : ''}" th:href="@{/cart}"-->
@@ -72,11 +75,17 @@
             <li sec:authorize="isAnonymous()" class="nav-item">
                 <a type="button" th:href="@{/auth/registration}" class="btn btn-primary">Регистрация</a>
             </li>
-            <li sec:authorize="isAuthenticated()" class="nav-item">
+            <li sec:authorize="hasAuthority('player.read')" class="nav-item">
 <!--                    <button class="btn btn-success me-md-2" type="button">Участвовать</button>-->
-                <a class="btn btn-success" th:action="@{/tour/participate}" role="button">Участвовать</a>
+                <a type="button"  th:href="@{/tour/participate}" class="btn btn-success">Участвовать</a>
 <!--                    <button class="btn btn-primary" type="button">Кнопка</button>-->
             </li>
+                <li sec:authorize="hasAuthority('player.player')" class="nav-item">
+                    <!--                    <button class="btn btn-success me-md-2" type="button">Участвовать</button>-->
+                    <a type="button"  th:href="@{/tour/noParticipate}" class="btn btn-warning">Не участвовать</a>
+                    <!--                    <button class="btn btn-primary" type="button">Кнопка</button>-->
+                </li>
+
             </div>
         </ul>
     </div>

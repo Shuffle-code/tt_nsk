@@ -18,8 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -124,6 +128,14 @@ public class PlayerService {
         }
     }
 
+    public void statusDelete(Long id) {
+        Optional<Player> Player = playerDao.findById(id);
+        Player.ifPresent(p -> {
+            p.setStatus(Status.DELETED);
+            playerDao.save(p);
+        });
+    }
+
     public void disable(Long id) {
         Optional<Player> Player = playerDao.findById(id);
         Player.ifPresent(p -> {
@@ -142,6 +154,23 @@ public class PlayerService {
     public List<Player> findAllActiveSortedByRating() {
         return playerDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
     }
+    @Transactional(readOnly = true)
+    public List<Player> findAllDisableSortedByRating() {
+        return playerDao.findAllByStatus(Status.DISABLE, Sort.by(Sort.Direction.DESC,"rating"));
+    }
+    @Transactional(readOnly = true)
+    public List<Player> findAllNotActiveSortedByRating() {
+        return playerDao.findAllByStatus(Status.NOT_ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
+    }
+
+    public List<Player> addListForMainPage(){
+        List<Player> players = Stream
+                .of(findAllActiveSortedByRating(), findAllNotActiveSortedByRating(), findAllDisableSortedByRating())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+        return players;
+    }
+
     @Transactional(readOnly = true)
     public List<Player> findAllSortedById(int page, int size) {
         return playerDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));

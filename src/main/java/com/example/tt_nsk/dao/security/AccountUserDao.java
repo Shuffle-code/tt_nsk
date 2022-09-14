@@ -6,4 +6,7 @@ import java.util.Optional;
 
 public interface AccountUserDao extends JpaRepository<AccountUser, Long> {
     Optional<AccountUser> findByUsername(String username);
+
+//    @Override
+//    long count();
 }
