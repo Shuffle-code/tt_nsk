@@ -47,7 +47,7 @@ public class PlayerController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('player.create', 'player.update')")
+    @PreAuthorize("hasAnyAuthority('player.create', 'player.update', 'player.read')")
     public String showForm(Model model, @RequestParam(name = "id", required = false) Long id) {
         Player player;
         if (id != null) {
@@ -81,7 +81,7 @@ public class PlayerController {
 
 //
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
+    @PreAuthorize("hasAnyAuthority('player.create', 'player.update', 'player.read')")
     public String savePlayer(@Valid Player player, @RequestParam("files") MultipartFile[] files, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             return "player/player-form";

@@ -31,10 +31,8 @@ import java.util.stream.Collectors;
 public class TourController {
 
     private final PlayerService playerService;
-//    private final PlayerDao playerDao;
     private final TourDao tourDao;
     private final UserService userService;
-    private final AccountUserDao accountUserDao;
     private final AddressService addressService;
     private final TourService tourService;
     private final TourImageService tourImageService;

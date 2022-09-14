@@ -15,11 +15,13 @@
 
 <div class="container">
 
-  <h1 th:text="${'ФИО: ' + player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h1>
-  <h2 th:text="${'Рейтинг: ' + player.rating}"></h2>
-  <h2 th:text="${'Рейтинг ttw: ' + player.ratingTtw}"></h2>
-  <h2 th:text="${'Год рождения: ' + player.yearOfBirth}"></h2>
-  <h2 th:text="${'Статус: ' + player.status.title}"></h2>
+  <h2 th:text="${'ФИО: ' + player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
+  <h3 th:text="${'Рейтинг: ' + player.rating}"></h3>
+  <h3 th:text="${'Рейтинг ttw: ' + player.ratingTtw}"></h3>
+  <h3 th:text="${'Год рождения: ' + player.yearOfBirth}"></h3>
+  <h3 th:text="${'Статус: ' + player.status.title}"></h3>
+  <hr class="hr" />
+  <h3 th:text="${'Фото: '}"></h3>
 
 <!--</div>-->
 <!--    <div id="carouselMultiItemExample"-->

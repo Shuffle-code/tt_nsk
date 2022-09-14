@@ -1,23 +1,33 @@
 package com.example.tt_nsk.controller;
 
 
+import com.example.tt_nsk.dao.security.AccountRoleDao;
 import com.example.tt_nsk.dao.security.ConfirmationCodeDao;
 import com.example.tt_nsk.dto.UserDto;
+import com.example.tt_nsk.entity.Player;
+import com.example.tt_nsk.entity.security.AccountRole;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.ConfirmationCode;
 import com.example.tt_nsk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -28,6 +38,8 @@ public class AuthController {
     private final UserService userService;
     private final ConfirmationCodeDao confirmationCodeDao;
     private static UserDto thisUser;
+
+
 
     @GetMapping("/login")
     public String loginPage() {
@@ -42,6 +54,7 @@ public class AuthController {
         model.addAttribute("userDto", userDto);
         return "auth/registration-form";
     }
+
 
     @PostMapping("/register")
     public String handleRegistrationForm(@Valid UserDto userDto, BindingResult bindingResult, Model model) throws IOException {
@@ -69,8 +82,8 @@ public class AuthController {
         model.addAttribute("code", code);
         System.out.println("code: " + code);
         ConfirmationCode confirmationCodeBy_id = confirmationCodeDao.findConfirmationCodeByAccountUser_Id(thisUser.getId());
-        System.out.println(confirmationCodeBy_id.getCode() + " + from model: " + code);
-        System.out.println("from model: " + code);
+//        System.out.println(confirmationCodeBy_id.getCode() + " + from model: " + code);
+//        System.out.println("from model: " + code);
         if (confirmationCodeBy_id.equals(code)) {
             System.out.println(confirmationCodeBy_id.equals(code));
             AccountUser accountUser = confirmationCodeBy_id.getAccountUser();
@@ -81,8 +94,9 @@ public class AuthController {
             userService.update(accountUser);
             return "redirect:/auth/login";
         }
-        System.out.println(!code.equals(confirmationCodeBy_id.toString()));
+//        System.out.println(!code.equals(confirmationCodeBy_id.toString()));
         return "auth/registration-confirmation";
     }
+
 
 }

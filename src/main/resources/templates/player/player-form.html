@@ -85,21 +85,23 @@
 <!--            <button class="btn btn-primary" type="submit">Сохранить</button>-->
 <!--        </div>-->
 <!--        <form method="post" enctype="multipart/form-data" th:action="@{/player/upload}">-->
+<!--        <div class="col-md-8">-->
+<!--            <div class="input-group mb-3">-->
+<!--                <span class="input-group-text" id="images">Изображения</span>-->
+<!--                <input type="hidden" th:field="${player.id}">-->
+<!--                <input type="file" name="files" multiple class="form-control-file">-->
+<!--            </div>-->
+<!--        </div>-->
+
         <div class="col-md-8">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="images">Изображения</span>
-                <input type="hidden" th:field="${player.id}">
-                <input type="file" name="files" multiple class="form-control-file">
-            </div>
+        <div class="input-group mb-3">
+            <input type="hidden" th:field="${player.id}">
+            <input type="file" name="files" class="form-control" id="inputGroupFile02">
+            <label class="input-group-text" for="inputGroupFile02">Загрузка</label>
+        </div>
         </div>
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Сохранить</button>
-        </div>
-        <div class="col-md-8">
-        <div class="input-group mb-3">
-            <input type="file" class="form-control" id="inputGroupFile02">
-            <label class="input-group-text" for="inputGroupFile02">Загрузка</label>
-        </div>
         </div>
 <!--        </form>-->
     </form>

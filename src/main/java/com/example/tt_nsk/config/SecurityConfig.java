@@ -27,8 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 (requests) -> {
                     requests.antMatchers("/").permitAll();
                     requests.antMatchers("//api/v1/player").permitAll();
-                    requests.antMatchers(HttpMethod.GET, "/player").hasRole("ADMIN");
-                    requests.antMatchers(HttpMethod.POST, "/player").hasRole("ADMIN");
+//                    requests.antMatchers(HttpMethod.GET, "/player").hasRole("ADMIN");
+                    requests.antMatchers(HttpMethod.GET, "/player").hasAnyAuthority("player.create", "player.update", "player.read");
+//                    requests.antMatchers(HttpMethod.POST, "/player").hasRole("ADMIN");
+                    requests.antMatchers(HttpMethod.POST, "/player").hasAnyAuthority("player.create", "player.update", "player.read");
 //                    requests.antMatchers(HttpMethod.POST, "/tour").hasRole("ADMIN");
 //                    requests.antMatchers(HttpMethod.GET, "/tour").hasRole("ADMIN");
                     requests.mvcMatchers(HttpMethod.GET, "/player/{playerId}").permitAll();

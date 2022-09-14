@@ -48,8 +48,8 @@
             <li class="nav-item">
                 <a class="nav-link" th:classappend="${activeTab == 'Rules' ? 'active' : ''}" th:href="@{/rules}">Правила турнира</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'PersonalArea' ? 'active' : ''}" th:href="@{/auth/registration}">Личный кабинет</a>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link" th:classappend="${activeTab == 'PersonalArea' ? 'active' : ''}" th:href="@{/user}">Личный кабинет</a>
             </li>
         </ul>
 <!--            <li class="nav-item">-->
