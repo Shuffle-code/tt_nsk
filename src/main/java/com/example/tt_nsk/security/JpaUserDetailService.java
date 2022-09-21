@@ -86,12 +86,12 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         AccountRole roleAdmin = accountRoleDao.findByName("ROLE_ADMIN");
         AccountRole rolePlayer = accountRoleDao.findByName("ROLE_PLAYER");
         long count = accountUserDao.count();
-        if(accountUserDao.count() == 0){
+        if(count == 0){
             accountUser.setRoles(Set.of(roleAdmin));
         } else accountUser.setRoles(Set.of(roleUser));
-        System.out.println("Count: " + accountUserDao.count());
-        System.out.println(accountUserDao.count() == 0);
-//        accountUser.setRoles(Set.of(roleUser));
+        System.out.println("Count: " + count);
+        System.out.println(count == 0);
+        System.out.println(rolePlayer);
         accountUser.setStatus(AccountStatus.ACTIVE);
         accountUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         accountUser.setPlayer(player);
@@ -107,7 +107,6 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         }
         playerImage.setPath(nameImage);
         playerImage.setPlayer(player);
-//        System.out.println(playerImageDao.count(playerImage.getId()));
         return playerImage;
     }
 

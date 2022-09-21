@@ -1,5 +1,6 @@
 package com.example.tt_nsk.controller;
 
+import com.example.tt_nsk.config.CustomAuthenticationSuccessHandler;
 import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.dao.security.AccountRoleDao;
@@ -13,6 +14,7 @@ import com.example.tt_nsk.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 public class TourController {
 
     private final PlayerService playerService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final TourDao tourDao;
     private final UserService userService;
     private final AddressService addressService;
@@ -66,18 +69,16 @@ public class TourController {
 //    }
 
     @GetMapping("/participate")
-    public String changeStatus(Model model, Principal principal, HttpSession httpSession) {
+    public String changeStatus(Model model, Principal principal, HttpSession httpSession){
         Tour tour = new Tour();
         Player player;
-        AccountUser accountUser = userService.findByUsername(principal.getName());
-//        Optional<AccountUser> byUsername = accountUserDao.findByUsername(principal.getName());
-//        AccountUser accountUser = byUsername.get();
-//        AccountUser accountUser = changeRole(principal);
+        AccountUser accountUser = changeRole(principal);
         player = accountUser.getPlayer();
         player.setStatus(Status.ACTIVE);
         playerService.save(player);
         model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
+//        httpSession.setAttribute("role", accountUser.getRoles());
         model.addAttribute("tour", tour);
         return "tour/tour-form";
     }
@@ -88,37 +89,39 @@ public class TourController {
 //        return player = accountUser.getPlayer();
 //    }
 
-//    @GetMapping("/noParticipate")
-//    public String changeStatusBack(Model model, Principal principal, HttpSession httpSession) {
-//        Player player;
-//        Tour tour = new Tour();
-//        AccountUser accountUser = changeRoleBack(principal);
-//        player = accountUser.getPlayer();
-//        player.setStatus(Status.ACTIVE);
-//        playerService.save(player);
-//        model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
-//        httpSession.setAttribute("countPlaying", playerService.countPlaying());
-//        model.addAttribute("tour", tour);
-//        return "tour/tour-form";
-//    }
+    @GetMapping("/noParticipate")
+    public String changeStatusBack(Model model, Principal principal, HttpSession httpSession) {
+        Player player;
+        Tour tour = new Tour();
+        AccountUser accountUser = changeRoleBack(principal);
+        player = accountUser.getPlayer();
+        player.setStatus(Status.DISABLE);
+        playerService.save(player);
+        model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
+        httpSession.setAttribute("countPlaying", playerService.countPlaying());
+        model.addAttribute("tour", tour);
 
-//    public AccountUser changeRoleBack(Principal principal){
-//        AccountRole roleUser = accountRoleDao.findByName("ROLE_READ");
-//        Optional<AccountUser> byUsername = accountUserDao.findByUsername(principal.getName());
-//        AccountUser accountUser = byUsername.get();
-//        accountUser.setRoles(Set.of(roleUser));
-//        accountUserDao.save(accountUser);
-//        return accountUser;
-//    }
+        return "redirect:/player/all";
+    }
+
+    public AccountUser changeRoleBack(Principal principal){
+        AccountRole roleUser = accountRoleDao.findByName("ROLE_USER");
+        AccountUser accountUser = userService.findByUsername(principal.getName());
+        Integer userId = accountRoleDao.findRoleIdByUserId(accountUser.getId());
+        if (!(userId == 1l)) {
+            accountUser.setRoles(Set.of(roleUser));
+        }
+        return accountUser;
+    }
 
 
     public AccountUser changeRole(Principal principal){
-        AccountRole roleUser = accountRoleDao.findByName("ROLE_PLAYER");
+        AccountRole rolePlayer = accountRoleDao.findByName("ROLE_PLAYER");
         AccountUser accountUser = userService.findByUsername(principal.getName());
-//        accountUser.setEmail("gjhhklk@kljl.uu");
-        accountUser.setRoles(Set.of(roleUser));
-//        accountUser.setAuthorities();
-        userService.update(accountUser);
+        Integer userId = accountRoleDao.findRoleIdByUserId(accountUser.getId());
+        if (!(userId == 1l)){
+            accountUser.setRoles(Set.of(rolePlayer));
+        }
         return accountUser;
     }
 

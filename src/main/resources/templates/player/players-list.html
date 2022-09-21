@@ -15,10 +15,57 @@
 <div th:replace="~{common/navbar :: navi(PlayerList)}"></div>
 
 <div class="d-flex justify-content-center">
+<!--    <div class="border d-flex align-items-center justify-content-center" style="height: auto;">-->
     <span th:if="${players.size() == 0}">Игроков нет</span>
     <div th:unless="${players.size() == 0}">
+        <div class="p-1 text-center bg-light">
+        <h2>Игроки</h2>
+        </div>
+        <div class="form-outline">
+            <input type="search" placeholder="Введите данные игрока" class="form-control" id="datatable-search-input">
+<!--            <label class="form-label" for="datatable-search-input">Search</label>-->
+        </div>
+        <div id="datatable">
+        </div>
+<!--        const data2 = {-->
+<!--        columns: ['Name', 'Position', 'Office', 'Age', 'Start date', 'Salary'],-->
+<!--        rows: [-->
+<!--        ['Tiger Nixon', 'System Architect', '	Edinburgh', 61, '2011/04/25', '$320,800'],-->
+<!--        ['Sonya Frost', 'Software Engineer', 'Edinburgh', 23, '2008/12/13', '$103,600'],-->
+<!--        ['Jena Gaines', 'Office Manager', 'London', 30, '2008/12/19', '$90,560'],-->
+<!--        ['Quinn Flynn', 'Support Lead', 'Edinburgh', 22, '2013/03/03', '$342,000'],-->
+<!--        ['Charde Marshall', 'Regional Director', 'San Francisco', 36, '2008/10/16', '$470,600'],-->
+<!--        ['Haley Kennedy', 'Senior Marketing Designer', 'London', 43, '2012/12/18', '$313,500'],-->
+<!--        ['Tatyana Fitzpatrick', 'Regional Director', 'London', 19, '2010/03/17', '$385,750'],-->
+<!--        ['Michael Silva', 'Marketing Designer', 'London', 66, '2012/11/27', '$198,500'],-->
+<!--        ['Paul Byrd', 'Chief Financial Officer (CFO)', 'New York', 64, '2010/06/09', '$725,000'],-->
+<!--        ['Gloria Little', 'Systems Administrator', 'New York', 59, '2009/04/10', '$237,500'],-->
+<!--        ],-->
+<!--        };-->
+
+<!--        const instance = new mdb.Datatable(document.getElementById('datatable'), data2)-->
+
+<!--        document.getElementById('datatable-search-input').addEventListener('input', (e) => {-->
+<!--        instance.input-group(e.target.value);-->
+<!--        });-->
+
+<!--        <div class="input-group">-->
+<!--            <input type="search" class="form-control rounded" id="datatable-search-input" placeholder="Введите фамилию игрока" aria-label="Search" aria-describedby="search-addon" />-->
+<!--            <button type="button" class="btn btn-primary">Поиск</button>-->
+<!--        </div>-->
+
+<!--        <div class="input-group">-->
+<!--            <div id="search-autocomplete" class="form-outline">-->
+<!--                <input type="search" id="form1" class="form-control" />-->
+<!--                <label class="form-label" for="form1">Search</label>-->
+<!--            </div>-->
+<!--            <button type="button" class="btn btn-primary">-->
+<!--                <i class="fas fa-search"></i>-->
+<!--            </button>-->
+<!--        </div>-->
+
         <table class="table">
-            <thead>
+            <thead class="bg-light">
             <tr>
                 <th scope="col">№</th>
                 <th colspan="2" scope="col">Фамилия</th>
@@ -49,7 +96,6 @@
                 <td th:text="${player.ratingTtw}"></td>
                 <td sec:authorize="hasAuthority('player.update')">
                     <a type="button"  th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>
-                    <!--                    <a type="button" th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>-->
                 </td>
                 <td sec:authorize="hasAuthority('player.read') || isAnonymous()">
                     <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning">Просмотреть</a>
@@ -57,10 +103,6 @@
                 <td sec:authorize="hasAuthority('player.delete')">
                     <a type="button"  th:href="@{${'/player/status_delete/' + player.id}}" class="btn btn-danger">Удалить</a>
                 </td>
-<!--                <td>-->
-<!--                    <a type="button" sec:authorize="hasAuthority('player.read')" th:href="@{/player/addToCart(id=${player.id})}" class="btn btn-success">Добавить в корзину</a>-->
-<!--                    &lt;!&ndash;                    <a type="button" sec:authorize="isAnonymous()" th:href="@{/player/authorizePage}" class="btn btn-success">Добавить в корзину</a>&ndash;&gt;-->
-<!--                </td>-->
             </tr>
             </tbody>
         </table>

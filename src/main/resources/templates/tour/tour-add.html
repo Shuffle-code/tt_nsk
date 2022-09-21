@@ -91,11 +91,18 @@
 <!--            <button class="btn btn-primary" type="submit">Сохранить</button>-->
 <!--        </div>-->
 <!--        <form method="post" enctype="multipart/form-data" th:action="@{/player/upload}">-->
+<!--        <div class="col-md-8">-->
+<!--            <div class="input-group mb-3">-->
+<!--                <span class="input-group-text" id="images">Изображения</span>-->
+<!--                <input type="hidden" th:field="${tour.id}">-->
+<!--                <input type="file" name="files" multiple class="form-control-file"> <br/><br/>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="col-md-8">
             <div class="input-group mb-3">
-                <span class="input-group-text" id="images">Изображения</span>
                 <input type="hidden" th:field="${tour.id}">
-                <input type="file" name="files" multiple class="form-control-file"> <br/><br/>
+                <input type="file" name="files" multiple class="form-control" id="inputGroupFile02">
+                <label class="input-group-text" for="inputGroupFile02">Загрузка изображений</label>
             </div>
         </div>
         <div class="col-12">

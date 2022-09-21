@@ -2,7 +2,6 @@ package com.example.tt_nsk.service;
 
 import com.example.tt_nsk.dto.UserDto;
 import com.example.tt_nsk.entity.security.AccountUser;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;

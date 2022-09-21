@@ -38,7 +38,7 @@
                 <a class="nav-link" th:classappend="${activeTab == 'TourNew' ? 'active' : ''}" th:href="@{/tour/new}">Создать турнир</a>
             <li class="nav-item">
                 <a class="nav-link" th:classappend="${activeTab == 'Participate' ? 'active' : ''}" th:href="@{/tour}"
-                   th:text="'Участники(' + ${session.countPlaying == null ? '0)' : session.countPlaying + ')'}"></a>
+                   th:text="'Турнир(' + ${session.countPlaying == null ? '0)' : session.countPlaying + ')'}"></a>
 <!--                    th:text="'Участвовать(' + ${players.size() == null ? '0)' : players.size() + ')'}"></a>-->
 
 <!--            th:each="imageId, i : ${playerImagesId}" class="carousel-item"-->
@@ -52,16 +52,6 @@
                 <a class="nav-link" th:classappend="${activeTab == 'PersonalArea' ? 'active' : ''}" th:href="@{/user}">Личный кабинет</a>
             </li>
         </ul>
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" th:classappend="${activeTab == 'Cart' ? 'active' : ''}" th:href="@{/cart}"-->
-<!--                   th:text="'Корзина(' + ${session.cart == null ? '0)' : session.cart.totalQuantity + ')'}"></a>-->
-<!--            </li>-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" th:classappend="${activeTab == 'Order' ? 'active' : ''}" th:href="@{/order}"-->
-<!--                   th:text="'Заказ(' + ${session.cart == null ? '0)' : session.cart.totalPrice + ' руб.)'}"></a>&ndash;&gt;-->
-<!--                &lt;!&ndash;             th:text="'Заказ(' + ${order.price + ')'}"></a>&ndash;&gt;-->
-<!--                &lt;!&ndash;          // not sure session.order&ndash;&gt;-->
-<!--            </li>-->
         <ul class="navbar-nav">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <li sec:authorize="isAuthenticated()" class="nav-item">
@@ -75,9 +65,9 @@
             <li sec:authorize="isAnonymous()" class="nav-item">
                 <a type="button" th:href="@{/auth/registration}" class="btn btn-primary">Регистрация</a>
             </li>
-            <li sec:authorize="hasAuthority('player.read')" class="nav-item">
+            <li sec:authorize="hasAuthority('player.participant')" class="nav-item">
 <!--                    <button class="btn btn-success me-md-2" type="button">Участвовать</button>-->
-                <a type="button"  th:href="@{/tour/participate}" class="btn btn-success">Участвовать</a>
+                <a type="button" th:href="@{/tour/participate}"  class="btn btn-success">Участвовать</a>
 <!--                    <button class="btn btn-primary" type="button">Кнопка</button>-->
             </li>
                 <li sec:authorize="hasAuthority('player.player')" class="nav-item">
