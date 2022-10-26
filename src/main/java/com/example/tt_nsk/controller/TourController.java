@@ -1,10 +1,7 @@
 package com.example.tt_nsk.controller;
 
-import com.example.tt_nsk.config.CustomAuthenticationSuccessHandler;
-import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.dao.security.AccountRoleDao;
-import com.example.tt_nsk.dao.security.AccountUserDao;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.enums.Status;
@@ -14,7 +11,6 @@ import com.example.tt_nsk.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +20,10 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -33,15 +32,12 @@ import java.util.stream.Collectors;
 public class TourController {
 
     private final PlayerService playerService;
-    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final TourDao tourDao;
     private final UserService userService;
     private final AddressService addressService;
     private final TourService tourService;
     private final TourImageService tourImageService;
     private final AccountRoleDao accountRoleDao;
-
-//    private final PlayerImageService playerImageService;
 
 
 
@@ -51,7 +47,7 @@ public class TourController {
         model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("tour", tour);
-        return "tour/tour-form";
+        return "tour/tour-form4";
     }
 
     @GetMapping("/all")

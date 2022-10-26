@@ -19,6 +19,7 @@ import java.util.Objects;
 //@AllArgsConstructor
 @NoArgsConstructor
 //@Builder
+//@Data
 @Entity
 @Table (name = "player")
 @EntityListeners(AuditingEntityListener.class)
@@ -40,6 +41,7 @@ public class Player extends InfoEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
+//    private String score;
 
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(name = "cart_product",

@@ -18,3 +18,7 @@ servlet:
     max-request-size: 10MB
     enabled: true
 
+#script:
+#  resources: test.js
+server:
+  port: 8090
