@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +27,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class PlayerService {
     private final PlayerDao playerDao;
+
     private final PlayerImageService playerImageService;
 
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)

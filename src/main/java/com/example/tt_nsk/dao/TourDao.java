@@ -1,6 +1,5 @@
 package com.example.tt_nsk.dao;
 
-import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.enums.Status;
 import org.springframework.data.domain.Pageable;

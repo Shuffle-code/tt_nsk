@@ -2,8 +2,6 @@ package com.example.tt_nsk.dao.security;
 
 import com.example.tt_nsk.entity.security.AccountUser;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 

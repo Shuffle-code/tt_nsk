@@ -1,11 +1,7 @@
 package com.example.tt_nsk.service;
 
-import com.example.tt_nsk.dao.PlayerDao;
-import com.example.tt_nsk.dao.PlayerImageDao;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.dao.TourImageDao;
-import com.example.tt_nsk.entity.Player;
-import com.example.tt_nsk.entity.PlayerImage;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.TourImage;
 import com.example.tt_nsk.exception.StorageException;

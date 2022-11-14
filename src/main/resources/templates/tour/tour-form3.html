@@ -31,117 +31,114 @@
                 <th scope="col">Место</th>
             </tr>
             </thead>
-            <tbody data-mdb-spy="scroll" >
+            <tbody data-mdb-spy="scroll">
             <tr>
-<!--            <tr th:each="player, i : ${playersTour}">-->
+<!--            <tr th:each="player, i : ${playersTour}" >-->
                 <th scope="row" id="1"></th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
-                        <img src="/storage/players/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />
+<!--                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40px" class="rounded-circle" />-->
+                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />
                         <div class="ms-3">
-                            <p>Игрок 1</p>
+<!--                            <p th:text="${player.lastname + ' ' + player.firstname + ' ' + player.rating}" ></p>-->
+                            <p>Player №1</p>
                         </div>
                     </div>
                 </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "f1"
-                            class="form-control"
-                    />
-                </td>
+                <th width="60px" class="table-secondary">TT</th>
                 <td width="60px">
                     <input
                             type="text" id = "f2"
                             class="form-control"
+                            placeholder="0/0"
                     />
                 </td>
                 <td width="60px">
                     <input
                             type="text" id = "f3"
                             class="form-control"
+                            placeholder="0/0"
                     />
                 </td>
                 <th width="60px" id="set"></th>
-                <td></td>
-                <td></td>
-                <th></th>
+                <th id="rating"></th>
+                <th id="delta"></th>
+                <th id="place"></th>
             </tr>
             <tr>
-                <!--            <tr th:each="player, i : ${playersTour}">-->
+<!--            <tr th:each="player, i : ${playersTour}">-->
                 <th scope="row" id="2"></th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
-<!--                        <img th:src="C:\Users\79130\IdeaProjects\tt_nsk\storage\players\image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />-->
+                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />
+<!--                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40px" class="rounded-circle" />-->
                         <div class="ms-3">
-                            <p>Игрок 2</p>
+                            <p> Player №2</p>
+<!--                            <p  th:text="${player.lastname + ' ' + player.firstname + ' ' + player.rating}" ></p>-->
                         </div>
                     </div>
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "1f1"
+                            type="text" id = "f11"
                             class="form-control"
+                            placeholder="0/0"
                     />
                 </td>
+                <th width="60px" class="table-secondary">TT</th>
                 <td width="60px">
                     <input
-                            type="text" id = "1f2"
+                            type="text" id = "f13"
                             class="form-control"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "1f3"
-                            class="form-control"
+                            placeholder="0/0"
                     />
                 </td>
                 <th width="60px" id="set1"></th>
-                <td></td>
-                <td></td>
-                <th></th>
+                <th id="rating1"></th>
+                <th id="delta1"></th>
+                <th id="place1"></th>
             </tr>
             <tr>
-                <!--            <tr th:each="player, i : ${playersTour}">-->
+<!--            <tr th:each="player, i : ${playersTour}">-->
                 <th scope="row" id="3"></th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
-<!--                        <img th:src="C:\Users\79130\IdeaProjects\tt_nsk\storage\players\image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />-->
+                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />
+<!--                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40px" class="rounded-circle" />-->
                         <div class="ms-3">
-                            <p>Игрок 2</p>
+                            <p> Player №3</p>
+<!--                            <p th:text="${player.lastname + ' ' + player.firstname + ' ' + player.rating}" ></p>-->
                         </div>
                     </div>
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "2f1"
+                            type="text" id = "f21"
                             class="form-control"
+                            placeholder="0/0"
                     />
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "2f2"
+                            type="text" id = "f22"
                             class="form-control"
+                            placeholder="0/0"
                     />
                 </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "2f3"
-                            class="form-control"
-                    />
-                </td>
+                <th width="60px" class="table-secondary">TT</th>
                 <th width="60px" id="set2"></th>
-                <td></td>
-                <td></td>
-                <th></th>
+                <th id="rating2"></th>
+                <th id="delta2"></th>
+                <th id="place2"></th>
             </tr>
 
             </tbody>
         </table>
      </div>
-        <div class="col-md-9" th:object="${tour}">
+        <div class="col-md-10" th:object="${tour}">
             <div class="input-group">
                 <button  type="button" class="btn btn-success" id="calculate">Расчитать</button>
-                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" type="submit">Сохранить</button>
+                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" type="submit" id="save">Сохранить</button>
                 <input type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-default" th:field="*{title}">
             </div>
@@ -150,19 +147,78 @@
 
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
-<!--<script src="/resources/test.js"></script>-->
-<script>
-    let button = document.getElementById("calculate");
-    button.addEventListener("click", checkTest);
-    function checkTest() {
-        let set = 0;
-        let f1 = Number(document.getElementById("f1").value);
-        let f2 = Number(document.getElementById("f2").value);
-        let f3 = Number(document.getElementById("f3").value);
-        set = f1+f2+f3;
-        document.getElementById("set").innerHTML = set.toString();
-        // alert(set);
-    }
-</script>
+<script src="/script/count.js"></script>
+<!--<script>-->
+<!--    let button = document.getElementById("calculate");-->
+<!--    let but = document.getElementById("save");-->
+<!--    button.addEventListener("click", checkTest);-->
+
+<!--    function addSlash(int){-->
+<!--        int.padEnd(2, "/");-->
+<!--    }-->
+<!--    function split(int){-->
+<!--        const str = String(int);-->
+<!--        return str.split("");-->
+<!--    }-->
+
+<!--    function sum(str){-->
+<!--        const spl = split(str);-->
+<!--        const a = spl[0], b = spl[1];-->
+<!--        return Number(a) + Number(b);-->
+<!--    }-->
+
+<!--    //-->
+<!--    // const array = str.split("");-->
+<!--    // a = array[0], b = array[1];-->
+
+<!--    "Hello Tproger".split("");-->
+
+<!--    function checkTest() {-->
+<!--        let set;-->
+<!--        let rating;-->
+<!--        let delta;-->
+<!--        let place;-->
+<!--        let set1;-->
+<!--        let rating1;-->
+<!--        let delta1;-->
+<!--        let place1;-->
+<!--        let set2;-->
+<!--        let rating2;-->
+<!--        let delta2;-->
+<!--        let place2;-->
+<!--        let f2 = Number(document.getElementById("f2").value);-->
+<!--        // addSlash(f2);-->
+<!--        let f3 = Number(document.getElementById("f3").value);-->
+<!--        let f11 = Number(document.getElementById("f11").value);-->
+<!--        let f13 = Number(document.getElementById("f13").value);-->
+<!--        let f21 = Number(document.getElementById("f21").value);-->
+<!--        let f22 = Number(document.getElementById("f22").value);-->
+<!--        set = sum(f2)+sum(f3);-->
+<!--        rating = set * 4;-->
+<!--        delta = rating - set;-->
+<!--        place = 1;-->
+<!--        document.getElementById("set").innerHTML = set.toString();-->
+<!--        document.getElementById("rating").innerHTML = rating.toString();-->
+<!--        document.getElementById("delta").innerHTML = delta.toString();-->
+<!--        document.getElementById("place").innerHTML = place.toString();-->
+<!--        set1 = sum(f11) + sum(f13);-->
+<!--        rating1 = set1 * 4;-->
+<!--        delta1 = rating1 - set1;-->
+<!--        place1 = 2;-->
+<!--        document.getElementById("set1").innerHTML = set1.toString();-->
+<!--        document.getElementById("rating1").innerHTML = rating1.toString();-->
+<!--        document.getElementById("delta1").innerHTML = delta1.toString();-->
+<!--        document.getElementById("place1").innerHTML = place1.toString();-->
+<!--        set2 = sum(f21) + sum(f22);-->
+<!--        rating2 = set2 * 4;-->
+<!--        delta2 = rating2 - set2;-->
+<!--        place2 = 3;-->
+<!--        document.getElementById("set2").innerHTML = set2.toString();-->
+<!--        document.getElementById("rating2").innerHTML = rating2.toString();-->
+<!--        document.getElementById("delta2").innerHTML = delta2.toString();-->
+<!--        document.getElementById("place2").innerHTML = place2.toString();-->
+<!--        return rating;-->
+<!--    }-->
+<!--</script>-->
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.example.tt_nsk.security;
 
-import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.PlayerImageDao;
 import com.example.tt_nsk.dao.security.AccountRoleDao;
 import com.example.tt_nsk.dao.security.AccountUserDao;
@@ -16,14 +15,11 @@ import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.ConfirmationCode;
 import com.example.tt_nsk.entity.security.enums.AccountStatus;
 import com.example.tt_nsk.exception.UsernameAlreadyExistsException;
-import com.example.tt_nsk.service.PlayerImageService;
 import com.example.tt_nsk.service.PlayerService;
 import com.example.tt_nsk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,12 +27,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

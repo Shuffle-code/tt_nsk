@@ -47,7 +47,7 @@ public class TourController {
         model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("tour", tour);
-        return "tour/tour-form4";
+        return "tour/tour-form3";
     }
 
     @GetMapping("/all")

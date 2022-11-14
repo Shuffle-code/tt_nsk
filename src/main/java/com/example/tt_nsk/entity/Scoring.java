@@ -15,3 +15,4 @@ public class Scoring {
     public double delta;
     public int place;
 }
+

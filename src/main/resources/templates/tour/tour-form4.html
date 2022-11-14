@@ -33,7 +33,7 @@
             </tr>
             </thead>
             <tbody data-mdb-spy="scroll" >
-            <tr th:each="player, i : ${playersTour}">
+            <tr th:each="player, i : ${playersTour}" >
                 <th scope="row" th:text="${i.count}"></th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
@@ -68,9 +68,6 @@
                             class="form-control"
                             th:placeholder="${i.count == 3} ? 'TT' : '0/0'"
                     />
-<!--                    th:field="*{i.score}"-->
-<!--                    th:text="${i.count == 3} ? '' : 'фора'"-->
-<!--                    class="form-control"-->
                 </td>
                 <td width="60px" th:classappend="${i.count == 4} ? 'table-dark' : ''">
                     <input
@@ -99,7 +96,6 @@
 
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
-<!--<script src="/resources/test.js"></script>-->
 <script>
     let button = document.getElementById("calculate");
     button.addEventListener("click", checkTest);
