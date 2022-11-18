@@ -8,6 +8,7 @@ import com.example.tt_nsk.entity.enums.Status;
 import com.example.tt_nsk.entity.security.AccountRole;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.service.*;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,10 +42,26 @@ public class TourController {
 
 
 
+//    @GetMapping
+//    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
+//        Tour tour = new Tour();
+//        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
+//        model.addAttribute("playersTour", allActiveSortedByRating);
+//        httpSession.setAttribute("countPlaying", playerService.countPlaying());
+//        model.addAttribute("tour", tour);
+//        return "tour/tour-form4";
+//    }
+
     @GetMapping
-    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
+    public String findAllActiveSortedRatingForWebpage(Model model, HttpSession httpSession) {
         Tour tour = new Tour();
-        model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
+        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
+
+//        model.addAttribute("playersTour", allActiveSortedByRating);
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("tour", tour);
         return "tour/tour-form3";

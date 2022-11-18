@@ -14,8 +14,8 @@
 <div th:replace="~{common/navbar :: navi(Participate)}"></div>
 
 <div class="d-flex justify-content-center">
-    <span th:if="${playersTour.size() == 0}">Игроков нет</span>
-    <div th:unless="${playersTour.size() == 0}">
+    <span th:if="${countPlaying == 0}">Игроков нет</span>
+    <div th:unless="${countPlaying == 0}">
      <div>
         <table class="table table-striped table-bordered table table-sm">
             <thead class="table-secondary">
@@ -34,14 +34,14 @@
             <tbody data-mdb-spy="scroll">
             <tr>
 <!--            <tr th:each="player, i : ${playersTour}" >-->
-                <th scope="row" id="1"></th>
+                <th scope="row" id="1">1</th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
-<!--                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40px" class="rounded-circle" />-->
-                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />
+                        <img th:src="@{'/player/image/' + ${player1.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
+<!--                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />-->
                         <div class="ms-3">
-<!--                            <p th:text="${player.lastname + ' ' + player.firstname + ' ' + player.rating}" ></p>-->
-                            <p>Player №1</p>
+                            <p th:text="${player1.lastname + ' ' + player1.firstname + ' ' + player1.rating}" id = "player1"></p>
+<!--                            <p>Player №1</p>-->
                         </div>
                     </div>
                 </td>
@@ -51,6 +51,8 @@
                             type="text" id = "f2"
                             class="form-control"
                             placeholder="0/0"
+                            value=""
+                            style="font-weight: bold"
                     />
                 </td>
                 <td width="60px">
@@ -58,6 +60,8 @@
                             type="text" id = "f3"
                             class="form-control"
                             placeholder="0/0"
+                            value=""
+                            style="font-weight: bold"
                     />
                 </td>
                 <th width="60px" id="set"></th>
@@ -67,14 +71,14 @@
             </tr>
             <tr>
 <!--            <tr th:each="player, i : ${playersTour}">-->
-                <th scope="row" id="2"></th>
+                <th scope="row" id="2">2</th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
-                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />
-<!--                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40px" class="rounded-circle" />-->
+<!--                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />-->
+                        <img th:src="@{'/player/image/' + ${player2.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
                         <div class="ms-3">
-                            <p> Player №2</p>
-<!--                            <p  th:text="${player.lastname + ' ' + player.firstname + ' ' + player.rating}" ></p>-->
+<!--                            <p> Player №2</p>-->
+                            <p  th:text="${player2.lastname + ' ' + player2.firstname + ' ' + player2.rating}" id = "player2"></p>
                         </div>
                     </div>
                 </td>
@@ -83,6 +87,8 @@
                             type="text" id = "f11"
                             class="form-control"
                             placeholder="0/0"
+                            value=""
+                            style="font-weight: bold"
                     />
                 </td>
                 <th width="60px" class="table-secondary">TT</th>
@@ -91,6 +97,8 @@
                             type="text" id = "f13"
                             class="form-control"
                             placeholder="0/0"
+                            value=""
+                            style="font-weight: bold"
                     />
                 </td>
                 <th width="60px" id="set1"></th>
@@ -100,30 +108,53 @@
             </tr>
             <tr>
 <!--            <tr th:each="player, i : ${playersTour}">-->
-                <th scope="row" id="3"></th>
+                <th scope="row" id="3">3</th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
-                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />
-<!--                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40px" class="rounded-circle" />-->
+<!--                        <img src="/image104-66.jpg" alt="" width="40px" height="40px" class="rounded-circle" />-->
+                        <img th:src="@{'/player/image/' + ${player3.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
                         <div class="ms-3">
-                            <p> Player №3</p>
-<!--                            <p th:text="${player.lastname + ' ' + player.firstname + ' ' + player.rating}" ></p>-->
+<!--                            <p> Player №3</p>-->
+                            <p th:text="${player3.lastname + ' ' + player3.firstname + ' ' + player3.rating}" id = "player3" ></p>
                         </div>
                     </div>
                 </td>
                 <td width="60px">
-                    <input
-                            type="text" id = "f21"
-                            class="form-control"
-                            placeholder="0/0"
-                    />
+                    <div>
+                        <input
+                                type="text" id = "f21"
+                                value=""
+                                class="form-control"
+                                placeholder="0/0"
+                                th:style="${('f2' > 'f21')}? 'color: red;' : 'font-weight: bold;'"
+
+                        />
+
+<!--                        class="text-danger"-->
+<!--                                onchange="getCount(this)"-->
+<!--                        th:value="${('f2' != '')}"-->
+<!--                        class="form-control"-->
+<!--                        th:style="${('f2' != '')}? 'font-weight: bold;'"-->
+
+<!--                        <label class="form-label" for="f21">sd</label>-->
+                    </div>
+
+
+<!--                            style="font-weight: bold"-->
+
+<!--                            th:style="${iterStat.odd}? 'font-weight: bold;'"-->
+
                 </td>
                 <td width="60px">
                     <input
                             type="text" id = "f22"
                             class="form-control"
                             placeholder="0/0"
+                            value=""
+                            style="font-weight: bold"
                     />
+<!--                            style="font-weight: bold"-->
+
                 </td>
                 <th width="60px" class="table-secondary">TT</th>
                 <th width="60px" id="set2"></th>

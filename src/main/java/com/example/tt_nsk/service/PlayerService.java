@@ -178,6 +178,16 @@ public class PlayerService {
         return playerDao.findAll(Sort.by(Sort.Direction.DESC,"rating"));
     }
 
+    public Player getPlayerFromTour(int i){
+        Player player = findAllSortedByRating().get(i);
+        return player;
+    }
+
+    public String stringPlayer(Player player){
+        String str = player.getFirstname() + player.getLastname() + player.getRating();
+        return str;
+    }
+
 //    @Transactional(readOnly = true)
 //    public PlayerDto findById(Long id) {
 //        return playerMapper.toPlayerDto(playerDao.findById(id).orElse(null));

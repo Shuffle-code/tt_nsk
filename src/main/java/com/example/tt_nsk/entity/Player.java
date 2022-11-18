@@ -4,8 +4,6 @@ import com.example.tt_nsk.entity.common.InfoEntity;
 import com.example.tt_nsk.entity.enums.Status;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -60,6 +58,16 @@ public class Player extends InfoEntity {
     }
 
 
+
+//    @Override
+//    public String toString() {
+//        return "Player{" +
+//                "id=" + getId() +
+//                ", firstname ='" + firstname + ' ' +
+//                ", lastname =" + lastname + ' ' +
+//                ", rating =" + rating +
+//                "}\n";
+//    }
 
     @Override
     public String toString() {
