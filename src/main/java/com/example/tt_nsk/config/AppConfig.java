@@ -14,10 +14,9 @@ import java.util.Optional;
 
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAwareBean")
-public class ShopConfig {
+public class AppConfig {
     @Bean
     public AuditorAware<String> auditorAwareBean() {
-//        return () -> Optional.of("User");
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
                 .filter(Authentication::isAuthenticated)
@@ -28,4 +27,11 @@ public class ShopConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/static/**")
+//                .addResourceLocations("/resources/");
+//    }
+
 }

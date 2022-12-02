@@ -1,0 +1,19 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+
+<!--<databaseChangeLog-->
+<!--        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"-->
+<!--        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">-->
+
+<!--&lt;!&ndash;    <include file="nsk_tt/create.player.table.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/create.user.role.auth.tables.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/account_user.add.service.info.email.phone.status.columns.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/create.player_image.table.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/create.code.tables.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/create.address.table.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/create.tournament.table.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/create.tour_image.table.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/create.player.account_user.tables.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--&lt;!&ndash;    <include file="nsk_tt/address.add.service.info.columns.xml" relativeToChangelogFile="true"/>&ndash;&gt;-->
+<!--    <include file="payer.add.column.tour.id.xml" relativeToChangelogFile="true"/>-->
+<!--</databaseChangeLog>-->

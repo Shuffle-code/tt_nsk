@@ -1,20 +1,14 @@
 package com.example.tt_nsk.entity;
 
 import com.example.tt_nsk.entity.common.InfoEntity;
-import com.example.tt_nsk.entity.enums.Status;
 import com.example.tt_nsk.entity.enums.TourStatus;
-import com.example.tt_nsk.entity.security.AccountUser;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

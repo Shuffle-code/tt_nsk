@@ -4,8 +4,6 @@ import com.example.tt_nsk.entity.common.InfoEntity;
 import com.example.tt_nsk.entity.enums.Status;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +17,7 @@ import java.util.Objects;
 //@AllArgsConstructor
 @NoArgsConstructor
 //@Builder
+//@Data
 @Entity
 @Table (name = "player")
 @EntityListeners(AuditingEntityListener.class)
@@ -40,6 +39,7 @@ public class Player extends InfoEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
+//    private String score;
 
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(name = "cart_product",
@@ -58,6 +58,16 @@ public class Player extends InfoEntity {
     }
 
 
+
+//    @Override
+//    public String toString() {
+//        return "Player{" +
+//                "id=" + getId() +
+//                ", firstname ='" + firstname + ' ' +
+//                ", lastname =" + lastname + ' ' +
+//                ", rating =" + rating +
+//                "}\n";
+//    }
 
     @Override
     public String toString() {

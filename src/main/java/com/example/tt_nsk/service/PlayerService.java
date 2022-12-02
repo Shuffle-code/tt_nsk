@@ -15,17 +15,19 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.math.BigInteger;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class PlayerService {
     private final PlayerDao playerDao;
+
     private final PlayerImageService playerImageService;
 
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
@@ -124,6 +126,14 @@ public class PlayerService {
         }
     }
 
+    public void statusDelete(Long id) {
+        Optional<Player> Player = playerDao.findById(id);
+        Player.ifPresent(p -> {
+            p.setStatus(Status.DELETED);
+            playerDao.save(p);
+        });
+    }
+
     public void disable(Long id) {
         Optional<Player> Player = playerDao.findById(id);
         Player.ifPresent(p -> {
@@ -143,12 +153,39 @@ public class PlayerService {
         return playerDao.findAllByStatus(Status.ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
     }
     @Transactional(readOnly = true)
+    public List<Player> findAllDisableSortedByRating() {
+        return playerDao.findAllByStatus(Status.DISABLE, Sort.by(Sort.Direction.DESC,"rating"));
+    }
+    @Transactional(readOnly = true)
+    public List<Player> findAllNotActiveSortedByRating() {
+        return playerDao.findAllByStatus(Status.NOT_ACTIVE, Sort.by(Sort.Direction.DESC,"rating"));
+    }
+
+    public List<Player> addListForMainPage(){
+        List<Player> players = Stream
+                .of(findAllActiveSortedByRating(), findAllNotActiveSortedByRating(), findAllDisableSortedByRating())
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+        return players;
+    }
+
+    @Transactional(readOnly = true)
     public List<Player> findAllSortedById(int page, int size) {
         return playerDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));
     }
     @Transactional(readOnly = true)
     public List<Player> findAllSortedByRating() {
         return playerDao.findAll(Sort.by(Sort.Direction.DESC,"rating"));
+    }
+
+    public Player getPlayerFromTour(int i){
+        Player player = findAllSortedByRating().get(i);
+        return player;
+    }
+
+    public String stringPlayer(Player player){
+        String str = player.getFirstname() + player.getLastname() + player.getRating();
+        return str;
     }
 
 //    @Transactional(readOnly = true)

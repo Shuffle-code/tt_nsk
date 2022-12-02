@@ -29,6 +29,8 @@ public class AuthController {
     private final ConfirmationCodeDao confirmationCodeDao;
     private static UserDto thisUser;
 
+
+
     @GetMapping("/login")
     public String loginPage() {
         return "auth/login-form";
@@ -42,6 +44,7 @@ public class AuthController {
         model.addAttribute("userDto", userDto);
         return "auth/registration-form";
     }
+
 
     @PostMapping("/register")
     public String handleRegistrationForm(@Valid UserDto userDto, BindingResult bindingResult, Model model) throws IOException {
@@ -69,8 +72,8 @@ public class AuthController {
         model.addAttribute("code", code);
         System.out.println("code: " + code);
         ConfirmationCode confirmationCodeBy_id = confirmationCodeDao.findConfirmationCodeByAccountUser_Id(thisUser.getId());
-        System.out.println(confirmationCodeBy_id.getCode() + " + from model: " + code);
-        System.out.println("from model: " + code);
+//        System.out.println(confirmationCodeBy_id.getCode() + " + from model: " + code);
+//        System.out.println("from model: " + code);
         if (confirmationCodeBy_id.equals(code)) {
             System.out.println(confirmationCodeBy_id.equals(code));
             AccountUser accountUser = confirmationCodeBy_id.getAccountUser();
@@ -81,8 +84,9 @@ public class AuthController {
             userService.update(accountUser);
             return "redirect:/auth/login";
         }
-        System.out.println(!code.equals(confirmationCodeBy_id.toString()));
+//        System.out.println(!code.equals(confirmationCodeBy_id.toString()));
         return "auth/registration-confirmation";
     }
+
 
 }

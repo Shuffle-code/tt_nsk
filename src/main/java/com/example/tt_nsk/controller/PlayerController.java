@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Phaser;
 import java.util.stream.Collectors;
 
 @Controller
@@ -34,17 +33,19 @@ public class PlayerController {
     private final PlayerDao playerDao;
     private final PlayerImageService playerImageService;
 
+
+
     @GetMapping("/all")
     public String getPlayerList(Model model, HttpSession httpSession) {
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
-        model.addAttribute("players", playerService.findAllSortedByRating());
+        model.addAttribute("players", playerService.addListForMainPage());
         return "player/players-list";
     }
 
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('player.create', 'player.update')")
+    @PreAuthorize("hasAnyAuthority('player.create', 'player.update', 'player.read')")
     public String showForm(Model model, @RequestParam(name = "id", required = false) Long id) {
         Player player;
         if (id != null) {
@@ -78,7 +79,7 @@ public class PlayerController {
 
 //
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
+    @PreAuthorize("hasAnyAuthority('player.create', 'player.update', 'player.read')")
     public String savePlayer(@Valid Player player, @RequestParam("files") MultipartFile[] files, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             return "player/player-form";
@@ -94,6 +95,14 @@ public class PlayerController {
         playerService.deleteById(id);
         return "redirect:/player/all";
     }
+
+    @GetMapping("/status_delete/{id}")
+    @PreAuthorize("hasAnyAuthority('player.delete')")
+    public String statusDeleteById(@PathVariable(name = "id") Long id) {
+        playerService.statusDelete(id);
+        return "redirect:/player/all";
+    }
+
     @GetMapping(value = "/image/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     @ResponseBody
     @PreAuthorize("hasAnyAuthority('player.read') || isAnonymous()")

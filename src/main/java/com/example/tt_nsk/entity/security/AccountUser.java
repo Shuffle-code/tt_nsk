@@ -4,10 +4,7 @@ import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.common.InfoEntity;
 import com.example.tt_nsk.entity.security.enums.AccountStatus;
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +21,7 @@ import java.util.stream.Collectors;
 //@Builder
 @Entity
 @Table(name = "ACCOUNT_USER")
+@EntityListeners(AuditingEntityListener.class)
     public class AccountUser extends InfoEntity implements UserDetails{
 
     private String username;

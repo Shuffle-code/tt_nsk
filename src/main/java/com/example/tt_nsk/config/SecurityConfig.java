@@ -1,16 +1,12 @@
 package com.example.tt_nsk.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -27,8 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 (requests) -> {
                     requests.antMatchers("/").permitAll();
                     requests.antMatchers("//api/v1/player").permitAll();
-                    requests.antMatchers(HttpMethod.GET, "/player").hasRole("ADMIN");
-                    requests.antMatchers(HttpMethod.POST, "/player").hasRole("ADMIN");
+//                    requests.antMatchers(HttpMethod.GET, "/player").hasRole("ADMIN");
+                    requests.antMatchers(HttpMethod.GET, "/player").hasAnyAuthority("player.create", "player.update", "player.read");
+//                    requests.antMatchers(HttpMethod.POST, "/player").hasRole("ADMIN");
+                    requests.antMatchers(HttpMethod.POST, "/player").hasAnyAuthority("player.create", "player.update", "player.read");
 //                    requests.antMatchers(HttpMethod.POST, "/tour").hasRole("ADMIN");
 //                    requests.antMatchers(HttpMethod.GET, "/tour").hasRole("ADMIN");
                     requests.mvcMatchers(HttpMethod.GET, "/player/{playerId}").permitAll();
