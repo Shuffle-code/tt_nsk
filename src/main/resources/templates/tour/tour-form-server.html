@@ -14,6 +14,8 @@
 <div th:replace="~{common/navbar :: navi(Participate)}"></div>
 
 <div class="d-flex justify-content-center">
+    <form class="row g-3 needs-validation" th:object="${score}" th:action="@{/tour/count}" method="post"
+          enctype="multipart/form-data">
     <span th:if="${countPlaying == 0}">Игроков нет</span>
     <div th:unless="${countPlaying == 0}">
      <div>
@@ -49,8 +51,8 @@
                             placeholder="0/0"
                             value=""
                             style="font-weight: bold"
+                            th:field="*{x1y2}"
                     />
-                </td>
                 </td>
                 <td width="60px">
                     <input
@@ -59,6 +61,7 @@
                             placeholder="0/0"
                             value=""
                             style="font-weight: bold"
+                            th:field="*{x1y3}"
                     />
                 </td>
                 <th width="60px" id="set"></th>
@@ -139,7 +142,8 @@
             </tbody>
         </table>
      </div>
-        <div class="col-md-10" th:object="${tour}">
+        <div class="col-md-10">
+<!--        <div class="col-md-10" th:object="${tour}">-->
             <div class="input-group">
                 <button  type="button" class="btn btn-success" id="calculate">Расчитать</button>
                 <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" type="submit" id="save">Сохранить</button>
@@ -148,7 +152,7 @@
             </div>
         </div>
     </div>
-
+    </form>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
 <script src="/script/count.js"></script>

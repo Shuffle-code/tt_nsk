@@ -17,6 +17,8 @@ spring:
     url: "jdbc:mysql://localhost:3306/nsk_tt"
     username: "shuffle"
     password: "shuffle"
+  liquibase:
+    change-log: db/changelog/db.changelog-master.xml
 #  mvc:
 #    static-path-pattern: '/storage/players/**'
 
@@ -35,6 +37,6 @@ servlet:
     enabled: true
 
 server:
-  port: 8090
+  port: 8091
 
 

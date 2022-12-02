@@ -3,6 +3,8 @@ package com.example.tt_nsk.controller;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.dao.security.AccountRoleDao;
 import com.example.tt_nsk.entity.Player;
+import com.example.tt_nsk.entity.Score;
+import com.example.tt_nsk.entity.Scoring;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.enums.Status;
 import com.example.tt_nsk.entity.security.AccountRole;
@@ -55,17 +57,18 @@ public class TourController {
     @GetMapping
     public String findAllActiveSortedRatingForWebpage(Model model, HttpSession httpSession) {
         Tour tour = new Tour();
+        Score score = new Score();
         List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
-
 //        model.addAttribute("playersTour", allActiveSortedByRating);
         model.addAttribute("player1", allActiveSortedByRating.get(0));
         model.addAttribute("player2", allActiveSortedByRating.get(1));
         model.addAttribute("player3", allActiveSortedByRating.get(2));
-
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("tour", tour);
+        model.addAttribute("scope", score);
         return "tour/tour-form3";
     }
+
 
     @GetMapping("/all")
     public String getTourList(Model model) {
