@@ -1,8 +1,8 @@
 #spring:
 #  application:
 #    name: ${SPRING_APPLICATION_NAME:tt-nsk}
-spring:
-  application:
-    name: ${SPRING_APPLICATION_NAME:tt-nsk}
-  profiles:
-    active: prod
+#spring:
+#  application:
+#    name: ${SPRING_APPLICATION_NAME:tt-nsk}
+#  profiles:
+#    active: prod

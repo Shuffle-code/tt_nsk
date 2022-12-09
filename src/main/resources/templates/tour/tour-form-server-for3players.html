@@ -27,9 +27,9 @@
                 <th scope="col">1</th>
                 <th scope="col">2</th>
                 <th scope="col">3</th>
-                <th scope="col">Сеты</th>
                 <th scope="col">Рейтинг</th>
                 <th scope="col">Дельта</th>
+                <th scope="col">Сеты</th>
                 <th scope="col">Место</th>
             </tr>
             </thead>
@@ -46,7 +46,7 @@
                 <th width="60px" class="table-secondary">TT</th>
                 <td width="60px">
                     <input
-                            type="text" id = "f2"
+                            type="text" id = "x1y2"
                             class="form-control"
                             placeholder="0/0"
                             value=""
@@ -56,18 +56,21 @@
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "f3"
+                            type="text" id = "x1y3"
                             class="form-control"
                             placeholder="0/0"
                             value=""
                             style="font-weight: bold"
                             th:field="*{x1y3}"
                     />
-                </td>
-                <th width="60px" id="set"></th>
-                <th id="rating"></th>
-                <th id="delta"></th>
-                <th id="place"></th>
+
+
+
+                <th id="rating" th:text="${#numbers.formatDecimal(result1.rating, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="delta"  th:text="${#numbers.formatDecimal(result1.delta, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th  id="set" th:text="${result1.set + '/' + result1.setWin + '/' + result1.countWin}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="place" th:text="${result1.placePlayer}"
+                    th:style="${(result1.set < 6)}? 'color: transparent;' : 'font-weight: bold;'"></th>
             </tr>
             <tr>
                 <th scope="row" id="2">2</th>
@@ -81,27 +84,30 @@
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "f11"
+                            type="text" id = "x2y1"
                             class="form-control"
                             placeholder="0/0"
                             value=""
                             style="font-weight: bold"
+                            th:field="*{x2y1}"
                     />
                 </td>
                 <th width="60px" class="table-secondary">TT</th>
                 <td width="60px">
                     <input
-                            type="text" id = "f13"
+                            type="text" id = "x2y3"
                             class="form-control"
                             placeholder="0/0"
                             value=""
                             style="font-weight: bold"
+                            th:field="*{x2y3}"
                     />
                 </td>
-                <th width="60px" id="set1"></th>
-                <th id="rating1"></th>
-                <th id="delta1"></th>
-                <th id="place1"></th>
+                <th id="rating1" th:text="${#numbers.formatDecimal(result2.rating, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="delta1" th:text="${#numbers.formatDecimal(result2.delta, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th  id="set1" th:text="${result2.set + '/' + result2.setWin + '/' + result2.countWin}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="place1" th:text="${result2.placePlayer}"
+                    th:style="${(result2.set < 6)}? 'color: transparent;' : 'font-weight: bold;'"></th>
             </tr>
             <tr>
                 <th scope="row" id="3">3</th>
@@ -116,45 +122,53 @@
                 <td width="60px">
                     <div>
                         <input
-                                type="text" id = "f21"
+                                type="text" id = "x3y1"
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${('f2' > 'f21')}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(result3.set > 1)}? 'color: red;' : 'font-weight: bold;'"
+                                th:field="*{x3y1}"
                         />
                     </div>
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "f22"
+                            type="text" id = "x3y2"
                             class="form-control"
                             placeholder="0/0"
-                            value=""
                             style="font-weight: bold"
+                            value=""
+                            th:field="*{x3y2}"
                     />
                 </td>
                 <th width="60px" class="table-secondary">TT</th>
-                <th width="60px" id="set2"></th>
-                <th id="rating2"></th>
-                <th id="delta2"></th>
-                <th id="place2"></th>
+                <th id="rating2"
+                    th:text="${#numbers.formatDecimal(result3.rating, 1, 2)}"
+                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="delta2"
+                    th:text="${#numbers.formatDecimal(result3.delta, 1, 2)}"
+                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="set2"
+                    th:text="${result3.set + '/' + result3.setWin + '/' + result3.countWin}"
+                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="place2" th:text="${result3.placePlayer}"
+                    th:style="${(result3.set < 6)}? 'color: transparent;' : 'font-weight: bold;'"></th>
             </tr>
             </tbody>
         </table>
      </div>
         <div class="col-md-10">
-<!--        <div class="col-md-10" th:object="${tour}">-->
             <div class="input-group">
-                <button  type="button" class="btn btn-success" id="calculate">Расчитать</button>
+                <button  type="submit" class="btn btn-success" id="calculate">Расчитать</button>
                 <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" type="submit" id="save">Сохранить</button>
                 <input type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default" th:field="*{title}">
+                       aria-describedby="inputGroup-sizing-default">
             </div>
         </div>
     </div>
     </form>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
-<script src="/script/count.js"></script>
+<script src="/script/countServer3.js"></script>
 </body>
 </html>

@@ -10,7 +10,6 @@ import com.example.tt_nsk.entity.enums.Status;
 import com.example.tt_nsk.entity.security.AccountRole;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.service.*;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,10 +22,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -41,6 +37,7 @@ public class TourController {
     private final TourService tourService;
     private final TourImageService tourImageService;
     private final AccountRoleDao accountRoleDao;
+    private final PlayService playService;
 
 
 
@@ -55,19 +52,347 @@ public class TourController {
 //    }
 
     @GetMapping
-    public String findAllActiveSortedRatingForWebpage(Model model, HttpSession httpSession) {
+    public String findAllActiveSortedRatingForWebpage(Model model,Score score, HttpSession httpSession) {
         Tour tour = new Tour();
-        Score score = new Score();
         List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
-//        model.addAttribute("playersTour", allActiveSortedByRating);
+        model.addAttribute("tour", tour);
+        model.addAttribute("scope", score);
+        return returnPage(allActiveSortedByRating, model, httpSession);
+    }
+    public String returnPage(List<Player> allActiveSortedByRating, Model model, HttpSession httpSession){
+      switch (allActiveSortedByRating.size()) {
+          case 3:
+              createListPlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for3players";
+          case 4:
+              createListFor4PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for4players";
+          case 5:
+              createListFor5PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for5players";
+          case 6:
+              createListFor6PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for6players";
+          case 7:
+              createListFor7PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for7players";
+          case 8:
+              createListFor8PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for8players";
+          case 9:
+              createListFor9PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for9players";
+          case 10:
+              createListFor10PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for10players";
+          case 11:
+              createListFor11PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for11players";
+          case 12:
+              createListFor12PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for12players";
+          case 13:
+              createListFor13PlayersTour(model, httpSession, allActiveSortedByRating);
+              return "tour/tour-form-server-for13players";
+          default:
+              return "tour/tour-form";
+      }
+    }
+
+    public void createListPlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
         model.addAttribute("player1", allActiveSortedByRating.get(0));
         model.addAttribute("player2", allActiveSortedByRating.get(1));
         model.addAttribute("player3", allActiveSortedByRating.get(2));
-        httpSession.setAttribute("countPlaying", playerService.countPlaying());
-        model.addAttribute("tour", tour);
-        model.addAttribute("scope", score);
-        return "tour/tour-form3";
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor3Model(resultTour, model);
     }
+
+    public void addAttributeFor3Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+    }
+
+
+
+    public void createListFor4PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor4Model(resultTour, model);
+
+    }
+    public void addAttributeFor4Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+    }
+
+
+
+    public void createListFor5PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor5Model(resultTour, model);
+
+    }
+    public void addAttributeFor5Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+    }
+
+    public void createListFor6PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor6Model(resultTour, model);
+
+    }
+
+    public void addAttributeFor6Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+    }
+
+    public void createListFor7PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        model.addAttribute("player7", allActiveSortedByRating.get(6));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor7Model(resultTour, model);
+
+    }
+
+    public void addAttributeFor7Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+        model.addAttribute("result7" , resultTour.get("6"));
+    }
+
+
+    public void createListFor8PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        model.addAttribute("player7", allActiveSortedByRating.get(6));
+        model.addAttribute("player8", allActiveSortedByRating.get(7));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor8Model(resultTour, model);
+
+    }
+
+    public void addAttributeFor8Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+        model.addAttribute("result7" , resultTour.get("6"));
+        model.addAttribute("result8" , resultTour.get("7"));
+    }
+
+
+    public void createListFor9PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        model.addAttribute("player7", allActiveSortedByRating.get(6));
+        model.addAttribute("player8", allActiveSortedByRating.get(7));
+        model.addAttribute("player9", allActiveSortedByRating.get(8));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor9Model(resultTour, model);
+
+    }
+
+    public void addAttributeFor9Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+        model.addAttribute("result7" , resultTour.get("6"));
+        model.addAttribute("result8" , resultTour.get("7"));
+        model.addAttribute("result9" , resultTour.get("8"));
+    }
+
+    public void createListFor10PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        model.addAttribute("player7", allActiveSortedByRating.get(6));
+        model.addAttribute("player8", allActiveSortedByRating.get(7));
+        model.addAttribute("player9", allActiveSortedByRating.get(8));
+        model.addAttribute("player10", allActiveSortedByRating.get(9));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor10Model(resultTour, model);
+
+    }
+
+    public void addAttributeFor10Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+        model.addAttribute("result7" , resultTour.get("6"));
+        model.addAttribute("result8" , resultTour.get("7"));
+        model.addAttribute("result9" , resultTour.get("8"));
+        model.addAttribute("result10" , resultTour.get("9"));
+    }
+
+    public void createListFor11PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        model.addAttribute("player7", allActiveSortedByRating.get(6));
+        model.addAttribute("player8", allActiveSortedByRating.get(7));
+        model.addAttribute("player9", allActiveSortedByRating.get(8));
+        model.addAttribute("player10", allActiveSortedByRating.get(9));
+        model.addAttribute("player11", allActiveSortedByRating.get(10));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor11Model(resultTour, model);
+
+    }
+
+    public void addAttributeFor11Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+        model.addAttribute("result7" , resultTour.get("6"));
+        model.addAttribute("result8" , resultTour.get("7"));
+        model.addAttribute("result9" , resultTour.get("8"));
+        model.addAttribute("result10" , resultTour.get("9"));
+        model.addAttribute("result11" , resultTour.get("10"));
+    }
+
+    public void createListFor12PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        model.addAttribute("player7", allActiveSortedByRating.get(6));
+        model.addAttribute("player8", allActiveSortedByRating.get(7));
+        model.addAttribute("player9", allActiveSortedByRating.get(8));
+        model.addAttribute("player10", allActiveSortedByRating.get(9));
+        model.addAttribute("player11", allActiveSortedByRating.get(10));
+        model.addAttribute("player12", allActiveSortedByRating.get(11));
+        model.addAttribute("player13", allActiveSortedByRating.get(12));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor12Model(resultTour, model);
+
+    }
+
+    public void addAttributeFor12Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+        model.addAttribute("result7" , resultTour.get("6"));
+        model.addAttribute("result8" , resultTour.get("7"));
+        model.addAttribute("result9" , resultTour.get("8"));
+        model.addAttribute("result10" , resultTour.get("9"));
+        model.addAttribute("result11" , resultTour.get("10"));
+        model.addAttribute("result12" , resultTour.get("11"));
+        model.addAttribute("result13" , resultTour.get("12"));
+    }
+    public void createListFor13PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
+        model.addAttribute("player1", allActiveSortedByRating.get(0));
+        model.addAttribute("player2", allActiveSortedByRating.get(1));
+        model.addAttribute("player3", allActiveSortedByRating.get(2));
+        model.addAttribute("player4", allActiveSortedByRating.get(3));
+        model.addAttribute("player5", allActiveSortedByRating.get(4));
+        model.addAttribute("player6", allActiveSortedByRating.get(5));
+        model.addAttribute("player7", allActiveSortedByRating.get(6));
+        model.addAttribute("player8", allActiveSortedByRating.get(7));
+        model.addAttribute("player9", allActiveSortedByRating.get(8));
+        model.addAttribute("player10", allActiveSortedByRating.get(9));
+        model.addAttribute("player11", allActiveSortedByRating.get(10));
+        model.addAttribute("player12", allActiveSortedByRating.get(11));
+        model.addAttribute("player13", allActiveSortedByRating.get(12));
+        setHttpSession(httpSession);
+        Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
+        addAttributeFor13Model(resultTour, model);
+
+    }
+    public void addAttributeFor13Model (Map<String, Scoring> resultTour, Model model){
+        model.addAttribute("result1" , resultTour.get("0"));
+        model.addAttribute("result2" , resultTour.get("1"));
+        model.addAttribute("result3" , resultTour.get("2"));
+        model.addAttribute("result4" , resultTour.get("3"));
+        model.addAttribute("result5" , resultTour.get("4"));
+        model.addAttribute("result6" , resultTour.get("5"));
+        model.addAttribute("result7" , resultTour.get("6"));
+        model.addAttribute("result8" , resultTour.get("7"));
+        model.addAttribute("result9" , resultTour.get("8"));
+        model.addAttribute("result10" , resultTour.get("9"));
+        model.addAttribute("result11" , resultTour.get("10"));
+        model.addAttribute("result12" , resultTour.get("11"));
+        model.addAttribute("result13" , resultTour.get("12"));
+    }
+
+
+    public void setHttpSession (HttpSession httpSession){
+        httpSession.setAttribute("countPlaying", playerService.countPlaying());
+    }
+
 
 
     @GetMapping("/all")

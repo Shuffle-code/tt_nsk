@@ -1,6 +1,7 @@
 
 let button = document.getElementById("calculate");
 let but = document.getElementById("save");
+but.addEventListener("click",checkTest);
 button.addEventListener("click", checkTest);
 
 const kt = (((Number(getRating('player1')) + Number(getRating('player1')) + Number(getRating('player1'))) / 3)/2000).toFixed(1);
@@ -81,6 +82,7 @@ function getCount(id) {
         (elementById).localeCompare('3:2') == 0 ||
         (elementById).localeCompare('3.2') == 0 ||
         (elementById).localeCompare('3-2') == 0) {
+
         return "2/3"
     }return "3/0"
 }
@@ -116,7 +118,7 @@ function win(countSet){
     //     console.log("a=b")
     //     return 0;
     // }
-    return (a > b);
+    return (Number(a) > Number(b));
 }
 
 function winGame(countSet){
