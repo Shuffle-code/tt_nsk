@@ -98,7 +98,6 @@ public class TourController {
               return "tour/tour-form";
       }
     }
-
     public void createListPlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
         model.addAttribute("player1", allActiveSortedByRating.get(0));
         model.addAttribute("player2", allActiveSortedByRating.get(1));
@@ -113,9 +112,6 @@ public class TourController {
         model.addAttribute("result2" , resultTour.get("1"));
         model.addAttribute("result3" , resultTour.get("2"));
     }
-
-
-
     public void createListFor4PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
         model.addAttribute("player1", allActiveSortedByRating.get(0));
         model.addAttribute("player2", allActiveSortedByRating.get(1));
@@ -213,9 +209,7 @@ public class TourController {
         setHttpSession(httpSession);
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
         addAttributeFor8Model(resultTour, model);
-
     }
-
     public void addAttributeFor8Model (Map<String, Scoring> resultTour, Model model){
         model.addAttribute("result1" , resultTour.get("0"));
         model.addAttribute("result2" , resultTour.get("1"));
@@ -226,7 +220,6 @@ public class TourController {
         model.addAttribute("result7" , resultTour.get("6"));
         model.addAttribute("result8" , resultTour.get("7"));
     }
-
 
     public void createListFor9PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
         model.addAttribute("player1", allActiveSortedByRating.get(0));
@@ -241,9 +234,7 @@ public class TourController {
         setHttpSession(httpSession);
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
         addAttributeFor9Model(resultTour, model);
-
     }
-
     public void addAttributeFor9Model (Map<String, Scoring> resultTour, Model model){
         model.addAttribute("result1" , resultTour.get("0"));
         model.addAttribute("result2" , resultTour.get("1"));
@@ -270,9 +261,7 @@ public class TourController {
         setHttpSession(httpSession);
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
         addAttributeFor10Model(resultTour, model);
-
     }
-
     public void addAttributeFor10Model (Map<String, Scoring> resultTour, Model model){
         model.addAttribute("result1" , resultTour.get("0"));
         model.addAttribute("result2" , resultTour.get("1"));
@@ -331,7 +320,7 @@ public class TourController {
         model.addAttribute("player10", allActiveSortedByRating.get(9));
         model.addAttribute("player11", allActiveSortedByRating.get(10));
         model.addAttribute("player12", allActiveSortedByRating.get(11));
-        model.addAttribute("player13", allActiveSortedByRating.get(12));
+//        model.addAttribute("player13", allActiveSortedByRating.get(12));
         setHttpSession(httpSession);
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
         addAttributeFor12Model(resultTour, model);
@@ -351,7 +340,7 @@ public class TourController {
         model.addAttribute("result10" , resultTour.get("9"));
         model.addAttribute("result11" , resultTour.get("10"));
         model.addAttribute("result12" , resultTour.get("11"));
-        model.addAttribute("result13" , resultTour.get("12"));
+//        model.addAttribute("result13" , resultTour.get("12"));
     }
     public void createListFor13PlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
         model.addAttribute("player1", allActiveSortedByRating.get(0));
@@ -387,14 +376,9 @@ public class TourController {
         model.addAttribute("result12" , resultTour.get("11"));
         model.addAttribute("result13" , resultTour.get("12"));
     }
-
-
     public void setHttpSession (HttpSession httpSession){
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
     }
-
-
-
     @GetMapping("/all")
     public String getTourList(Model model) {
         model.addAttribute("tours", tourService.findAll());
@@ -465,8 +449,6 @@ public class TourController {
         }
         return accountUser;
     }
-
-
     @GetMapping("/new")
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update')")
     public String showForm(Model model, @RequestParam(name = "id", required = false) Long id) {

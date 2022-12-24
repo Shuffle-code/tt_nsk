@@ -26,6 +26,7 @@ public class Scoring {
     private int setWin;
     private int countWin;
     private int deltaWinLoss;
+    private Long idPlayer;
 
     @Override
     public String toString() {

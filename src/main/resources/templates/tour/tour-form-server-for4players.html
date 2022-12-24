@@ -241,12 +241,14 @@
             </tbody>
         </table>
      </div>
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="input-group">
                 <button  type="submit" class="btn btn-success" id="calculate">Расчитать</button>
-                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" type="submit" id="save">Сохранить</button>
-                <input type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default">
+                <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control" placeholder="Перед сохранением убедитесь, что все игры сыграны и расчитаны" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" disabled>
+                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" id="save">
+                    <a class="btn btn-primary" th:href="@{${'/tour/save'}}">Сохранить</a>
+                </button>
             </div>
         </div>
     </div>

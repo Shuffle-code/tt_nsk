@@ -1,15 +1,22 @@
 package com.example.tt_nsk.controller;
-import com.example.tt_nsk.entity.Player;
-import com.example.tt_nsk.entity.Score;
-import com.example.tt_nsk.entity.Scoring;
-import com.example.tt_nsk.service.PlayService;
-import com.example.tt_nsk.service.PlayerService;
+import com.example.tt_nsk.dao.TourDao;
+import com.example.tt_nsk.entity.*;
+import com.example.tt_nsk.entity.enums.TourStatus;
+import com.example.tt_nsk.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +27,10 @@ public class PlayController {
     private final PlayService playService;
     private final TourController tourController;
     private final PlayerService playerService;
+    private final AddressService addressService;
+    private final TourImageService tourImageService;
+    private final TourDao tourDao;
+    Map<String, Scoring> resultTour;
 
     @PostMapping("/count")
     public String scoringTour(Score score, Model model, HttpSession httpSession) {
@@ -59,18 +70,11 @@ public class PlayController {
                 tourController.createListFor13PlayersTour(model, httpSession, allActiveSortedByRating);
                 break;
         }
-//        tourController.createListPlayersTour(model, httpSession, allActiveSortedByRating);
         List<String> list = playService.arrayWithoutNull(playService.getListResultTour(score));
         System.out.println(list);
-        Map<String, Scoring> resultTour = playService.getResultTour(list);
+        resultTour = playService.getResultTour(list);
         playService.placePlayer(resultTour);
         return returnPageScoring(allActiveSortedByRating, model, resultTour);
-//        tourController.addAttributeFor3Model(resultTour, model);
-//        model.addAttribute("result1", resultTour.get("0"));
-//        model.addAttribute("result2", resultTour.get("1"));
-//        model.addAttribute("result3", resultTour.get("2"));
-//        System.out.println("++" + playService.placePlayer(resultTour));
-//        return "tour/tour-form-server-for3players";
     }
 
     public String returnPageScoring(List<Player> allActiveSortedByRating, Model model, Map<String, Scoring> resultTour) {
@@ -111,9 +115,57 @@ public class PlayController {
             default:
                 return "tour/tour-form";
         }
-
-
     }
+    @GetMapping("/save")
+    @PreAuthorize("hasAnyAuthority('player.create')")
+    public String showFormForPlayedTour(Model model) {
+        Tour tour = new Tour();
+        model.addAttribute("addressService", addressService);
+        model.addAttribute("tour", tour);
+        return "tour/add-played-tour";
+    }
+
+    @PostMapping("/save")
+    @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
+    public String saveTourForPlayedTour(Tour tour, @RequestParam("files") MultipartFile[] files) {
+        savePlayedTour(tour);
+//        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
+        tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
+
+        return "redirect:/tour/all";
+    }
+
+
+    public Tour savePlayedTour(Tour tour, MultipartFile multipartFile) {
+        tour.setAmountPlayers(BigDecimal.valueOf(resultTour.size()));
+        tour.setDate(new Date());
+        tour.setStatus(TourStatus.FINISHED);
+        tour.setPlayer(playerService.findById(playService.getIdFirstPlace(resultTour)));
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            String pathToSavedFile = tourImageService.save(multipartFile);
+            TourImage tourImage = TourImage.builder()
+                    .path(pathToSavedFile)
+                    .tour(tour)
+                    .build();
+            tour.addImage(tourImage);
+        }
+        return tourDao.save(tour);
+    }
+    @Transactional
+    public Tour savePlayedTour(final Tour tour) {
+        return savePlayedTour(tour, (MultipartFile) null);
+    }
+
+    // prt sc
+//    public void getScreenshot(int timeToWait) throws Exception {
+//        Rectangle rec = new Rectangle(
+//                Toolkit.getDefaultToolkit().getScreenSize());
+//        Robot robot = new Robot();
+//        BufferedImage img = robot.createScreenCapture(rectangle);
+//
+//        ImageIO.write(img, "jpg", setupFileNamePath());
+//    }
+
 }
 
 

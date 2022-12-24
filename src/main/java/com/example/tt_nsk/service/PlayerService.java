@@ -27,9 +27,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class PlayerService {
     private final PlayerDao playerDao;
-
     private final PlayerImageService playerImageService;
-
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
     public Long count() {
         return playerDao.count();

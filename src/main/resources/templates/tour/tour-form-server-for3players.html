@@ -63,9 +63,6 @@
                             style="font-weight: bold"
                             th:field="*{x1y3}"
                     />
-
-
-
                 <th id="rating" th:text="${#numbers.formatDecimal(result1.rating, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
                 <th id="delta"  th:text="${#numbers.formatDecimal(result1.delta, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
                 <th  id="set" th:text="${result1.set + '/' + result1.setWin + '/' + result1.countWin}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
@@ -126,7 +123,7 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${(result3.set > 1)}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${param.w > param.v}? 'color: red;' : 'font-weight: bold;'"
                                 th:field="*{x3y1}"
                         />
                     </div>
@@ -157,16 +154,30 @@
             </tbody>
         </table>
      </div>
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="input-group">
                 <button  type="submit" class="btn btn-success" id="calculate">Расчитать</button>
-                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" type="submit" id="save">Сохранить</button>
-                <input type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default">
+                <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control" placeholder="Перед сохранением убедитесь, что все игры сыграны и расчитаны" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" disabled>
+                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" id="save">
+                    <a class="btn btn-primary" th:href="@{${'/tour/save'}}">Сохранить</a>
+                </button>
             </div>
         </div>
     </div>
     </form>
+<!--    <form class="row g-3 needs-validation" th:object="${tour}" th:action="@{/tour/save}" method="post"-->
+<!--          enctype="multipart/form-data">-->
+<!--    <div>-->
+<!--            <div class="col-md-10">-->
+<!--                <div class="input-group">-->
+<!--                    <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"-->
+<!--                           aria-describedby="inputGroup-sizing-default">-->
+<!--                    <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" >Сохранить</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--    </div>-->
+<!--    </form>-->
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
 <script src="/script/countServer3.js"></script>

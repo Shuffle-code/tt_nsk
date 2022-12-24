@@ -29,6 +29,7 @@
                 <th scope="col">3</th>
                 <th scope="col">4</th>
                 <th scope="col">5</th>
+                <th scope="col">6</th>
                 <th scope="col">Рейтинг</th>
                 <th scope="col">Дельта</th>
                 <th scope="col">Сеты</th>
@@ -85,6 +86,16 @@
                             value=""
                             style="font-weight: bold"
                             th:field="*{x1y5}"
+                    />
+                </td>
+                <td width="60px">
+                    <input
+                            type="text" id = "x1y6"
+                            class="form-control"
+                            placeholder="0/0"
+                            value=""
+                            style="font-weight: bold"
+                            th:field="*{x1y6}"
                     />
                 </td>
                 <th id="rating" th:text="${#numbers.formatDecimal(result1.rating, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
@@ -144,6 +155,16 @@
                             th:field="*{x2y5}"
                     />
                 </td>
+                <td width="60px">
+                    <input
+                            type="text" id = "x2y6"
+                            class="form-control"
+                            placeholder="0/0"
+                            value=""
+                            style="font-weight: bold"
+                            th:field="*{x2y6}"
+                    />
+                </td>
                 <th id="rating1" th:text="${#numbers.formatDecimal(result2.rating, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
                 <th id="delta1" th:text="${#numbers.formatDecimal(result2.delta, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
                 <th  id="set1" th:text="${result2.set + '/' + result2.setWin + '/' + result2.countWin}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
@@ -201,6 +222,16 @@
                             style="font-weight: bold"
                             value=""
                             th:field="*{x3y5}"
+                    />
+                </td>
+                <td width="60px">
+                    <input
+                            type="text" id = "x3y6"
+                            class="form-control"
+                            placeholder="0/0"
+                            style="font-weight: bold"
+                            value=""
+                            th:field="*{x3y6}"
                     />
                 </td>
                 <th id="rating2"
@@ -268,6 +299,16 @@
                             th:field="*{x4y5}"
                     />
                 </td>
+                <td width="60px">
+                    <input
+                            type="text" id = "x4y6"
+                            class="form-control"
+                            placeholder="0/0"
+                            style="font-weight: bold"
+                            value=""
+                            th:field="*{x4y6}"
+                    />
+                </td>
                 <th id="rating4"
                     th:text="${#numbers.formatDecimal(result4.rating, 1, 2)}"
                     th:style="${(result4.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
@@ -333,6 +374,17 @@
                     />
                 </td>
                 <th width="60px" class="table-secondary">TT</th>
+                <td width="60px">
+                    <input
+                            type="text" id = "x5y6"
+                            class="form-control"
+                            placeholder="0/0"
+                            style="font-weight: bold"
+                            value=""
+                            th:field="*{x5y6}"
+                    />
+                </td>
+
                 <th id="rating5"
                     th:text="${#numbers.formatDecimal(result5.rating, 1, 2)}"
                     th:style="${(result5.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
@@ -344,6 +396,82 @@
                     th:style="${(result5.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
                 <th id="place5" th:text="${result5.placePlayer}"
                     th:style="${(result5.set < 12)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+            </tr>
+            <tr>
+                <th scope="row" id="6">6</th>
+                <td colspan="2">
+                    <div class="d-flex align-items-center">
+                        <img th:src="@{'/player/image/' + ${player6.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
+                        <div class="ms-3">
+                            <p th:text="${player6.lastname + ' ' + player6.firstname + ' ' + player6.rating}" id = "player6" ></p>
+                        </div>
+                    </div>
+                </td>
+                <td width="60px">
+                    <div>
+                        <input
+                                type="text" id = "x6y1"
+                                value=""
+                                class="form-control"
+                                placeholder="0/0"
+                                th:style="${('*{x6y1}' > '*{x1y6}')}? 'color: red;' : 'font-weight: bold;'"
+                                th:field="*{x6y1}"
+                        />
+                    </div>
+                </td>
+                <td width="60px">
+                    <input
+                            type="text" id = "x6y2"
+                            class="form-control"
+                            placeholder="0/0"
+                            style="font-weight: bold"
+                            value=""
+                            th:field="*{x6y2}"
+                    />
+                </td>
+                <td width="60px">
+                    <input
+                            type="text" id = "x6y3"
+                            class="form-control"
+                            placeholder="0/0"
+                            style="font-weight: bold"
+                            value=""
+                            th:field="*{x6y3}"
+                    />
+                </td>
+                <td width="60px">
+                    <input
+                            type="text" id = "x6y4"
+                            class="form-control"
+                            placeholder="0/0"
+                            style="font-weight: bold"
+                            value=""
+                            th:field="*{x6y4}"
+                    />
+                </td>
+
+                <td width="60px">
+                    <input
+                            type="text" id = "x6y5"
+                            class="form-control"
+                            placeholder="0/0"
+                            style="font-weight: bold"
+                            value=""
+                            th:field="*{x6y5}"
+                    />
+                </td>
+                <th width="60px" class="table-secondary">TT</th>
+                <th id="rating6"
+                    th:text="${#numbers.formatDecimal(result6.rating, 1, 2)}"
+                    th:style="${(result6.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="delta6"
+                    th:text="${#numbers.formatDecimal(result6.delta, 1, 2)}"
+                    th:style="${(result6.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="set6"
+                    th:text="${result6.set + '/' + result6.setWin + '/' + result6.countWin}"
+                    th:style="${(result6.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <th id="place6" th:text="${result6.placePlayer}"
+                    th:style="${(result6.set < 15)}? 'color: transparent;' : 'font-weight: bold;'"></th>
             </tr>
             </tbody>
         </table>
@@ -362,6 +490,6 @@
     </form>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
-<script src="/script/countServer5.js"></script>
+<script src="/script/countServer6.js"></script>
 </body>
 </html>

@@ -39,14 +39,14 @@
                        aria-describedby="inputGroup-sizing-default" th:field="*{patronymic}">
             </div>
         </div>
-        <div class="col-md-8">
+        <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="rating">Рейтинг</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" placeholder="обязательно для заполнения"
                        aria-describedby="inputGroup-sizing-default" th:field="*{rating}">
             </div>
         </div>
-        <div class="col-md-8">
+        <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="ratingTtw">Рейтинг ttw</span>
                 <input type="text" class="form-control" aria-label="Sizing example input"

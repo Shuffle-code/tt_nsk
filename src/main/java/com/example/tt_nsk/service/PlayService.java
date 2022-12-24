@@ -88,9 +88,7 @@ public class PlayService {
     }
 
     public void placePlayer(Map<String, Scoring> scoringMap){
-        Collection<Scoring> values = scoringMap.values();
-        List<Scoring> place = new ArrayList<>();
-        place.addAll(values);
+        List<Scoring> place = getListFromMap(scoringMap);
         List<Integer> setWin = new ArrayList<>();
         List<Integer> win = new ArrayList<>();
         List<Integer> setLoss = new ArrayList<>();
@@ -127,6 +125,23 @@ public class PlayService {
         scoringMap.forEach((k, v) -> v.setPlacePlayer(arrayPlace.indexOf(v.getIndexPlayer()) + 1));
     }
 
+    public Long getIdFirstPlace(Map<String, Scoring> scoringMap){
+        List<Scoring> listFromMap = getListFromMap(scoringMap);
+        for (Scoring sc : listFromMap) {
+            if (sc.getPlacePlayer() == 1) {
+                return sc.getIdPlayer();
+            }
+        }
+        return listFromMap.get(1).getIdPlayer();
+    }
+
+    public List<Scoring> getListFromMap(Map<String, Scoring> scoringMap){
+        Collection<Scoring> values = scoringMap.values();
+        List<Scoring> place = new ArrayList<>();
+        place.addAll(values);
+        return place;
+    }
+
     public class WinComparator implements Comparator<Scoring>
     {
         @Override
@@ -151,10 +166,12 @@ public class PlayService {
 
     public Map<String, Scoring> writeMapWithNullScore (){
         Map<String, Scoring> scoringMap = new HashMap<>();
+        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
         for (int i = 0; i < getCurrentRatingAllPlayers().size(); i++) {
             Scoring scoring = new Scoring();
             scoring.setRating(getCurrentRatingAllPlayers().get((i)));
             scoring.setPlacePlayer(i + 1);
+            scoring.setIdPlayer(allActiveSortedByRating.get(i).getId());
             scoringMap.put(String.valueOf(i), scoring);
         }
         return scoringMap;
