@@ -41,14 +41,12 @@ public class TourController {
 
 
 
-//    @GetMapping
+
 //    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
-//        Tour tour = new Tour();
 //        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
 //        model.addAttribute("playersTour", allActiveSortedByRating);
 //        httpSession.setAttribute("countPlaying", playerService.countPlaying());
-//        model.addAttribute("tour", tour);
-//        return "tour/tour-form4";
+//        return "tour/tour-form";
 //    }
 
     @GetMapping
@@ -57,6 +55,7 @@ public class TourController {
         List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
         model.addAttribute("tour", tour);
         model.addAttribute("scope", score);
+        httpSession.setMaxInactiveInterval(25000);
         return returnPage(allActiveSortedByRating, model, httpSession);
     }
     public String returnPage(List<Player> allActiveSortedByRating, Model model, HttpSession httpSession){
@@ -95,6 +94,8 @@ public class TourController {
               createListFor13PlayersTour(model, httpSession, allActiveSortedByRating);
               return "tour/tour-form-server-for13players";
           default:
+              model.addAttribute("playersTour", allActiveSortedByRating);
+              httpSession.setAttribute("countPlaying", playerService.countPlaying());
               return "tour/tour-form";
       }
     }

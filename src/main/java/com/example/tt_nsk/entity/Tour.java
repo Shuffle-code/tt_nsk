@@ -44,6 +44,12 @@ public class Tour extends InfoEntity {
     private Address address;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tour")
     private List<TourImage> images;
+    public void addImage(TourImage tourImage) {
+        if (images == null) {
+            images = new ArrayList<>();
+        }
+        images.add(tourImage);
+    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -52,12 +58,7 @@ public class Tour extends InfoEntity {
     @OneToOne(targetEntity = Player.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "winner_id", referencedColumnName = "ID")
     private Player player;
-    public void addImage(TourImage tourImage) {
-        if (images == null) {
-            images = new ArrayList<>();
-        }
-        images.add(tourImage);
-    }
+
 
 //    @Override
 //    public String toString() {

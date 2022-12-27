@@ -50,7 +50,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y2 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y2 == '1/3' || score.x1y2 == '0/3' || score.x1y2 == '2/3' || score.x1y2 == '0.3' || score.x1y2 == '1.3' || score.x1y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y2}"
                     />
                 </td>
@@ -60,9 +61,11 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y3 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y3 == '1/3' || score.x1y3 == '0/3' || score.x1y3 == '2/3' || score.x1y3 == '0.3' || score.x1y3 == '1.3' || score.x1y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y3}"
                     />
+                </td>
                 <th id="rating" th:text="${#numbers.formatDecimal(result1.rating, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
                 <th id="delta"  th:text="${#numbers.formatDecimal(result1.delta, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
                 <th  id="set" th:text="${result1.set + '/' + result1.setWin + '/' + result1.countWin}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
@@ -85,7 +88,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y1 == '')}? 'font-weight: normal;' : (${(score.x2y1 == '1/3' || score.x2y1 == '0/3' || score.x2y1 == '2/3' || score.x2y1 == '0.3' || score.x2y1 == '1.3' || score.x2y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y1}"
                     />
                 </td>
@@ -96,7 +99,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y3 == '')}? 'font-weight: normal;' : (${(score.x2y3 == '1/3' || score.x2y3 == '0/3' || score.x2y3 == '2/3' || score.x2y3 == '0.3' || score.x2y3 == '1.3' || score.x2y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y3}"
                     />
                 </td>
@@ -123,7 +126,7 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${param.w > param.v}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(score.x3y1 == '')}? 'font-weight: normal;' : (${(score.x3y1 == '1/3' || score.x3y1 == '0/3' || score.x3y1 == '2/3' || score.x3y1 == '0.3' || score.x3y1 == '1.3' || score.x3y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                                 th:field="*{x3y1}"
                         />
                     </div>
@@ -133,7 +136,7 @@
                             type="text" id = "x3y2"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x3y2 == '')}? 'font-weight: normal;' : (${(score.x3y2 == '1/3' || score.x3y2 == '0/3' || score.x3y2 == '2/3' || score.x3y2 == '0.3' || score.x3y2 == '1.3' || score.x3y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x3y2}"
                     />

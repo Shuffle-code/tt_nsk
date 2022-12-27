@@ -55,7 +55,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y2 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y2 == '1/3' || score.x1y2 == '0/3' || score.x1y2 == '2/3' || score.x1y2 == '0.3' || score.x1y2 == '1.3' || score.x1y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y2}"
                     />
                 </td>
@@ -65,7 +66,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y3 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y3 == '1/3' || score.x1y3 == '0/3' || score.x1y3 == '2/3' || score.x1y3 == '0.3' || score.x1y3 == '1.3' || score.x1y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y3}"
                     />
                 </td>
@@ -75,7 +77,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y4 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y4 == '1/3' || score.x1y4 == '0/3' || score.x1y4 == '2/3' || score.x1y4 == '0.3' || score.x1y4 == '1.3' || score.x1y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y4}"
                     />
                 </td>
@@ -86,7 +89,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y5 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y5 == '1/3' || score.x1y5 == '0/3' || score.x1y5 == '2/3' || score.x1y5 == '0.3' || score.x1y5 == '1.3' || score.x1y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y5}"
                     />
                 </td>
@@ -96,7 +100,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y6 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y6 == '1/3' || score.x1y6 == '0/3' || score.x1y6 == '2/3' || score.x1y6 == '0.3' || score.x1y6 == '1.3' || score.x1y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y6}"
                     />
                 </td>
@@ -106,7 +111,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y7 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y7 == '1/3' || score.x1y7 == '0/3' || score.x1y7 == '2/3' || score.x1y7 == '0.3' || score.x1y7 == '1.3' || score.x1y7 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y7}"
                     />
                 </td>
@@ -116,7 +122,8 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x1y8 == '')}? 'font-weight: normal;' :
+                            (${(score.x1y8 == '1/3' || score.x1y8 == '0/3' || score.x1y8 == '2/3' || score.x1y8 == '0.3' || score.x1y8 == '1.3' || score.x1y8 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x1y8}"
                     />
                 </td>
@@ -142,7 +149,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y1 == '')}? 'font-weight: normal;' : (${(score.x2y1 == '1/3' || score.x2y1 == '0/3' || score.x2y1 == '2/3' || score.x2y1 == '0.3' || score.x2y1 == '1.3' || score.x2y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y1}"
                     />
                 </td>
@@ -153,7 +160,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y3 == '')}? 'font-weight: normal;' : (${(score.x2y3 == '1/3' || score.x2y3 == '0/3' || score.x2y3 == '2/3' || score.x2y3 == '0.3' || score.x2y3 == '1.3' || score.x2y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y3}"
                     />
                 </td>
@@ -163,7 +170,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y4 == '')}? 'font-weight: normal;' : (${(score.x2y4 == '1/3' || score.x2y4 == '0/3' || score.x2y4 == '2/3' || score.x2y4 == '0.3' || score.x2y4 == '1.3' || score.x2y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y4}"
                     />
                 </td>
@@ -173,7 +180,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y5 == '')}? 'font-weight: normal;' : (${(score.x2y5 == '1/3' || score.x2y5 == '0/3' || score.x2y5 == '2/3' || score.x2y5 == '0.3' || score.x2y5 == '1.3' || score.x2y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y5}"
                     />
                 </td>
@@ -183,7 +190,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y6 == '')}? 'font-weight: normal;' : (${(score.x2y6 == '1/3' || score.x2y6 == '0/3' || score.x2y6 == '2/3' || score.x2y6 == '0.3' || score.x2y6 == '1.3' || score.x2y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y6}"
                     />
                 </td>
@@ -193,7 +200,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y7 == '')}? 'font-weight: normal;' : (${(score.x2y7 == '1/3' || score.x2y7 == '0/3' || score.x2y7 == '2/3' || score.x2y7 == '0.3' || score.x2y7 == '1.3' || score.x2y7 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y7}"
                     />
                 </td>
@@ -203,7 +210,7 @@
                             class="form-control"
                             placeholder="0/0"
                             value=""
-                            style="font-weight: bold"
+                            th:style="${(score.x2y8 == '')}? 'font-weight: normal;' : (${(score.x2y8 == '1/3' || score.x2y8 == '0/3' || score.x2y8 == '2/3' || score.x2y8 == '0.3' || score.x2y8 == '1.3' || score.x2y8 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             th:field="*{x2y8}"
                     />
                 </td>
@@ -230,7 +237,7 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${('*{x3y1}' == '1/3')}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(score.x3y1 == '')}? 'font-weight: normal;' : (${(score.x3y1 == '1/3' || score.x3y1 == '0/3' || score.x3y1 == '2/3' || score.x3y1 == '0.3' || score.x3y1 == '1.3' || score.x3y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                                 th:field="*{x3y1}"
                         />
                     </div>
@@ -240,7 +247,7 @@
                             type="text" id = "x3y2"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x3y2 == '')}? 'font-weight: normal;' : (${(score.x3y2 == '1/3' || score.x3y2 == '0/3' || score.x3y2 == '2/3' || score.x3y2 == '0.3' || score.x3y2 == '1.3' || score.x3y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x3y2}"
                     />
@@ -251,7 +258,7 @@
                             type="text" id = "x3y4"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x3y4 == '')}? 'font-weight: normal;' : (${(score.x3y4 == '1/3' || score.x3y4 == '0/3' || score.x3y4 == '2/3' || score.x3y4 == '0.3' || score.x3y4 == '1.3' || score.x3y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x3y4}"
                     />
@@ -261,7 +268,7 @@
                             type="text" id = "x3y5"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x3y5 == '')}? 'font-weight: normal;' : (${(score.x3y5 == '1/3' || score.x3y5 == '0/3' || score.x3y5 == '2/3' || score.x3y5 == '0.3' || score.x3y5 == '1.3' || score.x3y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x3y5}"
                     />
@@ -271,7 +278,7 @@
                             type="text" id = "x3y6"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x3y6 == '')}? 'font-weight: normal;' : (${(score.x3y6 == '1/3' || score.x3y6 == '0/3' || score.x3y6 == '2/3' || score.x3y6 == '0.3' || score.x3y6 == '1.3' || score.x3y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x3y6}"
                     />
@@ -281,7 +288,7 @@
                             type="text" id = "x3y7"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x3y7 == '')}? 'font-weight: normal;' : (${(score.x3y7 == '1/3' || score.x3y7 == '0/3' || score.x3y7 == '2/3' || score.x3y7 == '0.3' || score.x3y7 == '1.3' || score.x3y7 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x3y7}"
                     />
@@ -291,7 +298,7 @@
                             type="text" id = "x3y8"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x3y8 == '')}? 'font-weight: normal;' : (${(score.x3y8 == '1/3' || score.x3y8 == '0/3' || score.x3y8 == '2/3' || score.x3y8 == '0.3' || score.x3y8 == '1.3' || score.x3y8 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x3y8}"
                     />
@@ -325,7 +332,7 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${('*{x4y1}' == '1/3')}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(score.x4y1 == '')}? 'font-weight: normal;' : (${(score.x4y1 == '1/3' || score.x4y1 == '0/3' || score.x4y1 == '2/3' || score.x4y1 == '0.3' || score.x4y1 == '1.3' || score.x4y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                                 th:field="*{x4y1}"
                         />
                     </div>
@@ -335,7 +342,7 @@
                             type="text" id = "x4y2"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x4y2 == '')}? 'font-weight: normal;' : (${(score.x4y2 == '1/3' || score.x4y2 == '0/3' || score.x4y2 == '2/3' || score.x4y2 == '0.3' || score.x4y2 == '1.3' || score.x4y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x4y2}"
                     />
@@ -345,7 +352,7 @@
                             type="text" id = "x4y3"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x4y3 == '')}? 'font-weight: normal;' : (${(score.x4y3 == '1/3' || score.x4y3 == '0/3' || score.x4y3 == '2/3' || score.x4y3 == '0.3' || score.x4y3 == '1.3' || score.x4y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x4y3}"
                     />
@@ -356,7 +363,7 @@
                             type="text" id = "x4y5"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x4y5 == '')}? 'font-weight: normal;' : (${(score.x4y5 == '1/3' || score.x4y5 == '0/3' || score.x4y5 == '2/3' || score.x4y5 == '0.3' || score.x4y5 == '1.3' || score.x4y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x4y5}"
                     />
@@ -366,7 +373,7 @@
                             type="text" id = "x4y6"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x4y6 == '')}? 'font-weight: normal;' : (${(score.x4y6 == '1/3' || score.x4y6 == '0/3' || score.x4y6 == '2/3' || score.x4y6 == '0.3' || score.x4y6 == '1.3' || score.x4y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x4y6}"
                     />
@@ -376,7 +383,7 @@
                             type="text" id = "x4y7"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x4y7 == '')}? 'font-weight: normal;' : (${(score.x4y7 == '1/3' || score.x4y7 == '0/3' || score.x4y7 == '2/3' || score.x4y7 == '0.3' || score.x4y7 == '1.3' || score.x4y7 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x4y7}"
                     />
@@ -386,7 +393,7 @@
                             type="text" id = "x4y8"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x4y8 == '')}? 'font-weight: normal;' : (${(score.x4y8 == '1/3' || score.x4y8 == '0/3' || score.x4y8 == '2/3' || score.x4y8 == '0.3' || score.x4y8 == '1.3' || score.x4y8 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x4y8}"
                     />
@@ -420,7 +427,8 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${('*{x5y1}' > '*{x1y5}')}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(score.x5y1 == '')}? 'font-weight: normal;' :
+                                (${(score.x5y1 == '1/3' || score.x5y1 == '0/3' || score.x5y1 == '2/3' || score.x5y1 == '0.3' || score.x5y1 == '1.3' || score.x5y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                                 th:field="*{x5y1}"
                         />
                     </div>
@@ -430,7 +438,8 @@
                             type="text" id = "x5y2"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x5y2 == '')}? 'font-weight: normal;' :
+                            (${(score.x5y2 == '1/3' || score.x5y2 == '0/3' || score.x5y2 == '2/3' || score.x5y2 == '0.3' || score.x5y2 == '1.3' || score.x5y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x5y2}"
                     />
@@ -440,7 +449,8 @@
                             type="text" id = "x5y3"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x5y3 == '')}? 'font-weight: normal;' :
+                            (${(score.x5y3 == '1/3' || score.x5y3 == '0/3' || score.x5y3 == '2/3' || score.x5y3 == '0.3' || score.x5y3 == '1.3' || score.x5y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x5y3}"
                     />
@@ -450,7 +460,8 @@
                             type="text" id = "x5y4"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x5y4 == '')}? 'font-weight: normal;' :
+                            (${(score.x5y4 == '1/3' || score.x5y4 == '0/3' || score.x5y4 == '2/3' || score.x5y4 == '0.3' || score.x5y4 == '1.3' || score.x5y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x5y4}"
                     />
@@ -461,7 +472,8 @@
                             type="text" id = "x5y6"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x5y6 == '')}? 'font-weight: normal;' :
+                            (${(score.x5y6 == '1/3' || score.x5y6 == '0/3' || score.x5y6 == '2/3' || score.x5y6 == '0.3' || score.x5y6 == '1.3' || score.x5y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x5y6}"
                     />
@@ -471,7 +483,8 @@
                             type="text" id = "x5y7"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x5y7 == '')}? 'font-weight: normal;' :
+                            (${(score.x5y7 == '1/3' || score.x5y7 == '0/3' || score.x5y7 == '2/3' || score.x5y7 == '0.3' || score.x5y7 == '1.3' || score.x5y7 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x5y7}"
                     />
@@ -481,7 +494,8 @@
                             type="text" id = "x5y8"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x5y8 == '')}? 'font-weight: normal;' :
+                            (${(score.x5y8 == '1/3' || score.x5y8 == '0/3' || score.x5y8 == '2/3' || score.x5y8 == '0.3' || score.x5y8 == '1.3' || score.x5y8 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x5y8}"
                     />
@@ -515,7 +529,8 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${('*{x6y1}' > '*{x1y6}')}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(score.x6y1 == '')}? 'font-weight: normal;' :
+                                (${(score.x6y1 == '1/3' || score.x6y1 == '0/3' || score.x6y1 == '2/3' || score.x6y1 == '0.3' || score.x6y1 == '1.3' || score.x6y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                                 th:field="*{x6y1}"
                         />
                     </div>
@@ -525,7 +540,8 @@
                             type="text" id = "x6y2"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x6y2 == '')}? 'font-weight: normal;' :
+                                (${(score.x6y2 == '1/3' || score.x6y2 == '0/3' || score.x6y2 == '2/3' || score.x6y2 == '0.3' || score.x6y2 == '1.3' || score.x6y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x6y2}"
                     />
@@ -535,7 +551,8 @@
                             type="text" id = "x6y3"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x6y3 == '')}? 'font-weight: normal;' :
+                                (${(score.x6y3 == '1/3' || score.x6y3 == '0/3' || score.x6y3 == '2/3' || score.x6y3 == '0.3' || score.x6y3 == '1.3' || score.x6y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x6y3}"
                     />
@@ -545,7 +562,8 @@
                             type="text" id = "x6y4"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x6y4 == '')}? 'font-weight: normal;' :
+                                (${(score.x6y4 == '1/3' || score.x6y4 == '0/3' || score.x6y4 == '2/3' || score.x6y4 == '0.3' || score.x6y4 == '1.3' || score.x6y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x6y4}"
                     />
@@ -556,7 +574,8 @@
                             type="text" id = "x6y5"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x6y5 == '')}? 'font-weight: normal;' :
+                                (${(score.x6y5 == '1/3' || score.x6y5 == '0/3' || score.x6y5 == '2/3' || score.x6y5 == '0.3' || score.x6y5 == '1.3' || score.x6y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x6y5}"
                     />
@@ -567,7 +586,8 @@
                             type="text" id = "x6y7"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x6y7 == '')}? 'font-weight: normal;' :
+                                (${(score.x6y7 == '1/3' || score.x6y7 == '0/3' || score.x6y7 == '2/3' || score.x6y7 == '0.3' || score.x6y7 == '1.3' || score.x6y7 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x6y7}"
                     />
@@ -577,7 +597,8 @@
                             type="text" id = "x6y8"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x6y8 == '')}? 'font-weight: normal;' :
+                                (${(score.x6y8 == '1/3' || score.x6y8 == '0/3' || score.x6y8 == '2/3' || score.x6y8 == '0.3' || score.x6y8 == '1.3' || score.x6y8 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x6y8}"
                     />
@@ -611,7 +632,8 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${('*{x7y1}' > '*{x1y7}')}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(score.x7y1 == '')}? 'font-weight: normal;' :
+                                (${(score.x7y1 == '1/3' || score.x7y1 == '0/3' || score.x7y1 == '2/3' || score.x7y1 == '0.3' || score.x7y1 == '1.3' || score.x7y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                                 th:field="*{x7y1}"
                         />
                     </div>
@@ -621,7 +643,8 @@
                             type="text" id = "x7y2"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x7y2 == '')}? 'font-weight: normal;' :
+                                (${(score.x7y2 == '1/3' || score.x7y2 == '0/3' || score.x7y2 == '2/3' || score.x7y2 == '0.3' || score.x7y2 == '1.3' || score.x7y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x7y2}"
                     />
@@ -631,7 +654,8 @@
                             type="text" id = "x7y3"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x7y3 == '')}? 'font-weight: normal;' :
+                                (${(score.x7y3 == '1/3' || score.x7y3 == '0/3' || score.x7y3 == '2/3' || score.x7y3 == '0.3' || score.x7y3 == '1.3' || score.x7y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x7y3}"
                     />
@@ -641,7 +665,8 @@
                             type="text" id = "x7y4"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x7y4 == '')}? 'font-weight: normal;' :
+                                (${(score.x7y4 == '1/3' || score.x7y4 == '0/3' || score.x7y4 == '2/3' || score.x7y4 == '0.3' || score.x7y4 == '1.3' || score.x7y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x7y4}"
                     />
@@ -652,7 +677,8 @@
                             type="text" id = "x7y5"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x7y5 == '')}? 'font-weight: normal;' :
+                                (${(score.x7y5 == '1/3' || score.x7y5 == '0/3' || score.x7y5 == '2/3' || score.x7y5 == '0.3' || score.x7y5 == '1.3' || score.x7y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x7y5}"
                     />
@@ -662,7 +688,8 @@
                             type="text" id = "x7y6"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x7y6 == '')}? 'font-weight: normal;' :
+                                (${(score.x7y6 == '1/3' || score.x7y6 == '0/3' || score.x7y6 == '2/3' || score.x7y6 == '0.3' || score.x7y6 == '1.3' || score.x7y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x7y6}"
                     />
@@ -673,12 +700,12 @@
                             type="text" id = "x7y8"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x7y8 == '')}? 'font-weight: normal;' :
+                                (${(score.x7y8 == '1/3' || score.x7y8 == '0/3' || score.x7y8 == '2/3' || score.x7y8 == '0.3' || score.x7y8 == '1.3' || score.x7y8 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x7y8}"
                     />
                 </td>
-
                 <th id="rating7"
                     th:text="${#numbers.formatDecimal(result7.rating, 1, 2)}"
                     th:style="${(result7.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
@@ -708,7 +735,8 @@
                                 value=""
                                 class="form-control"
                                 placeholder="0/0"
-                                th:style="${('*{x8y1}' > '*{x1y8}')}? 'color: red;' : 'font-weight: bold;'"
+                                th:style="${(score.x8y1 == '')}? 'font-weight: normal;' :
+                                (${(score.x8y1 == '1/3' || score.x8y1 == '0/3' || score.x8y1 == '2/3' || score.x8y1 == '0.3' || score.x8y1 == '1.3' || score.x8y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                                 th:field="*{x8y1}"
                         />
                     </div>
@@ -718,7 +746,8 @@
                             type="text" id = "x8y2"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x8y2 == '')}? 'font-weight: normal;' :
+                                (${(score.x8y2 == '1/3' || score.x8y2 == '0/3' || score.x8y2 == '2/3' || score.x8y2 == '0.3' || score.x8y2 == '1.3' || score.x8y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x8y2}"
                     />
@@ -728,7 +757,8 @@
                             type="text" id = "x8y3"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x8y3 == '')}? 'font-weight: normal;' :
+                                (${(score.x8y3 == '1/3' || score.x8y3 == '0/3' || score.x8y3 == '2/3' || score.x8y3 == '0.3' || score.x8y3 == '1.3' || score.x8y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x8y3}"
                     />
@@ -738,7 +768,8 @@
                             type="text" id = "x8y4"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x8y4 == '')}? 'font-weight: normal;' :
+                                (${(score.x8y4 == '1/3' || score.x8y4 == '0/3' || score.x8y4 == '2/3' || score.x8y4 == '0.3' || score.x8y4 == '1.3' || score.x8y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x8y4}"
                     />
@@ -749,7 +780,8 @@
                             type="text" id = "x8y5"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x8y5 == '')}? 'font-weight: normal;' :
+                                (${(score.x8y5 == '1/3' || score.x8y5 == '0/3' || score.x8y5 == '2/3' || score.x8y5 == '0.3' || score.x8y5 == '1.3' || score.x8y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x8y5}"
                     />
@@ -759,7 +791,8 @@
                             type="text" id = "x8y6"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x8y6 == '')}? 'font-weight: normal;' :
+                                (${(score.x8y6 == '1/3' || score.x8y6 == '0/3' || score.x8y6 == '2/3' || score.x8y6 == '0.3' || score.x8y6 == '1.3' || score.x8y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x8y6}"
                     />
@@ -770,7 +803,8 @@
                             type="text" id = "x8y7"
                             class="form-control"
                             placeholder="0/0"
-                            style="font-weight: bold"
+                            th:style="${(score.x8y7 == '')}? 'font-weight: normal;' :
+                                (${(score.x8y7 == '1/3' || score.x8y7 == '0/3' || score.x8y7 == '2/3' || score.x8y7 == '0.3' || score.x8y7 == '1.3' || score.x8y7 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
                             value=""
                             th:field="*{x8y7}"
                     />

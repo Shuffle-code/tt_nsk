@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -37,6 +38,13 @@ dependencies {
 	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
 	implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.1.Final'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jdbc', version: '2.7.3'
+//	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+//	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.0.1'
+
+//	// https://mvnrepository.com/artifact/io.github.huiaong/base64-multipartfile-starter
+//	implementation group: 'io.github.huiaong', name: 'base64-multipartfile-starter', version: '1.0.0-RELEASE'
+
+//	implementation 'org.springframework.mock.web.MockMultipartFile'
 	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
 //	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.17.2'
 

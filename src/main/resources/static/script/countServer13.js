@@ -299,6 +299,18 @@ x12y9.addEventListener('input', () => x9y12.value = getCount("x12y9"));
 x12y10.addEventListener('input', () => x10y12.value = getCount("x12y10"));
 x12y11.addEventListener('input', () => x11y12.value = getCount("x12y11"));
 x12y13.addEventListener('input', () => x13y12.value = getCount("x12y13"));
+x13y1.addEventListener('input', () => x1y13.value = getCount("x13y1"));
+x13y2.addEventListener('input', () => x2y13.value = getCount("x13y2"));
+x13y3.addEventListener('input', () => x3y13.value = getCount("x13y3"));
+x13y4.addEventListener('input', () => x4y13.value = getCount("x13y4"));
+x13y5.addEventListener('input', () => x5y13.value = getCount("x13y5"));
+x13y6.addEventListener('input', () => x6y13.value = getCount("x13y6"));
+x13y7.addEventListener('input', () => x7y13.value = getCount("x13y7"));
+x13y8.addEventListener('input', () => x8y13.value = getCount("x13y8"));
+x13y9.addEventListener('input', () => x9y13.value = getCount("x13y9"));
+x13y10.addEventListener('input', () => x10y13.value = getCount("x13y10"));
+x13y11.addEventListener('input', () => x11y13.value = getCount("x13y11"));
+x13y12.addEventListener('input', () => x12y13.value = getCount("x13y12"));
 function getCount(id) {
     let elementById = document.getElementById(id).value;
     if (Number(elementById) == 0) return ""
