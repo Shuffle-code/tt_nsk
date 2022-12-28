@@ -41,6 +41,7 @@ public class PlayController {
     private final TourImageService tourImageService;
     private final TourDao tourDao;
     Map<String, Scoring> resultTour;
+    String filename;
 
     private static final String path = "tours";
 
@@ -87,6 +88,7 @@ public class PlayController {
         }
         List<String> list = playService.arrayWithoutNull(playService.getListResultTour(score));
         System.out.println(list);
+        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size()) + 1);
         resultTour = playService.getResultTour(list);
         playService.placePlayer(resultTour);
         return returnPageScoring(allActiveSortedByRating, model, resultTour);
@@ -137,6 +139,7 @@ public class PlayController {
         Tour tour = new Tour();
         model.addAttribute("addressService", addressService);
         model.addAttribute("tour", tour);
+        filename = createScreenshot();
         return "tour/add-played-tour";
     }
 
@@ -147,8 +150,19 @@ public class PlayController {
         savePlayersFromTour(resultTour);
 //        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
         tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
+
         return "redirect:/tour/all";
     }
+
+//    @PostMapping("/save")
+//    @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
+//    public String saveTourForPlayedTour(Tour tour) {
+//        savePlayedTour(tour);
+//        savePlayersFromTour(resultTour);
+////        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
+////        tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
+//        return "redirect:/tour/all";
+//    }
 
     private void savePlayersFromTour(Map<String, Scoring> resultTour) {
         List<Scoring> listFromMap = playService.getListFromMap(resultTour);
@@ -165,7 +179,11 @@ public class PlayController {
         tour.setDate(new Date());
         tour.setStatus(TourStatus.FINISHED);
         tour.setPlayer(playerService.findById(playService.getIdFirstPlace(resultTour)));
-        getScreenshot(tour);
+//        if (playService.getSizeArrayList(list) == playerService.findAllActiveSortedByRating().size()/playService.getSizeArrayList(list) + 1){
+//
+//            System.out.println(playerService.findAllActiveSortedByRating().size()/playService.getSizeArrayList(list) + 1);
+//        }
+        saveScreenshot(tour);
         if (multipartFile != null && !multipartFile.isEmpty()) {
             String pathToSavedFile = tourImageService.save(multipartFile);
             TourImage tourImage = TourImage.builder()
@@ -183,33 +201,30 @@ public class PlayController {
     }
 
     // prt sc
-    public void getScreenshot(Tour tour){
-        Rectangle rectangle = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        BufferedImage image = null;
+    public void saveScreenshot(Tour tour){
+            TourImage tourImage = TourImage.builder()
+                    .path(filename + ".png")
+                    .tour(tour)
+                    .build();
+            tour.addImage(tourImage);
+    }
+    public String createScreenshot(){
+        BufferedImage image;
+        String filename;
         try {
-            image = new Robot().createScreenCapture(rectangle);
+            image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
         } catch (AWTException e) {
             throw new RuntimeException(e);
         }
         try {
-            String filename = String.valueOf(UUID.randomUUID());
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(image, "png", new File(String.valueOf(Paths.get(storagePath).resolve(path).resolve(filename + ".jpg"))));
-//            ImageIO.write(image, "png", byteArrayOutputStream);
-//            byteArrayOutputStream.flush();
-//            InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-//            Files.copy(inputStream, Paths.get(storagePath).resolve(path).resolve("prtSc"), StandardCopyOption.REPLACE_EXISTING);
-//            Files.copy(inputStream, Paths.get(storagePath).resolve(path), StandardCopyOption.REPLACE_EXISTING);
-            TourImage tourImage = TourImage.builder()
-                    .path(filename + ".jpg")
-                    .tour(tour)
-                    .build();
-            tour.addImage(tourImage);
+            filename = String.valueOf(UUID.randomUUID());
+            ImageIO.write(image, "png", new File(String.valueOf(Paths.get(storagePath).resolve(path).resolve(filename + ".png"))));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        return filename;
     }
+
 }
 
 
