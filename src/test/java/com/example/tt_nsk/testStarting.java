@@ -1,5 +1,6 @@
 package com.example.tt_nsk;
 
+import com.example.tt_nsk.entity.LegUp;
 import com.example.tt_nsk.entity.Score;
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,10 @@ public class testStarting {
         System.out.println(getListResultTour(score));
         System.out.println(getListResultTour(score).size());
         System.out.println(getListResultTour(score).get(1));
+        String $3$1 = "3/2".replaceFirst("(.)(.*)(.)", "$3$2$1");
+//        String $2$1 = "3/2".replace(b);
+        System.out.println($3$1);
+        System.out.println(new LegUp());
     }
    @Test
     public static List<String> getListResultTour(Score score) {
@@ -28,4 +33,5 @@ public class testStarting {
         List<String> listScore = new ArrayList<>(Arrays.asList(scoreString.split("', ")));
         return listScore;
     }
+
 }

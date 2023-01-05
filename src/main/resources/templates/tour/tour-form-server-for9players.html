@@ -1033,7 +1033,7 @@
                 <button  type="submit" class="btn btn-success" id="calculate">Расчитать</button>
                 <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control" placeholder="Перед сохранением убедитесь, что все игры сыграны и расчитаны" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-default" disabled>
-                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" id="save">
+                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" id="save" th:disabled="${!(score.endTour)}">
                     <a class="btn btn-primary" th:href="@{${'/tour/save'}}">Сохранить</a>
                 </button>
             </div>

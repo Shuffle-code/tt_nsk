@@ -71,7 +71,10 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         }
         AccountUser accountUser = userMapper.toAccountUser(userDto);
         Player player = addNewPlayer(accountUser);
+        player.setRating(BigDecimal.valueOf(500));
+        System.out.println("Это новый игрок " + player.getRating());
         playerService.save(player);
+        System.out.println("Это новый сохраненный игрок " + player.getRating());
         PlayerImage playerImage = addNewImage(imageName, player);
         playerImageDao.save(playerImage);
         AccountRole roleUser = accountRoleDao.findByName("ROLE_USER");

@@ -1,11 +1,7 @@
 package com.example.tt_nsk.controller;
-
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.dao.security.AccountRoleDao;
-import com.example.tt_nsk.entity.Player;
-import com.example.tt_nsk.entity.Score;
-import com.example.tt_nsk.entity.Scoring;
-import com.example.tt_nsk.entity.Tour;
+import com.example.tt_nsk.entity.*;
 import com.example.tt_nsk.entity.enums.Status;
 import com.example.tt_nsk.entity.security.AccountRole;
 import com.example.tt_nsk.entity.security.AccountUser;
@@ -17,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
@@ -38,24 +33,22 @@ public class TourController {
     private final TourImageService tourImageService;
     private final AccountRoleDao accountRoleDao;
     private final PlayService playService;
-
-
-
-
 //    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
 //        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
 //        model.addAttribute("playersTour", allActiveSortedByRating);
 //        httpSession.setAttribute("countPlaying", playerService.countPlaying());
 //        return "tour/tour-form";
 //    }
-
     @GetMapping
     public String findAllActiveSortedRatingForWebpage(Model model,Score score, HttpSession httpSession) {
         Tour tour = new Tour();
         List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
+        LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
+        model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
         model.addAttribute("scope", score);
         httpSession.setMaxInactiveInterval(25000);
+
         return returnPage(allActiveSortedByRating, model, httpSession);
     }
     public String returnPage(List<Player> allActiveSortedByRating, Model model, HttpSession httpSession){
@@ -395,18 +388,22 @@ public class TourController {
 //    }
 
     @GetMapping("/participate")
-    public String changeStatus(Model model, Principal principal, HttpSession httpSession){
+    public String changeStatus(Model model, Score score, Principal principal, HttpSession httpSession){
         Tour tour = new Tour();
         Player player;
         AccountUser accountUser = changeRole(principal);
         player = accountUser.getPlayer();
         player.setStatus(Status.ACTIVE);
         playerService.save(player);
-        model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
+        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
+        LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allActiveSortedByRating)));
+        model.addAttribute("playersTour", allActiveSortedByRating);
+        model.addAttribute("scope", score);
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
+        model.addAttribute("legUp", legUp);
 //        httpSession.setAttribute("role", accountUser.getRoles());
         model.addAttribute("tour", tour);
-        return "tour/tour-form";
+        return returnPage(allActiveSortedByRating, model, httpSession);
     }
 
 //    public Player getPlayer(Principal principal){

@@ -3,14 +3,12 @@ import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.entity.*;
 import com.example.tt_nsk.entity.enums.TourStatus;
 import com.example.tt_nsk.service.*;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,14 +19,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigDecimal;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,14 +35,12 @@ public class PlayController {
     private final TourDao tourDao;
     Map<String, Scoring> resultTour;
     String filename;
-
     private static final String path = "tours";
-
     @Value("${storage.location}")
     private String storagePath;
-
     @PostMapping("/count")
     public String scoringTour(Score score, Model model, HttpSession httpSession) {
+        LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
         List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
         switch (allActiveSortedByRating.size()) {
             case 3:
@@ -87,10 +78,13 @@ public class PlayController {
                 break;
         }
         List<String> list = playService.arrayWithoutNull(playService.getListResultTour(score));
-        System.out.println(list);
-        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size()) + 1);
+        score.setEndTour((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
+//        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1));
+//        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
+        System.out.println(score);
         resultTour = playService.getResultTour(list);
         playService.placePlayer(resultTour);
+        model.addAttribute("legUp", legUp);
         return returnPageScoring(allActiveSortedByRating, model, resultTour);
     }
 

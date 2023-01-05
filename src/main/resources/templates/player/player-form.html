@@ -10,11 +10,8 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-
 <div th:replace="~{common/navbar :: navi(PlayerForm)}"></div>
-
 <div class="container">
-
     <form class="row g-3 needs-validation" th:object="${player}" th:action="@{/player/add}" method="post"
           enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
@@ -39,20 +36,6 @@
                        aria-describedby="inputGroup-sizing-default" th:field="*{patronymic}">
             </div>
         </div>
-        <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="rating">Рейтинг</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" placeholder="обязательно для заполнения"
-                       aria-describedby="inputGroup-sizing-default" th:field="*{rating}">
-            </div>
-        </div>
-        <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="ratingTtw">Рейтинг ttw</span>
-                <input type="text" class="form-control" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default" th:field="*{ratingTtw}">
-            </div>
-        </div>
         <div class="col-md-8">
             <div class="input-group mb-3">
                 <span class="input-group-text" id="yearOfBirth">Год рождения</span>
@@ -61,42 +44,36 @@
             </div>
         </div>
         <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="rating">Рейтинг</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" placeholder="обязательно для заполнения"
+                       aria-describedby="inputGroup-sizing-default" th:field="*{rating}">
+            </div>
+        </div>
+        <div sec:authorize="hasAuthority('player.readOnly')">
+                <input type="hidden" th:field="*{rating}">
+        </div>
+        <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="ratingTtw">Рейтинг ttw</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" th:field="*{ratingTtw}">
+            </div>
+        </div>
+        <div sec:authorize="hasAuthority('player.readOnly')" >
+                <input type="hidden" th:field="*{ratingTtw}">
+        </div>
+
+        <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
             <select class="form-select" aria-label="Default select example" th:field="*{status}">
                 <option th:each="statusValue : ${T(com.example.tt_nsk.entity.enums.Status).values()}"
                         th:value="${statusValue.name()}"
                         th:text="${statusValue.title}"></option>
-<!--                ${session.count == null ? '0)' : session.count-->
             </select>
         </div>
         <div sec:authorize="hasAuthority('player.read')">
         <input type="hidden" th:field="*{status}">
         </div>
-<!--        <div class="col-md-8">-->
-<!--            <div class="input-group mb-3">-->
-<!--                <span class="input-group-text" id="image">Изображение</span>-->
-<!--                <input type="file" name="file" class="form-control-file" accept="image/*">-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-12">-->
-<!--            <button class="btn btn-primary" type="submit">Сохранить</button>-->
-<!--        </div>-->
-<!--        <form method="post" enctype="multipart/form-data" th:action="@{/player/upload}">-->
-<!--        <div class="col-md-8">-->
-<!--            <div class="input-group mb-3">-->
-<!--                <span class="input-group-text" id="images">Изображения</span>-->
-<!--                <input type="hidden" th:field="${player.id}">-->
-<!--                <input type="file" name="files" multiple class="form-control-file">-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--                <div class="col-md-8">-->
-<!--                    <div class="input-group mb-3">-->
-<!--                        <span class="input-group-text" id="images">Изображения</span>-->
-<!--                        <input type="hidden" th:field="${player.id}">-->
-<!--                        <input type="file" name="files" multiple class="form-control-file"> <br/><br/>-->
-<!--                    </div>-->
-<!--                </div>-->
-
         <div class="col-md-8">
         <div class="input-group mb-3">
             <input type="hidden" th:field="${player.id}">
@@ -107,11 +84,8 @@
         <div class="col-12">
             <button class="btn btn-primary" type="submit">Сохранить</button>
         </div>
-<!--        </form>-->
     </form>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
-
-
 </body>
 </html>

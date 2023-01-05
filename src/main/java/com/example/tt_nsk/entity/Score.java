@@ -166,6 +166,7 @@ public class Score {
     String x13y10;
     String x13y11;
     String x13y12;
+    boolean endTour;
 
     @Override
     public String toString() {
