@@ -10,6 +10,7 @@ public class TtNskApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TtNskApplication.class, args);
 		System.setProperty("java.awt.headless", "false");
+
 //		GraphicsEnvironment.isHeadless();
 	}
 

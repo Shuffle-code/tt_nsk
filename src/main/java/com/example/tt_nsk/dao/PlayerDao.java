@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface PlayerDao extends JpaRepository<Player, Long> {
@@ -16,6 +17,11 @@ public interface PlayerDao extends JpaRepository<Player, Long> {
     List<Player> findAllByStatus(Status status, Sort sort);
     @Query(value = "SELECT MAX(id) FROM player ", nativeQuery = true)
     Long maxId();
+
+    @Query(value = "SELECT ID_TTWR FROM nsk_tt.player where ID_TTWR != 'null' & ID_TTWR != ''", nativeQuery = true)
+    List<String> getIdTtw();
+
+
 
 //    Player findFirstByIdOrderByPointPointsDesc();
 

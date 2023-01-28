@@ -17,6 +17,11 @@ spring:
     url: "jdbc:mysql://localhost:3306/nsk_tt"
     username: "shuffle"
     password: "shuffle"
+
+#    url: "jdbc:mysql://localhost:3306/tt_Nsk"
+#    username: "admin"
+#    password: "qwertyuiop"
+
   liquibase:
     change-log: db/changelog/db.changelog-master.xml
 #  mvc:
@@ -27,8 +32,11 @@ spring:
 #    user:
 #      name: 'shuffle'
 #      password: 'shuffle'
+
 storage:
-  location: './storage'
+#  location: '/home/shuffle/java/storage'
+  location: 'C:\Users\79130\storage'
+# C:\Users\79130\Documents\java\command work
 
 servlet:
   multipart:
@@ -37,6 +45,7 @@ servlet:
     enabled: true
 
 server:
+#  hostname: site
   port: 8091
 
 

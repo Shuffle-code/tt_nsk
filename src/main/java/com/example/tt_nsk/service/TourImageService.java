@@ -115,11 +115,6 @@ public class TourImageService {
         Resource resource = loadAsResource(imageName);
         return ImageIO.read(resource.getFile());
     }
-//    public BufferedImage loadFileAsImageCaptcha() throws IOException {
-//        String imageName = "C:/Users/79130/IdeaProjects/gb-shop-may/./storage/products/captcha.png";
-//        Resource resource = loadAsResource(imageName);
-//        return ImageIO.read(resource.getFile());
-//    }
 
     public String uploadMultipleFilesByTourId(Long id) {
         return tourImageDao.findImageNameByTourId(id);

@@ -1,6 +1,4 @@
 package com.example.tt_nsk.controller;
-
-
 import com.example.tt_nsk.dao.security.ConfirmationCodeDao;
 import com.example.tt_nsk.dto.UserDto;
 import com.example.tt_nsk.entity.security.AccountUser;
@@ -28,8 +26,6 @@ public class AuthController {
     private final UserService userService;
     private final ConfirmationCodeDao confirmationCodeDao;
     private static UserDto thisUser;
-
-
 
     @GetMapping("/login")
     public String loginPage() {
@@ -87,6 +83,4 @@ public class AuthController {
 //        System.out.println(!code.equals(confirmationCodeBy_id.toString()));
         return "auth/registration-confirmation";
     }
-
-
 }

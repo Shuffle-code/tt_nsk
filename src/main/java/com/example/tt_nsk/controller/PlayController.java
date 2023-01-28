@@ -3,7 +3,10 @@ import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.entity.*;
 import com.example.tt_nsk.entity.enums.TourStatus;
 import com.example.tt_nsk.service.*;
+import com.mysql.cj.xdevapi.JsonArray;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -34,14 +38,19 @@ public class PlayController {
     private final TourImageService tourImageService;
     private final TourDao tourDao;
     Map<String, Scoring> resultTour;
+    List<String> list;
     String filename;
     private static final String path = "tours";
     @Value("${storage.location}")
     private String storagePath;
+
+    public List<Player> getAllActiveSortedByRating(){
+        return playerService.findAllActiveSortedByRating();
+    }
     @PostMapping("/count")
     public String scoringTour(Score score, Model model, HttpSession httpSession) {
         LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
-        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
+        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
         switch (allActiveSortedByRating.size()) {
             case 3:
                 tourController.createListPlayersTour(model, httpSession, allActiveSortedByRating);
@@ -77,11 +86,15 @@ public class PlayController {
                 tourController.createListFor13PlayersTour(model, httpSession, allActiveSortedByRating);
                 break;
         }
-        List<String> list = playService.arrayWithoutNull(playService.getListResultTour(score));
+        list = playService.arrayWithoutNull(playService.getListResultTour(score));
+
+
         score.setEndTour((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1));
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
-        System.out.println(score);
+//        System.out.println(score);
+//        JSONObject jsonObject = new JSONObject(score);
+//        System.out.println(jsonObject);
         resultTour = playService.getResultTour(list);
         playService.placePlayer(resultTour);
         model.addAttribute("legUp", legUp);
@@ -133,7 +146,7 @@ public class PlayController {
         Tour tour = new Tour();
         model.addAttribute("addressService", addressService);
         model.addAttribute("tour", tour);
-        filename = createScreenshot();
+        filename = createScreenshotMultipleScreens();
         return "tour/add-played-tour";
     }
 
@@ -142,21 +155,15 @@ public class PlayController {
     public String saveTourForPlayedTour(Tour tour, @RequestParam("files") MultipartFile[] files) {
         savePlayedTour(tour);
         savePlayersFromTour(resultTour);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(tour.getId().toString(), resultTour);
+        tour.setResultTour(jsonObject.toString());
+        tourDao.save(tour);
 //        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
         tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
-
         return "redirect:/tour/all";
     }
 
-//    @PostMapping("/save")
-//    @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
-//    public String saveTourForPlayedTour(Tour tour) {
-//        savePlayedTour(tour);
-//        savePlayersFromTour(resultTour);
-////        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
-////        tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
-//        return "redirect:/tour/all";
-//    }
 
     private void savePlayersFromTour(Map<String, Scoring> resultTour) {
         List<Scoring> listFromMap = playService.getListFromMap(resultTour);
@@ -173,10 +180,6 @@ public class PlayController {
         tour.setDate(new Date());
         tour.setStatus(TourStatus.FINISHED);
         tour.setPlayer(playerService.findById(playService.getIdFirstPlace(resultTour)));
-//        if (playService.getSizeArrayList(list) == playerService.findAllActiveSortedByRating().size()/playService.getSizeArrayList(list) + 1){
-//
-//            System.out.println(playerService.findAllActiveSortedByRating().size()/playService.getSizeArrayList(list) + 1);
-//        }
         saveScreenshot(tour);
         if (multipartFile != null && !multipartFile.isEmpty()) {
             String pathToSavedFile = tourImageService.save(multipartFile);
@@ -186,7 +189,6 @@ public class PlayController {
                     .build();
             tour.addImage(tourImage);
         }
-
         return tourDao.save(tour);
     }
     @Transactional
@@ -219,6 +221,31 @@ public class PlayController {
         return filename;
     }
 
+    public String createScreenshotMultipleScreens(){
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] screens = ge.getScreenDevices();
+        BufferedImage image;
+        String filename;
+        Rectangle allScreenBounds = new Rectangle();
+        for (GraphicsDevice screen : screens) {
+            Rectangle screenBounds = screen.getDefaultConfiguration().getBounds();
+            allScreenBounds.width += screenBounds.width;
+            allScreenBounds.height = Math.max(allScreenBounds.height, screenBounds.height);
+        }
+        try {
+            image = new Robot().createScreenCapture(new Rectangle(allScreenBounds));
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            filename = String.valueOf(UUID.randomUUID());
+            ImageIO.write(image, "png", new File(String.valueOf(Paths.get(storagePath).resolve(path).resolve(filename + ".png"))));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return filename;
+    }
+    
 }
 
 

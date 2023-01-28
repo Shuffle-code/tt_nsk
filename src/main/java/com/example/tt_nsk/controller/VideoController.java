@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/video")
 public class VideoController {
-
-
     @GetMapping
     public String rules() {
         return "video/video";

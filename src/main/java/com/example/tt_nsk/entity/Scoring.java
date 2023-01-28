@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityListeners;
+import javax.validation.constraints.Size;
 
 @Component
 @Setter
@@ -20,8 +21,10 @@ import javax.persistence.EntityListeners;
 public class Scoring {
     private int placePlayer;
     private int indexPlayer;
+//    @Size(max = 6)
     private double rating;
     private int set;
+//    @Size(max = 6)
     private double delta;
     private int setWin;
     private int countWin;

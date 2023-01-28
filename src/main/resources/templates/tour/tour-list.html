@@ -58,8 +58,25 @@
                 </td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Название</th>
+                <th scope="col">Адрес</th>
+                <th scope="col">Кол-во игроков</th>
+                <th scope="col">Победитель</th>
+                <th scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
+                <th scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</th>
+                <th scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</th>
+            </tr>
+            </tfoot>
         </table>
     </div>
+        <foot>
+            <br>
+            <br>
+        </foot>
     </div>
 </div>
 

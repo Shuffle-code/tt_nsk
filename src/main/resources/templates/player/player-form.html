@@ -65,11 +65,22 @@
         </div>
 
         <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="id_ttw">ID ttw</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" th:field="*{idTtw}">
+            </div>
+        </div>
+
+        <div sec:authorize="hasAuthority('player.create')" class="col-md-8">
+            <div class="input-group mb-3">
+            <span class="input-group-text" id="status">Статус</span>
             <select class="form-select" aria-label="Default select example" th:field="*{status}">
                 <option th:each="statusValue : ${T(com.example.tt_nsk.entity.enums.Status).values()}"
                         th:value="${statusValue.name()}"
                         th:text="${statusValue.title}"></option>
             </select>
+            </div>
         </div>
         <div sec:authorize="hasAuthority('player.read')">
         <input type="hidden" th:field="*{status}">
@@ -85,6 +96,10 @@
             <button class="btn btn-primary" type="submit">Сохранить</button>
         </div>
     </form>
+    <foot>
+        <br>
+        <br>
+    </foot>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
 </body>

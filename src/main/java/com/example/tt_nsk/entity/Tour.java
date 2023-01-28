@@ -59,6 +59,10 @@ public class Tour extends InfoEntity {
     @JoinColumn(name = "winner_id", referencedColumnName = "ID")
     private Player player;
 
+    @Column(name = "result_tour")
+//    @Convert(converter = JsonForListPlayersDao.class)
+    private String resultTour;
+
 
 //    @Override
 //    public String toString() {

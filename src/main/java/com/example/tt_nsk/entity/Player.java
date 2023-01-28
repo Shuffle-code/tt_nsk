@@ -15,6 +15,7 @@ import java.util.Objects;
 @Setter
 @Getter
 //@AllArgsConstructor
+//@RequiredArgsConstructor
 @NoArgsConstructor
 //@Builder
 //@Data
@@ -39,6 +40,9 @@ public class Player extends InfoEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
+
+    @Column(name = "id_ttwr")
+    private String idTtw;
 //    private String score;
 
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

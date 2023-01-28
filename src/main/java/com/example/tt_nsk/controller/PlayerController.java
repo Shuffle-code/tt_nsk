@@ -2,6 +2,7 @@ package com.example.tt_nsk.controller;
 
 import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.entity.Player;
+import com.example.tt_nsk.service.JsonFromXmlServer;
 import com.example.tt_nsk.service.PlayerImageService;
 import com.example.tt_nsk.service.PlayerService;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,18 +33,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/player")
 public class PlayerController {
-
     private final PlayerService playerService;
     private final PlayerDao playerDao;
     private final PlayerImageService playerImageService;
-
-
+    private final JsonFromXmlServer jsonFromXmlServer;
 
     @GetMapping("/all")
-    public String getPlayerList(Model model, HttpSession httpSession) {
+    public String getPlayerList(Model model, HttpSession httpSession) throws XPathExpressionException, ParserConfigurationException, IOException, SAXException {
+//        System.out.println(playerService.getIdTtw());
+//        System.out.println(jsonFromXmlServer.getDataPlayersTtwByIdTtw());
+//        System.out.println(jsonFromXmlServer.printMap());
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("players", playerService.addListForMainPage());
+
         return "player/players-list";
     }
 
@@ -113,7 +120,6 @@ public class PlayerController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return new byte[]{};
     }
     @PreAuthorize("hasAnyAuthority('player.read') || isAnonymous()")

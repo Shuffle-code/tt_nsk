@@ -80,33 +80,16 @@ public class PlayerService {
         return playerDao.save(player);
     }
 
-//    public PlayerDto save(PlayerDto playerDto) {
-//        Player player = playerMapper.toPlayer(playerDto);
-////        Product productFromDB = productDao.getById(productDto.getId()); // todo при создании нового продукта id=null
-////        if (productFromDB != null && !productDto.getCost().equals(productFromDB.getCost())) sendMessage(productDto);
-////        if (player.getId() != null) {
-////            playerDao.findById(playerDto.getId()).ifPresent(
-////                    (p) -> player.setVersion(p.getVersion())
-////            );
-////        }
-////        if (multipartFile != null && !multipartFile.isEmpty()) {
-////            String pathToSavedFile = productImageService.save(multipartFile);
-////            ProductImage productImage = ProductImage.builder()
-////                    .path(pathToSavedFile)
-////                    .product(product)
-////                    .build();
-////            product.addImage(productImage);
-////        }
-//
-//        return playerMapper.toPlayerDto(playerDao.save(player));
-//    }
-
-
 
     @Transactional
     public Player save(final Player player) {
         return save(player, (MultipartFile) null);
     }
+
+    public List<String> getIdTtw(){
+        return playerDao.getIdTtw();
+    }
+
 
     public List<Player> findAll() {
         return playerDao.findAll();
