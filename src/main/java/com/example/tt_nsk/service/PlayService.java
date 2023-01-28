@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -32,14 +35,6 @@ public class PlayService {
         }
         return ratingList;
     }
-//
-//    public int[] getNumberFromScore(String scoreString) {
-//        String[] split = scoreString.split("/[., /;:*-]/");
-//        int num1 = Integer.parseInt(split[0]);
-//        int num2 = Integer.parseInt(split[1]);
-//        int[] arrInt = {num1, num2};
-//        return arrInt;
-//    }
 
     public List<String> arrayWithoutNull(ArrayList<String> arrayResult){
         List<String> withoutNull = new ArrayList();
@@ -170,6 +165,7 @@ public class PlayService {
         scoringCurrent.setCountWin(scoringCurrent.getCountWin() + sumWin(getNumbersFromScoreForArray(split)));
         scoringCurrent.setIndexPlayer(Integer.parseInt(split[1]));
         scoringMap.put(String.valueOf(i - 1), scoringCurrent);
+//        System.out.println(scoringMap);
     }
 
     public List<Player> getAllActiveSortedByRating(){
@@ -252,7 +248,14 @@ public class PlayService {
         }else if ((ratingPlayerLowRating - ratingPlayerHighRating ) > 200) {
             delta = 0.0;
         }else delta = (-(200 - ratingPlayerLowRating + ratingPlayerHighRating)/10 * coefficientTour);
-        return delta;
+//        DecimalFormat df = new DecimalFormat("#,##");
+//        System.out.println(Math.floor(delta * 100)/100);
+//        BigDecimal bd = new BigDecimal(delta).setScale(2, RoundingMode.HALF_EVEN);
+        return Math.floor(delta * 100)/100;
+
+
+//        return Math.floor(delta * 100)/100.0d;
+//        return Double.valueOf(df.format(delta));
     }
 
     public String scoringLegUp (Double ratingPlayerHighRating, Double ratingPlayerLowRating){
