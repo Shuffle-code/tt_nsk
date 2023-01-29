@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset liquibase:65ed3160-fc37-4017-8f2b-6146ef538c85
 
-create table tournament
+create table IF NOT EXISTS tournament
 (
     id                 bigint auto_increment
         primary key,

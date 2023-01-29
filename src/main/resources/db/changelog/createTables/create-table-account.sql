@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset liquibase:f3d86be1-f8b0-4f87-b2de-28f842441670
 
-create table account_role
+create table IF NOT EXISTS account_role
 (
     ID   bigint auto_increment
         primary key,

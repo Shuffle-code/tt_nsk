@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset liquibase:b48c7f29-87a2-4a12-a895-ab4ade77dd90
 
-create table player
+create table IF NOT EXISTS player
 (
     id                 bigint auto_increment
         primary key,

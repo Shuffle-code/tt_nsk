@@ -1,7 +1,7 @@
 --liquibase formatted sql
 --changeset liquibase:c1f6d282-5939-4d3f-b4f9-83cdf1d66c60
 
-CREATE TABLE `address` (
+CREATE TABLE IF NOT EXISTS `address` (
                            `ID` bigint NOT NULL AUTO_INCREMENT,
                            `country` varchar(512) DEFAULT NULL,
                            `city` varchar(512) NOT NULL,

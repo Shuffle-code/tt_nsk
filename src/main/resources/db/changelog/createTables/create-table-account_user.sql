@@ -1,6 +1,6 @@
 --liquibase formatted sql
 --changeset liquibase:8fc07d28-73d6-433b-b16e-e0c0326c9326
-CREATE TABLE `account_user` (
+CREATE TABLE IF NOT EXISTS `account_user` (
                                 `ID` bigint NOT NULL AUTO_INCREMENT,
                                 `username` varchar(255) NOT NULL,
                                 `password` varchar(255) NOT NULL,
