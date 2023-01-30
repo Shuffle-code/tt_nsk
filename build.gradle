@@ -50,6 +50,7 @@ dependencies {
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '4.0.1'
 // https://mvnrepository.com/artifact/javax.xml/jaxb-impl
 	implementation group: 'javax.xml', name: 'jaxb-impl', version: '2.1'
+	implementation 'org.liquibase:liquibase-core:4.7.1'
 
 
 
