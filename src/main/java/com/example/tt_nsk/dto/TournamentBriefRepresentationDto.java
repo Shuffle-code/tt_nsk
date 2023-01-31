@@ -1,7 +1,6 @@
 package com.example.tt_nsk.dto;
 
 import com.example.tt_nsk.entity.Address;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import java.sql.Date;
 @Data
 @Getter
 @Setter
-public class UpcomingTournamentDto {
+public class TournamentBriefRepresentationDto {
 
     private Long id;
     private String title;

@@ -19,7 +19,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
         #default_schema: nsk_tt1
     generate-ddl: false
     #database-platform: nsk_tt1
