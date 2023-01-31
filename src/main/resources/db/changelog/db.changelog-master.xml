@@ -50,9 +50,9 @@
 
        <include
                file="db/changelog/fillTables/fill-table-player_image.xml"/>
-    <!--
+
        <include
-               file="db/changelog/fillTables/fill-table-role_authority.xml
+               file="db/changelog/fillTables/fill-table-role_authority.xml"/>
        <include
                file="db/changelog/fillTables/fill-table-tournament.xml"/>
 
@@ -61,6 +61,6 @@
 
       <include
               file="db/changelog/fillTables/fill-table-user_role.xml"/>
-   -->
+
 
 </databaseChangeLog> 

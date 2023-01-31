@@ -32,7 +32,6 @@ spring:
     username: "root"
     password: "root"
 
-
   #liquibase:
 
 

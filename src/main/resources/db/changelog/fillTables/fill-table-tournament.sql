@@ -128,8 +128,4 @@ VALUES (3, 'ЦУМ 2022', '2022-07-06', 2, 1, 13, 5, 'admin', '2022-09-14 07:52:
         'FINISHED',
         '{\"90\":{\"0\":{\"idPlayer\":22,\"set\":17,\"rating\":758.4499999999999,\"delta\":-3.0399999999999996,\"setWin\":10,\"deltaWinLoss\":3,\"placePlayer\":2,\"indexPlayer\":1,\"countWin\":3},\"1\":{\"idPlayer\":31,\"set\":21,\"rating\":672.55,\"delta\":-2.38,\"setWin\":11,\"deltaWinLoss\":1,\"placePlayer\":3,\"indexPlayer\":2,\"countWin\":2},\"2\":{\"idPlayer\":8,\"set\":20,\"rating\":632.87,\"delta\":-6.859999999999999,\"setWin\":9,\"deltaWinLoss\":-2,\"placePlayer\":4,\"indexPlayer\":3,\"countWin\":1},\"3\":{\"idPlayer\":20,\"set\":20,\"rating\":630.77,\"delta\":20.04,\"setWin\":12,\"deltaWinLoss\":4,\"placePlayer\":1,\"indexPlayer\":4,\"countWin\":4},\"4\":{\"idPlayer\":28,\"set\":18,\"rating\":561.7700000000001,\"delta\":-7.85,\"setWin\":6,\"deltaWinLoss\":-6,\"placePlayer\":5,\"indexPlayer\":5,\"countWin\":0}}}');
 
---rollback DELETE from `tournament` WHERE id IN (
-3,4,5,8,9,17,21,32,34,35,38,40,42,43,44,51,53,54,
-55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,
-71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,
-87,88,89,90);
+--rollback DELETE from `tournament` WHERE id IN (3,4,5,8,9,17,21,32,34,35,38,40,42,43,44,51,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90);
