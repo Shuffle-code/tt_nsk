@@ -13,15 +13,26 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.schema.Model;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+@Api
 @RestController
 @AllArgsConstructor
-@RequestMapping("/enroll")
+@RequestMapping("/upcomingTournaments")
 @Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры")
 public class EnrollTournament {
 
@@ -30,7 +41,7 @@ public class EnrollTournament {
     private final ModelMapper modelMapper;
 
     @Operation(summary = "Получение списка предстоящих турниров")
-    @GetMapping(value = "/upcomingTournaments")
+    @GetMapping(value = "/all")
     public List<TournamentBriefRepresentationDto> getUpcomingTournaments() {
         Date date = new Date(System.currentTimeMillis());
         List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
@@ -45,21 +56,39 @@ public class EnrollTournament {
     @Operation(summary = "Получение списка турниров, на которые записан игрок")
     @GetMapping(value = "/tournaments/{playerId}")
     public Iterable<PlayerTournament> getTournamentsByPlayerId(
-            @Parameter(name = "playerId", description = "ID игрока", example = "1") Long playerId) {
+            @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable(name = "playerId") Long playerId) {
         return playerTournamentRepo.findAllByPlayerId(playerId);
 
     }
 
     @Operation(summary = "Зарегистрировать игрока на турнир")
-    @PutMapping(value = "/tournaments/{playerId}/{tournamentId}")
-    public Iterable<PlayerTournament> enrollTournament(
-            @Parameter(name = "playerId", description = "ID игрока", example = "1") Long playerId,
-            @Parameter(name = "tournamentId", description = "ID турнира", example = "89") Long tournamentId)
-    {
-        return playerTournamentRepo.findAll();
+    @RequestMapping(path = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<PlayerTournament>> enrollTournament(
+            @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
+            @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
+
+    ) {
+            PlayerTournament playerTournament = new PlayerTournament(playerId, tournamentId);
+            try {
+                playerTournamentRepo.save(playerTournament);
+            } catch (org.springframework.dao.DataIntegrityViolationException exception) {
+                return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.UNPROCESSABLE_ENTITY);
+            }
+           playerTournamentRepo.findAllByPlayerId(playerId);
+            return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.CREATED);
 
     }
 
+    @Operation(summary = "Зарегистрировать игрока на турнир")
+    @RequestMapping(path = "/disenroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
+    public Iterable<PlayerTournament> disenrollTournament(
+            @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
+            @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
 
+    ) {
+            playerTournamentRepo.disenroll(playerId, tournamentId);
+        return playerTournamentRepo.findAllByPlayerId(playerId);
+
+    }
 
 }
