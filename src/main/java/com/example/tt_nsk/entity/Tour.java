@@ -44,6 +44,7 @@ public class Tour extends InfoEntity {
     private Address address;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tour")
     private List<TourImage> images;
+
     public void addImage(TourImage tourImage) {
         if (images == null) {
             images = new ArrayList<>();
