@@ -54,11 +54,20 @@
                     <td th:text="${tour.title}"></td>
                     <td th:text="${tour.address.getCity()}"></td>
                     <td sec:authorize="!isAnonymous()">
-                        <a type="button"  th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}" class="btn btn-warning">Зарегистрироваться</a>
+                        <a  type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
+                            class="btn btn-warning">Зарегистрироваться</a>
                     </td>
 
+                    <!--<form action="#" th:action="@{'/books/delete/{id}'(id=${book.id})}" th:method="delete" >
+    <button type="submit" class="btn">
+        Delete
+    </button>
+</form>
+-->
+
                     <td sec:authorize="!isAnonymous()">
-                        <a type="button"  th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}" class="btn btn-warning">Сняться с турнира</a>
+                        <a type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
+                           class="btn btn-warning">Сняться с турнира</a>
                     </td>
 
                     <!--

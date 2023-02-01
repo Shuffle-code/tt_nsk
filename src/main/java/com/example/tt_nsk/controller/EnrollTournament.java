@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityResult;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.*;
@@ -51,8 +52,7 @@ public class EnrollTournament {
     }
 
     @Operation(summary = "Зарегистрировать игрока на турнир")
-    @RequestMapping(path = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
-    //@ResponseBody
+    @RequestMapping(value = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
     public String enrollTournament(HttpSession httpSession, Model model,
             @Parameter(name = "playerId", description = "ID игрока", example = "2") @PathVariable Long playerId,
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
@@ -70,7 +70,7 @@ public class EnrollTournament {
     }
 
     @Operation(summary = "Снять игрока с турнира")
-    @GetMapping(path = "/disenroll/{playerId}/{tournamentId}")
+    @GetMapping("/disenroll/{playerId}/{tournamentId}")
     //@ResponseBody
     public String disenrollTournament(HttpSession httpSession, Model model,
             @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
