@@ -55,8 +55,12 @@
                     <td th:text="${tour.address.getCity()}"></td>
                     <td sec:authorize="!isAnonymous()">
                         <a type="button"  th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}" class="btn btn-warning">Зарегистрироваться</a>
-                        <a type="button"  th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}" class="btn btn-warning">Сняться с турнира</a>
                     </td>
+
+                    <td sec:authorize="!isAnonymous()">
+                        <a type="button"  th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}" class="btn btn-warning">Сняться с турнира</a>
+                    </td>
+
                     <!--
                     <td th:text="${tour.address.getStreet}"></td>
                     <td th:text="${'играли: ' + tour.amountPlayers}"></td>

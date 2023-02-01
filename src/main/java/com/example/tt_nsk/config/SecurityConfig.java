@@ -21,7 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 //(requests) -> {
-                .antMatchers(HttpMethod.PUT, "/upcomingTournaments/disenroll").permitAll()
+                .antMatchers(HttpMethod.PUT, "/upcomingTournaments/enroll/").permitAll()
+                .antMatchers(HttpMethod.PUT, "/upcomingTournaments/disenroll/").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("//api/v1/player").permitAll()
 //                    requests.antMatchers(HttpMethod.GET, "/player").hasRole("ADMIN");

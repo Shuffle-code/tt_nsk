@@ -7,25 +7,17 @@ import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.PlayerTournament;
 import io.swagger.annotations.*;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.*;
@@ -44,19 +36,7 @@ public class EnrollTournament {
     @Operation(summary = "Получение списка предстоящих турниров")
     @GetMapping(value = "/all")
     public String getUpcomingTournaments(HttpSession httpSession, Model model) {
-        Date date = new Date(System.currentTimeMillis());
-        List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
-        List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
-        upcomingTours.forEach(tour -> {
-            tournamentBriefRepresentationDtoList.add(modelMapper.map(tour, TournamentBriefRepresentationDto.class));
-        });
-        Optional.ofNullable((AccountUser) httpSession.getAttribute("user"))
-                .ifPresent(accountUser -> {
-                    model.addAttribute("playerId", accountUser.getId());
-                });
-
-        model.addAttribute("tours", tournamentBriefRepresentationDtoList);
-
+        model = createModel(httpSession, model);
         return "/tour/upcoming-tours.html";
 
     }
@@ -72,8 +52,8 @@ public class EnrollTournament {
 
     @Operation(summary = "Зарегистрировать игрока на турнир")
     @RequestMapping(path = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<Iterable<PlayerTournament>> enrollTournament(
+    //@ResponseBody
+    public String enrollTournament(HttpSession httpSession, Model model,
             @Parameter(name = "playerId", description = "ID игрока", example = "2") @PathVariable Long playerId,
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
 
@@ -82,24 +62,48 @@ public class EnrollTournament {
         try {
             playerTournamentRepo.save(playerTournament);
         } catch (org.springframework.dao.DataIntegrityViolationException exception) {
-            return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.UNPROCESSABLE_ENTITY).toString();
         }
-        playerTournamentRepo.findAllByPlayerId(playerId);
-        return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.CREATED);
+        model = createModel(httpSession, model);
+        return "/tour/upcoming-tours.html";
 
     }
 
     @Operation(summary = "Снять игрока с турнира")
-    @PutMapping(path = "/disenroll/{playerId}/{tournamentId}")
-    @ResponseBody
-    public Iterable<PlayerTournament> disenrollTournament(
+    @GetMapping(path = "/disenroll/{playerId}/{tournamentId}")
+    //@ResponseBody
+    public String disenrollTournament(HttpSession httpSession, Model model,
             @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
 
     ) {
         playerTournamentRepo.disenroll(playerId, tournamentId);
-        return playerTournamentRepo.findAllByPlayerId(playerId);
+        List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = createTournamentBriefRepresentationDtoList();
+        model = createModel(httpSession, model);
+        return "/tour/upcoming-tours.html";
 
     }
+
+    private Model createModel(HttpSession httpSession, Model model) {
+        List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = createTournamentBriefRepresentationDtoList();
+        Optional.ofNullable((AccountUser) httpSession.getAttribute("user"))
+                .ifPresent(accountUser -> {
+                    model.addAttribute("playerId", accountUser.getId());
+                });
+        model.addAttribute("tours", tournamentBriefRepresentationDtoList);
+        return model;
+    }
+
+    private List<TournamentBriefRepresentationDto> createTournamentBriefRepresentationDtoList() {
+        Date date = new Date(System.currentTimeMillis());
+        List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
+        List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
+        upcomingTours.forEach(tour -> {
+            tournamentBriefRepresentationDtoList.add(modelMapper.map(tour, TournamentBriefRepresentationDto.class));
+        });
+
+        return tournamentBriefRepresentationDtoList;
+    }
+
 
 }
