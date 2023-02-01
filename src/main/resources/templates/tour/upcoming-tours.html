@@ -19,6 +19,9 @@
     <div th:unless="${tours.size() == 0}">
         <div class="p-1 text-center bg-light">
             <h2>Предстоящие турниры</h2>
+            <td sec:authorize="isAnonymous()">
+                <h4>Чтобы принять участие в турнире, необходимо войти в систему под своим именем</h4>
+            </td>
         </div>
         <!--
         <div class="input-group">
@@ -50,8 +53,9 @@
                     <td th:text="${tour.date}"></td>
                     <td th:text="${tour.title}"></td>
                     <td th:text="${tour.address.getCity()}"></td>
-                    <td>
+                    <td sec:authorize="!isAnonymous()">
                         <a type="button"  th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}" class="btn btn-warning">Зарегистрироваться</a>
+                        <a type="button"  th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}" class="btn btn-warning">Сняться с турнира</a>
                     </td>
                     <!--
                     <td th:text="${tour.address.getStreet}"></td>
