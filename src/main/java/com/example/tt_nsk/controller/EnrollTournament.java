@@ -4,6 +4,7 @@ import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.dto.TournamentBriefRepresentationDto;
 import com.example.tt_nsk.entity.Tour;
+import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.PlayerTournament;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -27,9 +28,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Api
 @Controller
@@ -44,15 +43,20 @@ public class EnrollTournament {
 
     @Operation(summary = "Получение списка предстоящих турниров")
     @GetMapping(value = "/all")
-    public String getUpcomingTournaments(Model model) {
+    public String getUpcomingTournaments(HttpSession httpSession, Model model) {
         Date date = new Date(System.currentTimeMillis());
         List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
         List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
         upcomingTours.forEach(tour -> {
             tournamentBriefRepresentationDtoList.add(modelMapper.map(tour, TournamentBriefRepresentationDto.class));
         });
+        Optional.ofNullable((AccountUser) httpSession.getAttribute("user"))
+                .ifPresent(accountUser -> {
+                    model.addAttribute("playerId", accountUser.getId());
+                });
+
         model.addAttribute("tours", tournamentBriefRepresentationDtoList);
-        model.addAttribute("playerId", 1);
+
         return "/tour/upcoming-tours.html";
 
     }
@@ -70,18 +74,18 @@ public class EnrollTournament {
     @RequestMapping(path = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Iterable<PlayerTournament>> enrollTournament(
-            @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
+            @Parameter(name = "playerId", description = "ID игрока", example = "2") @PathVariable Long playerId,
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
 
     ) {
-            PlayerTournament playerTournament = new PlayerTournament(playerId, tournamentId);
-            try {
-                playerTournamentRepo.save(playerTournament);
-            } catch (org.springframework.dao.DataIntegrityViolationException exception) {
-                return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.UNPROCESSABLE_ENTITY);
-            }
-           playerTournamentRepo.findAllByPlayerId(playerId);
-            return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.CREATED);
+        PlayerTournament playerTournament = new PlayerTournament(playerId, tournamentId);
+        try {
+            playerTournamentRepo.save(playerTournament);
+        } catch (org.springframework.dao.DataIntegrityViolationException exception) {
+            return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        playerTournamentRepo.findAllByPlayerId(playerId);
+        return new ResponseEntity<>(playerTournamentRepo.findAllByPlayerId(playerId), HttpStatus.CREATED);
 
     }
 
@@ -93,7 +97,7 @@ public class EnrollTournament {
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
 
     ) {
-            playerTournamentRepo.disenroll(playerId, tournamentId);
+        playerTournamentRepo.disenroll(playerId, tournamentId);
         return playerTournamentRepo.findAllByPlayerId(playerId);
 
     }
