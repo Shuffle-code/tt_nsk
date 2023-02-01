@@ -17,20 +17,22 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.schema.Model;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Api
-@RestController
+@Controller
 @AllArgsConstructor
 @RequestMapping("/upcomingTournaments")
 @Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры")
@@ -42,19 +44,22 @@ public class EnrollTournament {
 
     @Operation(summary = "Получение списка предстоящих турниров")
     @GetMapping(value = "/all")
-    public List<TournamentBriefRepresentationDto> getUpcomingTournaments() {
+    public String getUpcomingTournaments(Model model) {
         Date date = new Date(System.currentTimeMillis());
         List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
         List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
         upcomingTours.forEach(tour -> {
             tournamentBriefRepresentationDtoList.add(modelMapper.map(tour, TournamentBriefRepresentationDto.class));
         });
-        return tournamentBriefRepresentationDtoList;
+        model.addAttribute("tours", tournamentBriefRepresentationDtoList);
+        model.addAttribute("playerId", 1);
+        return "/tour/upcoming-tours.html";
 
     }
 
     @Operation(summary = "Получение списка турниров, на которые записан игрок")
     @GetMapping(value = "/tournaments/{playerId}")
+    @ResponseBody
     public Iterable<PlayerTournament> getTournamentsByPlayerId(
             @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable(name = "playerId") Long playerId) {
         return playerTournamentRepo.findAllByPlayerId(playerId);
@@ -63,6 +68,7 @@ public class EnrollTournament {
 
     @Operation(summary = "Зарегистрировать игрока на турнир")
     @RequestMapping(path = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
+    @ResponseBody
     public ResponseEntity<Iterable<PlayerTournament>> enrollTournament(
             @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
@@ -79,8 +85,9 @@ public class EnrollTournament {
 
     }
 
-    @Operation(summary = "Зарегистрировать игрока на турнир")
-    @RequestMapping(path = "/disenroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
+    @Operation(summary = "Снять игрока с турнира")
+    @PutMapping(path = "/disenroll/{playerId}/{tournamentId}")
+    @ResponseBody
     public Iterable<PlayerTournament> disenrollTournament(
             @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId

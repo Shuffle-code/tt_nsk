@@ -43,7 +43,7 @@ public class OpenApiConfig {
 
     @Bean
     Contact contact() {
-        return new Contact().email("incoming34@yandex.ru").name("Евгений Малюгин");
+        return new Contact().email("shuffle2149@gmail.com").name("Евгений Малюгин");
     }
 
 }

@@ -19,19 +19,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests(
-                (requests) -> {
-                    requests.antMatchers("/").permitAll();
-                    requests.antMatchers("//api/v1/player").permitAll();
+        http.authorizeRequests()
+                //(requests) -> {
+                .antMatchers(HttpMethod.PUT, "/upcomingTournaments/disenroll").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("//api/v1/player").permitAll()
 //                    requests.antMatchers(HttpMethod.GET, "/player").hasRole("ADMIN");
-                    requests.antMatchers(HttpMethod.GET, "/player").hasAnyAuthority("player.create", "player.update", "player.read");
+                .antMatchers(HttpMethod.GET, "/player").hasAnyAuthority("player.create", "player.update", "player.read")
 //                    requests.antMatchers(HttpMethod.POST, "/player").hasRole("ADMIN");
-                    requests.antMatchers(HttpMethod.POST, "/player").hasAnyAuthority("player.create", "player.update", "player.read");
+                .antMatchers(HttpMethod.POST, "/player").hasAnyAuthority("player.create", "player.update", "player.read")
 //                    requests.antMatchers(HttpMethod.POST, "/tour").hasRole("ADMIN");
 //                    requests.antMatchers(HttpMethod.GET, "/tour").hasRole("ADMIN");
-                    requests.mvcMatchers(HttpMethod.GET, "/player/{playerId}").permitAll();
-                }
-        );
+                .mvcMatchers(HttpMethod.GET, "/player/{playerId}").permitAll()
+                .and().csrf().disable()
+        ;
+        //}
+        // );
 
         http.exceptionHandling().accessDeniedPage("/access-denied");
         http.formLogin()
