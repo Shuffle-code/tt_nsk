@@ -38,7 +38,7 @@
                     <th scope="col">Дата</th>
                     <th scope="col">Название</th>
                     <th scope="col">Город</th>
-                    <th scope="col">Регистр</th>
+                    <th sec:authorize="!isAnonymous()" scope="col">Регистр</th>
                 </tr>
                 </thead>
 
@@ -48,20 +48,18 @@
                     <td th:text="${tour.date}"></td>
                     <td th:text="${tour.title}"></td>
                     <td th:text="${tour.address.getCity()}"></td>
-                    <td th:text="${tour.registered}">
+                    <td sec:authorize="!isAnonymous()" th:text="${tour.registered}">
 
                     </td>
-<td sec:authorize="!isAnonymous()">
-    <a th:if="${tour.registered == false}"
-       type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
-       class="btn btn-warning">Зарегистрироваться</a>
-    <a th:if="${tour.registered == true}"
-       type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
-       class="btn btn-warning">Сняться с турнира</a>
+                    <td sec:authorize="!isAnonymous()">
+                        <a th:if="${tour.registered == false}"
+                           type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
+                           class="btn btn-warning">Зарегистрироваться</a>
+                        <a th:if="${tour.registered == true}"
+                           type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
+                           class="btn btn-warning">Сняться с турнира</a>
 
-</td>
-
-
+                    </td>
 
 
                     <!--
