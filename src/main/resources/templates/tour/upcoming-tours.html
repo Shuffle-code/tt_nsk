@@ -42,19 +42,23 @@
                     <td th:text="${tour.date}"></td>
                     <td th:text="${tour.title}"></td>
                     <td th:text="${tour.address.getCity()}"></td>
+
                     <td sec:authorize="!isAnonymous()">
+                        <a th:if="${tour.registered == true}">
 
-                        <div
-                    th:text="${tour.registered}">
-                </div>
-
-
-
-
-
+                            <img
+                                    th:src="${(session.user == null)} ? '' : '/player/image/' + ${session.user.getPlayer().getId()}"
+                                    class="rounded-circle"
+                                    height="40"
+                                    loading="lazy"
+                            />
+                        </a>
 
                     </td>
+
+
                     <td sec:authorize="!isAnonymous()">
+
                         <a th:if="${tour.registered == false}"
                            type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
                            class="btn btn-warning">Зарегистрироваться</a>
