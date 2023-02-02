@@ -18,10 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityResult;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Api
 @Controller
@@ -45,17 +45,17 @@ public class EnrollTournament {
     @Operation(summary = "Получение списка турниров, на которые записан игрок")
     @GetMapping(value = "/tournaments/{playerId}")
     @ResponseBody
-    public Iterable<PlayerTournament> getTournamentsByPlayerId(
+    public List<PlayerTournament> getTournamentsByPlayerId(
             @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable(name = "playerId") Long playerId) {
-        return playerTournamentRepo.findAllByPlayerId(playerId);
+        return (List<PlayerTournament>) playerTournamentRepo.findAllByPlayerId(playerId);
 
     }
 
     @Operation(summary = "Зарегистрировать игрока на турнир")
     @RequestMapping(value = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
     public String enrollTournament(HttpSession httpSession, Model model,
-            @Parameter(name = "playerId", description = "ID игрока", example = "2") @PathVariable Long playerId,
-            @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
+                                   @Parameter(name = "playerId", description = "ID игрока", example = "2") @PathVariable Long playerId,
+                                   @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
 
     ) {
         PlayerTournament playerTournament = new PlayerTournament(playerId, tournamentId);
@@ -73,25 +73,43 @@ public class EnrollTournament {
     @GetMapping("/disenroll/{playerId}/{tournamentId}")
     //@ResponseBody
     public String disenrollTournament(HttpSession httpSession, Model model,
-            @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
-            @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
+                                      @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
+                                      @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
 
     ) {
         playerTournamentRepo.disenroll(playerId, tournamentId);
-        List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = createTournamentBriefRepresentationDtoList();
         model = createModel(httpSession, model);
         return "/tour/upcoming-tours.html";
 
     }
 
     private Model createModel(HttpSession httpSession, Model model) {
-        List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = createTournamentBriefRepresentationDtoList();
-        Optional.ofNullable((AccountUser) httpSession.getAttribute("user"))
-                .ifPresent(accountUser -> {
-                    model.addAttribute("playerId", accountUser.getId());
-                });
-        model.addAttribute("tours", tournamentBriefRepresentationDtoList);
+        Optional<AccountUser> accountUserOptional = Optional.ofNullable((AccountUser) httpSession.getAttribute("user"));
+        if (accountUserOptional.isEmpty()) {
+            model.addAttribute("tours", createTournamentBriefRepresentationDtoList());
+        }
+        accountUserOptional.ifPresent(accountUser -> {
+            model.addAttribute("playerId", accountUser.getId());
+            model.addAttribute("tours", createTournamentBriefRepresentationDtoList(accountUser.getId()));
+        });
         return model;
+    }
+
+    private List<TournamentBriefRepresentationDto> createTournamentBriefRepresentationDtoList(long playerId) {
+        Date date = new Date(System.currentTimeMillis());
+        List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
+        List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
+        List<Long> registeredTournaments = compileTournamentRegistration(playerId);
+        upcomingTours.forEach(tour -> {
+            TournamentBriefRepresentationDto tournamentBriefRepresentationDto = modelMapper.map(tour, TournamentBriefRepresentationDto.class);
+            if (registeredTournaments.contains(tournamentBriefRepresentationDto.getId())) {
+                tournamentBriefRepresentationDto.setRegistered(true);
+            }
+            tournamentBriefRepresentationDtoList.add(tournamentBriefRepresentationDto);
+
+        });
+
+        return tournamentBriefRepresentationDtoList;
     }
 
     private List<TournamentBriefRepresentationDto> createTournamentBriefRepresentationDtoList() {
@@ -103,6 +121,13 @@ public class EnrollTournament {
         });
 
         return tournamentBriefRepresentationDtoList;
+    }
+
+
+    private List<Long> compileTournamentRegistration(Long playerId) {
+        return getTournamentsByPlayerId(playerId).stream()
+                .map(playerTournament -> playerTournament.getTournamentId()).collect(Collectors.toList());
+
     }
 
 
