@@ -33,8 +33,10 @@
             file="db/changelog/createTables/create-table-tour_image.xml"/>
     <include
             file="db/changelog/createTables/create-table-user_role.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-user_tournament.xml"/>
 
-
+                    <!-- =====> наполнение таблиц <===== -->
     <include
             file="db/changelog/fillTables/fill-table-account_role.xml"/>
     <include
