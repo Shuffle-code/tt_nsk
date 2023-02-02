@@ -50,24 +50,33 @@
                     <td th:text="${tour.address.getCity()}"></td>
                     <td th:text="${tour.registered}">
 
-
-
-
                     </td>
+<td sec:authorize="!isAnonymous()">
+    <a th:if="${tour.registered == false}"
+       type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
+       class="btn btn-warning">Зарегистрироваться</a>
+    <a th:if="${tour.registered == true}"
+       type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
+       class="btn btn-warning">Сняться с турнира</a>
+
+</td>
 
 
 
-                   <!-- <img src="../resources/pictograms/tick.jpg">-->
-                    <!--th:src="${(session.user == null)} ? '' : '/player/image/' + ${session.user.getPlayer().getId()}"-->
+
+                    <!--
 
                     <td sec:authorize="!isAnonymous()">
-                        <a type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
+                        <a th:if="${tour.registered == false}"
+                                type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
                            class="btn btn-warning">Зарегистрироваться</a>
-                    </td>
+
                     <td sec:authorize="!isAnonymous()">
-                        <a type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
+                        <a th:if="${tour.registered == true}"
+                                type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
                            class="btn btn-warning">Сняться с турнира</a>
                     </td>
+                    -->
 
                 </tr>
                 </tbody>
