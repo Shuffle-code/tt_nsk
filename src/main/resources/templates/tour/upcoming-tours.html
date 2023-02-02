@@ -23,13 +23,6 @@
                 <h4>Чтобы принять участие в турнире, необходимо войти в систему под своим именем</h4>
             </td>
         </div>
-        <!--
-        <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Введите дату турнира" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-primary">Поиск</button>
-        </div>
-        -->
-
         <div>
             <table class="table table-striped">
                 <thead class="bg-light">
@@ -38,7 +31,8 @@
                     <th scope="col">Дата</th>
                     <th scope="col">Название</th>
                     <th scope="col">Город</th>
-                    <th sec:authorize="!isAnonymous()" scope="col">Регистр</th>
+                    <th sec:authorize="!isAnonymous()" scope="col">Участие</th>
+                    <th sec:authorize="!isAnonymous()" scope="col">Действие</th>
                 </tr>
                 </thead>
 
@@ -48,7 +42,16 @@
                     <td th:text="${tour.date}"></td>
                     <td th:text="${tour.title}"></td>
                     <td th:text="${tour.address.getCity()}"></td>
-                    <td sec:authorize="!isAnonymous()" th:text="${tour.registered}">
+                    <td sec:authorize="!isAnonymous()">
+
+                        <div
+                    th:text="${tour.registered}">
+                </div>
+
+
+
+
+
 
                     </td>
                     <td sec:authorize="!isAnonymous()">
@@ -60,36 +63,12 @@
                            class="btn btn-warning">Сняться с турнира</a>
 
                     </td>
-
-
-                    <!--
-
-                    <td sec:authorize="!isAnonymous()">
-                        <a th:if="${tour.registered == false}"
-                                type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
-                           class="btn btn-warning">Зарегистрироваться</a>
-
-                    <td sec:authorize="!isAnonymous()">
-                        <a th:if="${tour.registered == true}"
-                                type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
-                           class="btn btn-warning">Сняться с турнира</a>
-                    </td>
-                    -->
-
                 </tr>
                 </tbody>
 
                 <tfoot>
                 </tfoot>
             </table>
-            <!--
-        </div>
-
-        <foot>
-            <br>
-            <br>
-        </foot>
-    -->
         </div>
 
     </div>
