@@ -46,12 +46,15 @@ dependencies {
 	implementation group: 'jaxen', name: 'jaxen', version: '2.0.0'
 	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 	implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
-// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core
+	// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '4.0.1'
-// https://mvnrepository.com/artifact/javax.xml/jaxb-impl
+	// https://mvnrepository.com/artifact/javax.xml/jaxb-impl
 	implementation group: 'javax.xml', name: 'jaxb-impl', version: '2.1'
 	implementation 'org.liquibase:liquibase-core:4.7.1'
 	implementation 'org.modelmapper:modelmapper:3.1.1'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.1'
+
 
 
 

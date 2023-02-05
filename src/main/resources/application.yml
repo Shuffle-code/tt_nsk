@@ -12,6 +12,7 @@
 #      username: ${SPRING_CLOUD_CONFIG_USERNAME:user}
 #      password: ${SPRING_CLOUD_CONFIG_PASSWORD:pass}
 #
+
 spring:
   jpa:
     show-sql: true
@@ -23,6 +24,17 @@ spring:
         #default_schema: nsk_tt1
     generate-ddl: false
     #database-platform: nsk_tt1
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    username: "samarin.vladimir163@gmail.com"
+    password: "nzzzarjmayskgaje"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   mvc:
     pathmatch:
@@ -30,13 +42,11 @@ spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
     username: "root"
-    password: "root"
+    password: ""
 
-  #liquibase:
+#liquibase:
 
-
-
-  #    url: "jdbc:mysql://localhost:3306/tt_Nsk"
+#    url: "jdbc:mysql://localhost:3306/tt_Nsk"
 #    username: "admin"
 #    password: "qwertyuiop"
 
@@ -57,7 +67,7 @@ spring:
 
 storage:
 #  location: '/home/shuffle/java/storage'
-  location: 'C:\Users\79130\storage'
+  location: 'D:\Projects\IntelliJ IDEA\tt_nsk\storage'
 # C:\Users\79130\Documents\java\command work
 
 servlet:
