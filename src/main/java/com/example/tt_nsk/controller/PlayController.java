@@ -1,12 +1,16 @@
 package com.example.tt_nsk.controller;
+
+import com.example.tt_nsk.dao.PlayerDao;
+import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dao.TourDao;
+import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.*;
 import com.example.tt_nsk.entity.enums.TourStatus;
 import com.example.tt_nsk.service.*;
-import com.mysql.cj.xdevapi.JsonArray;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/tour")
@@ -44,10 +49,26 @@ public class PlayController {
     @Value("${storage.location}")
     private String storagePath;
 
-    public List<Player> getAllActiveSortedByRating(){
+    private final PlayerTournamentRepo playerTournamentRepo;
+    private final PlayerDao playerDao;
+
+    private final ModelMapper modelMapper = new ModelMapper();
+
+    public List<Player> getAllActiveSortedByRating() {
         return playerService.findAllActiveSortedByRating();
     }
+
+    @GetMapping("/allplayers")
+    @ResponseBody
+    public List<PlayerBriefRepresentationDto> getAllRegisteredPlayers(Long tournamentId) {
+        List<Long> playerIdList = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId)
+                .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
+        List<Player> playerList = playerDao.findAllById(playerIdList);
+        return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
+    }
+
     @PostMapping("/count")
+    @ResponseBody
     public String scoringTour(Score score, Model model, HttpSession httpSession) {
         LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
         List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
@@ -89,7 +110,7 @@ public class PlayController {
         list = playService.arrayWithoutNull(playService.getListResultTour(score));
 
 
-        score.setEndTour((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
+        score.setEndTour((playService.getSizeArrayList(list) / allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1));
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
 //        System.out.println(score);
@@ -140,6 +161,7 @@ public class PlayController {
                 return "tour/tour-form";
         }
     }
+
     @GetMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create')")
     public String showFormForPlayedTour(Model model) {
@@ -191,20 +213,22 @@ public class PlayController {
         }
         return tourDao.save(tour);
     }
+
     @Transactional
     public Tour savePlayedTour(final Tour tour) {
         return savePlayedTour(tour, (MultipartFile) null);
     }
 
     // prt sc
-    public void saveScreenshot(Tour tour){
-            TourImage tourImage = TourImage.builder()
-                    .path(filename + ".png")
-                    .tour(tour)
-                    .build();
-            tour.addImage(tourImage);
+    public void saveScreenshot(Tour tour) {
+        TourImage tourImage = TourImage.builder()
+                .path(filename + ".png")
+                .tour(tour)
+                .build();
+        tour.addImage(tourImage);
     }
-    public String createScreenshot(){
+
+    public String createScreenshot() {
         BufferedImage image;
         String filename;
         try {
@@ -221,7 +245,7 @@ public class PlayController {
         return filename;
     }
 
-    public String createScreenshotMultipleScreens(){
+    public String createScreenshotMultipleScreens() {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] screens = ge.getScreenDevices();
         BufferedImage image;
@@ -245,7 +269,7 @@ public class PlayController {
         }
         return filename;
     }
-    
+
 }
 
 

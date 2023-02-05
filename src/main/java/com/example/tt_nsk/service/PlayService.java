@@ -48,9 +48,10 @@ public class PlayService {
     public int getSizeArrayList (List<String> list){
         return list.size();
     }
+
     public int[] getNumbersFromScoreForArray(String[] split) {
-        int num1 = Integer.parseInt(split[3]);
-        int num2 = Integer.parseInt(split[4]);
+        int num1 = Integer.parseInt(split[1]);
+        int num2 = Integer.parseInt(split[2]);
         int[] arrInt = {num1, num2};
         return arrInt;
     }
