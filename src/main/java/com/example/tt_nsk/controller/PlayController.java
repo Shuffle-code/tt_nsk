@@ -3,6 +3,7 @@ package com.example.tt_nsk.controller;
 import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dao.TourDao;
+import com.example.tt_nsk.dto.CurrentTournament;
 import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.*;
 import com.example.tt_nsk.entity.enums.TourStatus;
@@ -10,6 +11,7 @@ import com.example.tt_nsk.service.*;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,7 +66,15 @@ public class PlayController {
         List<Long> playerIdList = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId)
                 .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
         List<Player> playerList = playerDao.findAllById(playerIdList);
+        createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
         return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
+    }
+
+
+    public CurrentTournament createCurrentTournament(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList){
+        CurrentTournament ct = CurrentTournament.BUILDER.newBuilder().players(playerBriefRepresentationDtoList).build();
+
+        return ct;
     }
 
     @PostMapping("/count")
