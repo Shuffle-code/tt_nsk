@@ -1,5 +1,6 @@
 package com.example.tt_nsk.service;
 
+import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.LegUp;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.Score;
@@ -8,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -146,23 +144,59 @@ public class PlayService {
         return place;
     }
 
-    public List<List<String>> compileResultTable(List<Double> currentRating) {
-        Double currentRatingElement = getAllActiveSortedByRating().get(0).getRating().doubleValue();
+    public List<List<String>> compileResultTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
+        if (playerBriefRepresentationDtoList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Double highestRating = playerBriefRepresentationDtoList.get(0).getRating();
         List<List<String>> resultTable = new ArrayList<>();
-        for (int i = 0; i < currentRating.size(); i++) {
+        for (int y = 0; y < playerBriefRepresentationDtoList.size(); y++) {
+            double mainPlayerRating = playerBriefRepresentationDtoList.get(y).getRating();
             List<String> row = new ArrayList<>();
-            for (int j = 0; j < currentRating.size(); j++) {
-                if (i == j) {
+            for (int x = 0; x < playerBriefRepresentationDtoList.size(); x++) {
+                if (y == x) {
                     row.add("TT");
-                } else if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
-                    row.add(scoringLegUp(currentRatingElement, currentRating.get(j)));
-                } else {
-                    row.add("N/A");
+                } else /*if (highestRating > playerBriefRepresentationDtoList.get(j).getRating() && highestRating != 500)*/ {
+                    double opponentPlayerRating = playerBriefRepresentationDtoList.get(x).getRating();
+                    String str = calculateLegUp(mainPlayerRating, opponentPlayerRating);
+                    row.add(str);
                 }
+
+//                else {
+//                    row.add("N/A");
+//                }
             }
             resultTable.add(row);
         }
         return resultTable;
+    }
+
+    private String calculateLegUp(double mainPlayerRating, double opponentPlayerRating) {
+        int legUp;
+        double difference = Math.abs(mainPlayerRating - opponentPlayerRating);
+        if (difference >= 0 && difference <= 25){
+            legUp =  0;
+        } else if (difference > 25 && difference <= 50){
+            legUp =  1;
+        } else if (difference > 50 && difference <= 75){
+            legUp =  2;
+        } else if (difference > 75 && difference <= 100){
+            legUp =  3;
+        } else if (difference > 100 && difference <= 125){
+            legUp =  4;
+        } else if (difference > 125 && difference  <= 150){
+            legUp =  5;
+        } else if (difference > 150 && difference <= 175) {
+            legUp =  6;
+        } else {
+            legUp = 7;
+        }
+
+        if (mainPlayerRating > opponentPlayerRating) {
+            return "0/" + legUp;
+        } else {
+            return legUp +"/0";
+        }
     }
 
     public class WinComparator implements Comparator<Scoring>

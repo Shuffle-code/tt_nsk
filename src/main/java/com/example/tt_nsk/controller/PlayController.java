@@ -11,7 +11,6 @@ import com.example.tt_nsk.service.*;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,7 +64,7 @@ public class PlayController {
     public List<PlayerBriefRepresentationDto> getAllRegisteredPlayers(Long tournamentId) {
         List<Long> playerIdList = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId)
                 .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
-        List<Player> playerList = playerDao.findAllById(playerIdList);
+        List<Player> playerList = playerDao.findAllByIdsOrderByRatingDesc(playerIdList);
         //createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
         return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
     }
@@ -73,11 +72,11 @@ public class PlayController {
 
     @GetMapping("/currentscore")
     public String createCurrentTournament(HttpSession httpSession, Model model){
-        HashMap<String, String> vv = playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers());
-        List<List<String>> results = playService.compileResultTable(playService.getCurrentRatingAllPlayers());
-        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList = getAllRegisteredPlayers(87L);
-        CurrentTournament ct = CurrentTournament.BUILDER.newBuilder()
-                .players(playerBriefRepresentationDtoList)
+        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
+        List<List<String>> results = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
+
+        CurrentTournament ct = CurrentTournament.builder()
+                .players(playerBriefRepresentationDtoListSortedByRatingDesc)
                 .resultTable(results)
                 .build();
         model.addAttribute("score", ct);

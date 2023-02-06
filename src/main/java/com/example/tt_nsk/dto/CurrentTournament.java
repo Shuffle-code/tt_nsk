@@ -1,23 +1,20 @@
 package com.example.tt_nsk.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-
-import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Data
 @Getter
+@Builder
 public class CurrentTournament {
 
     private final List<PlayerBriefRepresentationDto> players;
     private final List<List<String>> resultTable;
     private int currentRaw = 0;
-
-    private CurrentTournament(BUILDER builder) {
-        players = builder.players;
-        resultTable = builder.resultTable;
-    }
 
    public List<Integer> columns() {
         List<Integer> integers = new ArrayList<>();
@@ -27,20 +24,6 @@ public class CurrentTournament {
 
         return integers;
    }
-
-//    public List<String> getFirst(){
-//        return resultTable.get(0);
-//    }
-//
-//    public List<String> getNext(){
-//        if (currentRaw < resultTable.size() - 1) {
-//            return resultTable.get(currentRaw++);
-//        } else {
-//            return Collections.emptyList();
-//        }
-//
-//    }
-
 
     public Optional<String> getResult(int coordinateX, int coordinateY) {
         if (coordinateY > resultTable.size() - 1 || coordinateX > resultTable.get(coordinateY).size() - 1) {
@@ -56,48 +39,6 @@ public class CurrentTournament {
         } else {
             resultTable.get(coordinateY).add(coordinateX, result);
             return true;
-        }
-    }
-
-
-    public static class BUILDER {
-
-        private List<PlayerBriefRepresentationDto> players;
-        private List<List<String>> resultTable = new ArrayList<>();
-
-        public static BUILDER newBuilder() {
-            return new BUILDER();
-        }
-
-
-        public BUILDER players(List<PlayerBriefRepresentationDto> players) {
-            this.players = players;
-            /*
-            for (int vert = 0; vert < players.size(); vert++) {
-                List<String> raw = new ArrayList<>();
-                for (int hor = 0; hor < players.size(); hor++) {
-                    if (vert == hor) {
-                        raw.add("TT");
-                    } else {
-                        raw.add("NP");
-                    }
-
-                }
-                resultTable.add(raw);
-            }
-
-             */
-
-            return this;
-        }
-
-        public BUILDER resultTable(List<List<String>> resultTable) {
-            this.resultTable = resultTable;
-            return this;
-        }
-
-        public CurrentTournament build() {
-            return new CurrentTournament(this);
         }
     }
 }
