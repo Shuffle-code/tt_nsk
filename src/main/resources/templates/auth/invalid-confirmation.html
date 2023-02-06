@@ -23,6 +23,9 @@
         <form th:action="@{/auth/confirmation}"
               th:object="${confirmationCode}" method="post" class="form-horizontal">
 
+            <h4>Неправильный код подтверждения</h4>
+            <br>
+
             <div style="margin-bottom: 25px" class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                 <input type="text" name="code" placeholder="Confirmation code" class="form-control">
