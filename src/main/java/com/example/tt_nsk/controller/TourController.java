@@ -94,11 +94,11 @@ public class TourController {
       }
     }
     public void createListPlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
-//        model.addAttribute("playersTour", allActiveSortedByRating);
         model.addAttribute("player1", allActiveSortedByRating.get(0));
         model.addAttribute("player2", allActiveSortedByRating.get(1));
         model.addAttribute("player3", allActiveSortedByRating.get(2));
-//        model.addAttribute("pairs", pairService.getListOrderGames((ArrayList<Player>)allActiveSortedByRating));
+        List<Player> sortedByRating = playerService.findAllActiveSortedByRating();
+        model.addAttribute("pairs", pairService.getListOrderGames((ArrayList<Player>) sortedByRating));
         setHttpSession(httpSession);
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
         addAttributeFor3Model(resultTour, model);
