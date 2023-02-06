@@ -1,32 +1,51 @@
 package com.example.tt_nsk.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import lombok.Data;
+import lombok.Getter;
 
+import java.nio.charset.Charset;
+import java.util.*;
+
+@Data
+@Getter
 public class CurrentTournament {
 
     private final List<PlayerBriefRepresentationDto> players;
-    private final String[][] results;
+    private final List<List<String>> resultTable;
+    private int currentRaw = 0;
 
-   private CurrentTournament(BUILDER builder){
+    private CurrentTournament(BUILDER builder) {
         players = builder.players;
-        results = builder.results;
+        resultTable = builder.resultTable;
     }
 
-   public Optional<String> getResult(int coordinateX, int coordinateY) {
-       if (coordinateX > results[0].length - 1 || coordinateY > results.length - 1) {
-           return Optional.empty();
-       } else {
-           return Optional.ofNullable(results[coordinateX][coordinateY]);
-       }
-   }
+//    public List<String> getFirst(){
+//        return resultTable.get(0);
+//    }
+//
+//    public List<String> getNext(){
+//        if (currentRaw < resultTable.size() - 1) {
+//            return resultTable.get(currentRaw++);
+//        } else {
+//            return Collections.emptyList();
+//        }
+//
+//    }
+
+
+    public Optional<String> getResult(int coordinateX, int coordinateY) {
+        if (coordinateY > resultTable.size() - 1 || coordinateX > resultTable.get(coordinateY).size() - 1) {
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(resultTable.get(coordinateY).get(coordinateX));
+        }
+    }
 
     public boolean setResult(int coordinateX, int coordinateY, String result) {
-        if (coordinateX > results[0].length - 1 || coordinateY > results.length - 1) {
+        if (coordinateY > resultTable.size() - 1 || coordinateX > resultTable.get(coordinateY).size() - 1) {
             return false;
         } else {
-            results[coordinateX][coordinateY] = result;
+            resultTable.get(coordinateY).add(coordinateX, result);
             return true;
         }
     }
@@ -35,7 +54,7 @@ public class CurrentTournament {
     public static class BUILDER {
 
         private List<PlayerBriefRepresentationDto> players;
-        private String[][] results;
+        private List<List<String>> resultTable = new ArrayList<>();
 
         public static BUILDER newBuilder() {
             return new BUILDER();
@@ -44,14 +63,23 @@ public class CurrentTournament {
 
         public BUILDER players(List<PlayerBriefRepresentationDto> players) {
             this.players = players;
-            this.results = new String[players.size()][players.size()];
-            for (int i = 0; i < results.length; i++){
-                results[i][i] = "TT";
+            for (int vert = 0; vert < players.size(); vert++) {
+                List<String> raw = new ArrayList<>();
+                for (int hor = 0; hor < players.size(); hor++) {
+                    if (vert == hor) {
+                        raw.add("TT");
+                    } else {
+                        raw.add("NP");
+                    }
+
+                }
+                resultTable.add(raw);
             }
+
             return this;
         }
 
-        public CurrentTournament build(){
+        public CurrentTournament build() {
             return new CurrentTournament(this);
         }
     }

@@ -66,15 +66,18 @@ public class PlayController {
         List<Long> playerIdList = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId)
                 .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
         List<Player> playerList = playerDao.findAllById(playerIdList);
-        createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
+        //createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
         return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
     }
 
 
-    public CurrentTournament createCurrentTournament(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList){
+    @GetMapping("/currentscore")
+    public String createCurrentTournament(HttpSession httpSession, Model model){
+        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList = getAllRegisteredPlayers(87L);
         CurrentTournament ct = CurrentTournament.BUILDER.newBuilder().players(playerBriefRepresentationDtoList).build();
+        model.addAttribute("score", ct);
 
-        return ct;
+        return "tour/currentScore.html";
     }
 
     @PostMapping("/count")
