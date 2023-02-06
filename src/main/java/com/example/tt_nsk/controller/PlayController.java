@@ -87,8 +87,6 @@ public class PlayController {
                 break;
         }
         list = playService.arrayWithoutNull(playService.getListResultTour(score));
-
-
         score.setEndTour((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1));
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());

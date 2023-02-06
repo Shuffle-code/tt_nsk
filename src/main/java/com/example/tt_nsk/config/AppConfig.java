@@ -27,6 +27,8 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
+
+
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/static/**")
