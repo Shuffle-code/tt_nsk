@@ -19,6 +19,15 @@ public class CurrentTournament {
         resultTable = builder.resultTable;
     }
 
+   public List<Integer> columns() {
+        List<Integer> integers = new ArrayList<>();
+        for (int i = 1; i < resultTable.size() + 1; i++) {
+            integers.add(i);
+        }
+
+        return integers;
+   }
+
 //    public List<String> getFirst(){
 //        return resultTable.get(0);
 //    }
