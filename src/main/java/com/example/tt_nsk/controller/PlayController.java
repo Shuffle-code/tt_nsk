@@ -73,12 +73,19 @@ public class PlayController {
 
     @GetMapping("/currentscore")
     public String createCurrentTournament(HttpSession httpSession, Model model){
+        HashMap<String, String> vv = playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers());
+        List<List<String>> results = playService.compileResultTable(playService.getCurrentRatingAllPlayers());
         List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList = getAllRegisteredPlayers(87L);
-        CurrentTournament ct = CurrentTournament.BUILDER.newBuilder().players(playerBriefRepresentationDtoList).build();
+        CurrentTournament ct = CurrentTournament.BUILDER.newBuilder()
+                .players(playerBriefRepresentationDtoList)
+                .resultTable(results)
+                .build();
         model.addAttribute("score", ct);
 
         return "tour/currentScore.html";
     }
+
+
 
     @PostMapping("/count")
     @ResponseBody

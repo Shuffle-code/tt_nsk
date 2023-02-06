@@ -23,13 +23,6 @@
                 <h4>Чтобы принять участие в турнире, необходимо войти в систему под своим именем</h4>
             </td>
         </div>
-        <!--
-        <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Введите дату турнира" aria-label="Search" aria-describedby="search-addon" />
-            <button type="button" class="btn btn-primary">Поиск</button>
-        </div>
-        -->
-
         <div>
             <table class="table table-striped">
                 <thead class="bg-light">
@@ -38,78 +31,54 @@
                     <th scope="col">Дата</th>
                     <th scope="col">Название</th>
                     <th scope="col">Город</th>
-                    <!--
-                    <th scope="col">Кол-во игроков</th>
-                    <th scope="col">Победитель</th>
-                    <th scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
-                    <th scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</th>
-                    <th scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</th>
-                    -->
+                    <th sec:authorize="!isAnonymous()" scope="col">Участие</th>
+                    <th sec:authorize="!isAnonymous()" scope="col">Действие</th>
                 </tr>
                 </thead>
+
                 <tbody data-mdb-spy="scroll">
                 <tr th:each="tour, i : ${tours}">
                     <th scope="row" th:text="${i.count}"></th>
                     <td th:text="${tour.date}"></td>
                     <td th:text="${tour.title}"></td>
                     <td th:text="${tour.address.getCity()}"></td>
+
                     <td sec:authorize="!isAnonymous()">
-                        <a  type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
-                            class="btn btn-warning">Зарегистрироваться</a>
+                        <a th:if="${tour.registered == true}">
+
+                            <img
+                                    th:src="${(session.user == null)} ? '' : '/player/image/' + ${session.user.getPlayer().getId()}"
+                                    class="rounded-circle"
+                                    height="40"
+                                    loading="lazy"
+                            />
+                        </a>
+
                     </td>
 
-                    <!--<form action="#" th:action="@{'/books/delete/{id}'(id=${book.id})}" th:method="delete" >
-    <button type="submit" class="btn">
-        Delete
-    </button>
-</form>
--->
 
                     <td sec:authorize="!isAnonymous()">
-                        <a type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
+
+                        <a th:if="${tour.registered == false}"
+                           type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
+                           class="btn btn-warning">Зарегистрироваться</a>
+                        <a th:if="${tour.registered == true}"
+                           type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
                            class="btn btn-warning">Сняться с турнира</a>
-                    </td>
 
-                    <!--
-                    <td th:text="${tour.address.getStreet}"></td>
-                    <td th:text="${'играли: ' + tour.amountPlayers}"></td>
-                    <td th:text="${tour.player.getFirstname + ' ' + tour.player.getLastname}"></td>
-                    <td sec:authorize="hasAuthority('player.update')">
-                        <a type="button"  th:href="@{/tour/new(id=${tour.id})}" class="btn btn-warning">Редактировать</a>
                     </td>
-                    <td sec:authorize="hasAuthority('player.read') || isAnonymous()">
-                        <a type="button" th:href="@{'/tour/' + ${tour.id}}" class="btn btn-warning">Просмотреть</a>
-                    </td>
-                    <td sec:authorize="hasAuthority('player.delete')">
-                        <a type="button"  th:href="@{${'/tour/delete/' + tour.id}}" class="btn btn-danger">Удалить</a>
-                    </td>
-                    -->
                 </tr>
                 </tbody>
+
                 <tfoot>
-                <!--
-                <tr>
-                    <th scope="col">№</th>
-                    <th scope="col">Дата</th>
-                    <th scope="col">Название</th>
-                    <th scope="col">Адрес</th>
-                    <th scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
-                    <th scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</th>
-                    <th scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</th>
-                </tr>
-                -->
                 </tfoot>
             </table>
         </div>
 
-        <foot>
-            <br>
-            <br>
-        </foot>
     </div>
 </div>
 
-<div th:replace="~{common/footer :: footerBlock}"/>
+<div th:replace="~{common/footer :: footerBlock}"></div>
 
 </body>
 </html>

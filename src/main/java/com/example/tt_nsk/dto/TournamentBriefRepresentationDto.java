@@ -16,4 +16,5 @@ public class TournamentBriefRepresentationDto {
     private String title;
     private Date date;
     private Address address;
+    private boolean registered;
 }

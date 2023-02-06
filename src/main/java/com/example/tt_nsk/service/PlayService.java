@@ -146,6 +146,25 @@ public class PlayService {
         return place;
     }
 
+    public List<List<String>> compileResultTable(List<Double> currentRating) {
+        Double currentRatingElement = getAllActiveSortedByRating().get(0).getRating().doubleValue();
+        List<List<String>> resultTable = new ArrayList<>();
+        for (int i = 0; i < currentRating.size(); i++) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < currentRating.size(); j++) {
+                if (i == j) {
+                    row.add("TT");
+                } else if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
+                    row.add(scoringLegUp(currentRatingElement, currentRating.get(j)));
+                } else {
+                    row.add("N/A");
+                }
+            }
+            resultTable.add(row);
+        }
+        return resultTable;
+    }
+
     public class WinComparator implements Comparator<Scoring>
     {
         @Override
@@ -285,7 +304,7 @@ public class PlayService {
         HashMap<String, String> legUpStrArr = new HashMap<>();
         Double currentRatingElement = getAllActiveSortedByRating().get(0).getRating().doubleValue();
         for (int i = 0; i < currentRating.size() - 1 ; i++) {
-            for (int j = 1; j < currentRating.size(); j++) {
+            for (int j = 1; j < currentRating.size() - 1; j++) {
                 if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
                     legUpStrArr.put("fx" + (i + 1) + "y" + (j + 1), scoringLegUp(currentRatingElement, currentRating.get(j)));
                 }

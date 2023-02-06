@@ -72,6 +72,7 @@ public class CurrentTournament {
 
         public BUILDER players(List<PlayerBriefRepresentationDto> players) {
             this.players = players;
+            /*
             for (int vert = 0; vert < players.size(); vert++) {
                 List<String> raw = new ArrayList<>();
                 for (int hor = 0; hor < players.size(); hor++) {
@@ -85,6 +86,13 @@ public class CurrentTournament {
                 resultTable.add(raw);
             }
 
+             */
+
+            return this;
+        }
+
+        public BUILDER resultTable(List<List<String>> resultTable) {
+            this.resultTable = resultTable;
             return this;
         }
 
