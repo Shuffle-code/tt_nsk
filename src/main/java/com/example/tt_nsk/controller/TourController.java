@@ -33,6 +33,7 @@ public class TourController {
     private final TourImageService tourImageService;
     private final AccountRoleDao accountRoleDao;
     private final PlayService playService;
+    private final PairService pairService;
 //    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
 //        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
 //        model.addAttribute("playersTour", allActiveSortedByRating);
@@ -96,6 +97,8 @@ public class TourController {
         model.addAttribute("player1", allActiveSortedByRating.get(0));
         model.addAttribute("player2", allActiveSortedByRating.get(1));
         model.addAttribute("player3", allActiveSortedByRating.get(2));
+        List<Player> sortedByRating = playerService.findAllActiveSortedByRating();
+        model.addAttribute("pairs", pairService.getListOrderGames((ArrayList<Player>) sortedByRating));
         setHttpSession(httpSession);
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore();
         addAttributeFor3Model(resultTour, model);

@@ -1,8 +1,10 @@
 package com.example.tt_nsk.controller;
 
 import com.example.tt_nsk.dao.PlayerDao;
+import com.example.tt_nsk.entity.Pair;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.service.JsonFromXmlServer;
+import com.example.tt_nsk.service.PairService;
 import com.example.tt_nsk.service.PlayerImageService;
 import com.example.tt_nsk.service.PlayerService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 public class PlayerController {
     private final PlayerService playerService;
     private final PlayerDao playerDao;
+    private final PairService pairService;
     private final PlayerImageService playerImageService;
     private final JsonFromXmlServer jsonFromXmlServer;
 
@@ -141,6 +144,25 @@ public class PlayerController {
                 .map(file -> playerImageService.savePlayerImage(id, file))
                 .collect(Collectors.toList());
     }
+
+
+    public List<Pair> getQueuePlayers(){
+        List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
+        for (Pair p : listOrderGames) {
+            System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
+        }
+        return listOrderGames;
+    }
+
+    public void getQueue(){
+        List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
+        for (Pair p : listOrderGames) {
+            System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
+        }
+
+    }
+
+
 }
 
 
