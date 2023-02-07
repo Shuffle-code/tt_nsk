@@ -87,7 +87,7 @@ public class PlayController {
 
 
     @PostMapping("/count")
-    @ResponseBody
+//    @ResponseBody
     public String scoringTour(Score score, Model model, HttpSession httpSession) {
         LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
         List<Player> allActiveSortedByRating = getAllActiveSortedByRating();

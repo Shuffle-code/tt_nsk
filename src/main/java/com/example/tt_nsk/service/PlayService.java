@@ -48,8 +48,8 @@ public class PlayService {
     }
 
     public int[] getNumbersFromScoreForArray(String[] split) {
-        int num1 = Integer.parseInt(split[1]);
-        int num2 = Integer.parseInt(split[2]);
+        int num1 = Integer.parseInt(split[3]);
+        int num2 = Integer.parseInt(split[4]);
         int[] arrInt = {num1, num2};
         return arrInt;
     }
@@ -338,7 +338,7 @@ public class PlayService {
         HashMap<String, String> legUpStrArr = new HashMap<>();
         Double currentRatingElement = getAllActiveSortedByRating().get(0).getRating().doubleValue();
         for (int i = 0; i < currentRating.size() - 1 ; i++) {
-            for (int j = 1; j < currentRating.size() - 1; j++) {
+            for (int j = 1; j < currentRating.size(); j++) {
                 if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
                     legUpStrArr.put("fx" + (i + 1) + "y" + (j + 1), scoringLegUp(currentRatingElement, currentRating.get(j)));
                 }
