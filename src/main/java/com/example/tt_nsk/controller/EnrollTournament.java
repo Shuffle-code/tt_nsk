@@ -128,4 +128,5 @@ public class EnrollTournament {
                 .map(playerTournament -> playerTournament.getTournamentId()).collect(Collectors.toList());
 
     }
+}
 
