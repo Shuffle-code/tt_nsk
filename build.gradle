@@ -24,8 +24,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
 
-	compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
@@ -46,10 +48,15 @@ dependencies {
 	implementation group: 'jaxen', name: 'jaxen', version: '2.0.0'
 	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 	implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
-// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core
+	// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '4.0.1'
-// https://mvnrepository.com/artifact/javax.xml/jaxb-impl
+	// https://mvnrepository.com/artifact/javax.xml/jaxb-impl
 	implementation group: 'javax.xml', name: 'jaxb-impl', version: '2.1'
+	implementation 'org.liquibase:liquibase-core:4.7.1'
+	implementation 'org.modelmapper:modelmapper:3.1.1'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.1'
+
 
 
 
@@ -65,6 +72,16 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
 //	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.17.2'
 
+	//		<=========== Swagger ===========>
+	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+	//implementation 'io.springfox:springfox-swagger2:3.0.0'
+
+	implementation 'org.springdoc:springdoc-openapi-common:1.6.14'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.14'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	//implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	//implementation 'io.swagger:swagger-codegen-maven-plugin:2.4.29'
 
 
 

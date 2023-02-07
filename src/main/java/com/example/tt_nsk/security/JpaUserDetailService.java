@@ -63,6 +63,7 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         String confirmationCode;
         return confirmationCode = RandomStringUtils.randomAscii(8);
     }
+
     @Override
     public UserDto register(UserDto userDto) {
         if (accountUserDao.findByUsername(userDto.getUsername()).isPresent()) {
