@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.util.Pair;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,7 @@ public class PlayController {
     private final AddressService addressService;
     private final TourImageService tourImageService;
     private final TourDao tourDao;
+    private final PairService pairService;
     Map<String, Scoring> resultTour;
     List<String> list;
     String filename;
@@ -65,25 +67,46 @@ public class PlayController {
         List<Long> playerIdList = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId)
                 .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
         List<Player> playerList = playerDao.findAllByIdsOrderByRatingDesc(playerIdList);
-        //createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
         return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
     }
 
 
-    @GetMapping("/currentscore")
-    public String createCurrentTournament(HttpSession httpSession, Model model){
-        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
-        List<List<String>> results = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
+    @GetMapping("/currentscore/{tourId}")
+    public String currentScore(HttpSession httpSession, Model model, @PathVariable long tourId){
 
-        CurrentTournament ct = CurrentTournament.builder()
-                .players(playerBriefRepresentationDtoListSortedByRatingDesc)
-                .resultTable(results)
-                .build();
-        model.addAttribute("score", ct);
-
-        return "tour/currentScore.html";
+        if(Data.hasTourStarted()) {
+            model.addAttribute("tournament", Data.tournament());
+            return "tour/currentScore.html";
+        } else {
+            return "tour/not_started_yet.html";
+        }
     }
 
+    @PutMapping("/starttournament/{tourId}")
+    public boolean startTournament(HttpSession httpSession, Model model, @PathVariable long tourId){
+        if(!Data.hasTourStarted()) {
+            CurrentTournament currentTournament = startTournament(tourId);
+            model.addAttribute("tournament", currentTournament);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    private CurrentTournament startTournament(long tourId) {
+        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(tourId);
+        List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> playerPairs =
+                List.copyOf(playerService.dividePlayersIntoPairs(playerBriefRepresentationDtoListSortedByRatingDesc));
+        List<List<String>> initResults = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
+        CurrentTournament ct = CurrentTournament.builder()
+                .players(playerBriefRepresentationDtoListSortedByRatingDesc)
+                .resultTable(initResults)
+                .playerPairs(playerPairs)
+                .build();
+        Data.startTour(ct);
+        return ct;
+    }
 
 
     @PostMapping("/count")
@@ -287,6 +310,28 @@ public class PlayController {
             throw new RuntimeException(e);
         }
         return filename;
+    }
+
+    private static class Data{
+
+        private static boolean tourStarted = false;
+        private static CurrentTournament tournament = null;
+
+        public static void startTour(CurrentTournament _tournament){
+            if (Objects.isNull(tournament)) {
+                tournament = _tournament;
+            }
+            tourStarted = true;
+        }
+
+        public static boolean hasTourStarted(){
+            return tourStarted;
+        }
+
+        public static CurrentTournament tournament(){
+            return tournament;
+        }
+
     }
 
 }

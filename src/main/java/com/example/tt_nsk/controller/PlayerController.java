@@ -145,22 +145,24 @@ public class PlayerController {
                 .collect(Collectors.toList());
     }
 
-
-    public List<Pair> getQueuePlayers(){
-        List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
-        for (Pair p : listOrderGames) {
+/*
+    public List<Pair<P, P1>> getQueuePlayers(){
+        List<Pair<P, P1>> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
+        for (Pair<P, P1> p : listOrderGames) {
             System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
         }
         return listOrderGames;
     }
 
     public void getQueue(){
-        List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
-        for (Pair p : listOrderGames) {
+        List<Pair<P, P1>> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
+        for (Pair<P, P1> p : listOrderGames) {
             System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
         }
 
     }
+
+ */
 
 
 }

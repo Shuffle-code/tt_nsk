@@ -3,6 +3,8 @@ package com.example.tt_nsk.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import org.springframework.data.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,7 @@ public class CurrentTournament {
 
     private final List<PlayerBriefRepresentationDto> players;
     private final List<List<String>> resultTable;
-    private int currentRaw = 0;
+    List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> playerPairs;
 
    public List<Integer> columns() {
         List<Integer> integers = new ArrayList<>();
