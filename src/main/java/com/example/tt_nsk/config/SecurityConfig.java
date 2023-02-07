@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/upcomingTournaments/tournaments/{playerId}").permitAll()
                 .antMatchers(HttpMethod.GET, "/upcomingTournaments/all").permitAll()
                 .antMatchers(HttpMethod.PUT, "/upcomingTournaments/all").permitAll()
+                .antMatchers(HttpMethod.POST, "/tour/**").permitAll()
                 .and().csrf().disable()
         ;
 

@@ -17,4 +17,4 @@ public class TournamentBriefRepresentationDto {
     private Date date;
     private Address address;
     private boolean registered;
-}
+

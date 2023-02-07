@@ -1,5 +1,6 @@
 package com.example.tt_nsk.service;
 
+import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.LegUp;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.Score;
@@ -8,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -48,9 +46,10 @@ public class PlayService {
     public int getSizeArrayList (List<String> list){
         return list.size();
     }
+
     public int[] getNumbersFromScoreForArray(String[] split) {
-        int num1 = Integer.parseInt(split[3]);
-        int num2 = Integer.parseInt(split[4]);
+        int num1 = Integer.parseInt(split[1]);
+        int num2 = Integer.parseInt(split[2]);
         int[] arrInt = {num1, num2};
         return arrInt;
     }
@@ -143,6 +142,61 @@ public class PlayService {
         List<Scoring> place = new ArrayList<>();
         place.addAll(values);
         return place;
+    }
+
+    public List<List<String>> compileResultTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
+        if (playerBriefRepresentationDtoList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Double highestRating = playerBriefRepresentationDtoList.get(0).getRating();
+        List<List<String>> resultTable = new ArrayList<>();
+        for (int y = 0; y < playerBriefRepresentationDtoList.size(); y++) {
+            double mainPlayerRating = playerBriefRepresentationDtoList.get(y).getRating();
+            List<String> row = new ArrayList<>();
+            for (int x = 0; x < playerBriefRepresentationDtoList.size(); x++) {
+                if (y == x) {
+                    row.add("TT");
+                } else /*if (highestRating > playerBriefRepresentationDtoList.get(j).getRating() && highestRating != 500)*/ {
+                    double opponentPlayerRating = playerBriefRepresentationDtoList.get(x).getRating();
+                    String str = calculateLegUp(mainPlayerRating, opponentPlayerRating);
+                    row.add(str);
+                }
+
+//                else {
+//                    row.add("N/A");
+//                }
+            }
+            resultTable.add(row);
+        }
+        return resultTable;
+    }
+
+    private String calculateLegUp(double mainPlayerRating, double opponentPlayerRating) {
+        int legUp;
+        double difference = Math.abs(mainPlayerRating - opponentPlayerRating);
+        if (difference >= 0 && difference <= 25){
+            legUp =  0;
+        } else if (difference > 25 && difference <= 50){
+            legUp =  1;
+        } else if (difference > 50 && difference <= 75){
+            legUp =  2;
+        } else if (difference > 75 && difference <= 100){
+            legUp =  3;
+        } else if (difference > 100 && difference <= 125){
+            legUp =  4;
+        } else if (difference > 125 && difference  <= 150){
+            legUp =  5;
+        } else if (difference > 150 && difference <= 175) {
+            legUp =  6;
+        } else {
+            legUp = 7;
+        }
+
+        if (mainPlayerRating > opponentPlayerRating) {
+            return "0/" + legUp;
+        } else {
+            return legUp +"/0";
+        }
     }
 
     public class WinComparator implements Comparator<Scoring>
@@ -284,7 +338,7 @@ public class PlayService {
         HashMap<String, String> legUpStrArr = new HashMap<>();
         Double currentRatingElement = getAllActiveSortedByRating().get(0).getRating().doubleValue();
         for (int i = 0; i < currentRating.size() - 1 ; i++) {
-            for (int j = 1; j < currentRating.size(); j++) {
+            for (int j = 1; j < currentRating.size() - 1; j++) {
                 if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
                     legUpStrArr.put("fx" + (i + 1) + "y" + (j + 1), scoringLegUp(currentRatingElement, currentRating.get(j)));
                 }
