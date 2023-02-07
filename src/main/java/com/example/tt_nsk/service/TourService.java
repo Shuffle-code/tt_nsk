@@ -1,12 +1,12 @@
 package com.example.tt_nsk.service;
 
-import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.entity.Player;
-import com.example.tt_nsk.entity.PlayerImage;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.TourImage;
 import com.example.tt_nsk.entity.enums.Status;
+import com.example.tt_nsk.entity.enums.TourStatus;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,10 @@ public class TourService {
         }
         return tourDao.save(tour);
     }
+
+
+
+
 //    @Transactional
     public Tour save(Tour tour, MultipartFile multipartFile) {
 //        Product product = productMapper.toProduct(productDto, manufacturerDao, categoryDao);
@@ -71,18 +76,16 @@ public class TourService {
         return tourDao.save(tour);
     }
 
-
-
-
     @Transactional
     public Tour save(final Tour tour) {
         return save(tour, (MultipartFile) null);
     }
 
-    public List<Tour> findAll() {
-        return tourDao.findAll();
-    }
 
+    public List<Tour> findAll() {
+        List<Tour> all = tourDao.findAll();
+        return all;
+    }
 
     public void deleteById(Long id) {
         try {

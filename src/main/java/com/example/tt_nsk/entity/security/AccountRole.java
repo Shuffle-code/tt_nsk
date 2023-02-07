@@ -32,4 +32,19 @@ public class AccountRole {
 
     private Set<Authority> authorities;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this.name == o) return true;
+//        if (!(o instanceof AccountRole)) return false;
+
+//        AccountRole role = (AccountRole) o;
+
+//        return getName().equals(role.getName());
+        return name.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
 }

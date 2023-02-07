@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +27,6 @@ import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 @Slf4j
 @Service
@@ -41,9 +43,12 @@ public class PlayerImageService {
 
     private final PlayerImageDao playerImageDao;
     private final PlayerDao playerDao;
-
-
     private Path rootLocation;
+
+    @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
+    public Long count() {
+        return playerImageDao.count();
+    }
 
     @PostConstruct
     public void init() {

@@ -24,30 +24,69 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
-//	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-	compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+
+    compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
-//	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-//	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.31'
+//	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config', version: '3.1.5'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'org.springframework.security:spring-security-test'
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.2'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
-	// https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor
 	implementation group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.1.Final'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jdbc', version: '2.7.3'
+	// https://mvnrepository.com/artifact/org.json/json
+	implementation group: 'org.json', name: 'json', version: '20220924'
+	// https://mvnrepository.com/artifact/com.jayway.restassured/rest-assured
+	implementation group: 'com.jayway.restassured', name: 'rest-assured', version: '2.9.0'
+	// https://mvnrepository.com/artifact/jaxen/jaxen
+	implementation group: 'jaxen', name: 'jaxen', version: '2.0.0'
+	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+	implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.4.0-b180830.0359'
+	// https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core
+	implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '4.0.1'
+	// https://mvnrepository.com/artifact/javax.xml/jaxb-impl
+	implementation group: 'javax.xml', name: 'jaxb-impl', version: '2.1'
+	implementation 'org.liquibase:liquibase-core:4.7.1'
+	implementation 'org.modelmapper:modelmapper:3.1.1'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.1'
+
+
+
+
+
+
+//	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+//	testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '3.0.1'
+
+//	// https://mvnrepository.com/artifact/io.github.huiaong/base64-multipartfile-starter
+//	implementation group: 'io.github.huiaong', name: 'base64-multipartfile-starter', version: '1.0.0-RELEASE'
+
+//	implementation 'org.springframework.mock.web.MockMultipartFile'
+	// https://mvnrepository.com/artifact/org.liquibase/liquibase-core
+//	implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.17.2'
+
+	//		<=========== Swagger ===========>
+	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+	//implementation 'io.springfox:springfox-swagger2:3.0.0'
+
+	implementation 'org.springdoc:springdoc-openapi-common:1.6.14'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.14'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	//implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	//implementation 'io.swagger:swagger-codegen-maven-plugin:2.4.29'
+
 
 
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()

@@ -1,20 +1,14 @@
 package com.example.tt_nsk.entity;
 
 import com.example.tt_nsk.entity.common.InfoEntity;
-import com.example.tt_nsk.entity.enums.Status;
 import com.example.tt_nsk.entity.enums.TourStatus;
-import com.example.tt_nsk.entity.security.AccountUser;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +45,13 @@ public class Tour extends InfoEntity {
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tour")
     private List<TourImage> images;
 
+    public void addImage(TourImage tourImage) {
+        if (images == null) {
+            images = new ArrayList<>();
+        }
+        images.add(tourImage);
+    }
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private TourStatus status;
@@ -58,12 +59,11 @@ public class Tour extends InfoEntity {
     @OneToOne(targetEntity = Player.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "winner_id", referencedColumnName = "ID")
     private Player player;
-    public void addImage(TourImage tourImage) {
-        if (images == null) {
-            images = new ArrayList<>();
-        }
-        images.add(tourImage);
-    }
+
+    @Column(name = "result_tour")
+//    @Convert(converter = JsonForListPlayersDao.class)
+    private String resultTour;
+
 
 //    @Override
 //    public String toString() {

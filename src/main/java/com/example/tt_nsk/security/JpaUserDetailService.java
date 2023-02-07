@@ -1,6 +1,5 @@
 package com.example.tt_nsk.security;
 
-import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.PlayerImageDao;
 import com.example.tt_nsk.dao.security.AccountRoleDao;
 import com.example.tt_nsk.dao.security.AccountUserDao;
@@ -16,14 +15,11 @@ import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.ConfirmationCode;
 import com.example.tt_nsk.entity.security.enums.AccountStatus;
 import com.example.tt_nsk.exception.UsernameAlreadyExistsException;
-import com.example.tt_nsk.service.PlayerImageService;
 import com.example.tt_nsk.service.PlayerService;
 import com.example.tt_nsk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,8 +27,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +44,7 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
     private final PasswordEncoder passwordEncoder;
     private final ConfirmationCodeDao confirmationCodeDao;
     private final ParticipantMapper participantMapper;
+//    private final PlayerImageService playerImageService;
 //    private final PlayerDao playerDao;
     private final PlayerService playerService;
     private final PlayerImageDao playerImageDao;
@@ -68,6 +63,7 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         String confirmationCode;
         return confirmationCode = RandomStringUtils.randomAscii(8);
     }
+
     @Override
     public UserDto register(UserDto userDto) {
         if (accountUserDao.findByUsername(userDto.getUsername()).isPresent()) {
@@ -76,41 +72,49 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         }
         AccountUser accountUser = userMapper.toAccountUser(userDto);
         Player player = addNewPlayer(accountUser);
+        player.setRating(BigDecimal.valueOf(500));
+        System.out.println("Это новый игрок " + player.getRating());
         playerService.save(player);
+        System.out.println("Это новый сохраненный игрок " + player.getRating());
         PlayerImage playerImage = addNewImage(imageName, player);
         playerImageDao.save(playerImage);
-        System.out.println(playerImageDao.count(playerImage.getId()));
-        System.out.println(playerImageDao.count(45L));
         AccountRole roleUser = accountRoleDao.findByName("ROLE_USER");
-        accountUser.setRoles(Set.of(roleUser));
+        AccountRole roleAdmin = accountRoleDao.findByName("ROLE_ADMIN");
+        AccountRole rolePlayer = accountRoleDao.findByName("ROLE_PLAYER");
+        long count = accountUserDao.count();
+        if(count == 0){
+            accountUser.setRoles(Set.of(roleAdmin));
+        } else accountUser.setRoles(Set.of(roleUser));
+        System.out.println("Count: " + count);
+        System.out.println(count == 0);
+        System.out.println(rolePlayer);
         accountUser.setStatus(AccountStatus.ACTIVE);
         accountUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         accountUser.setPlayer(player);
         AccountUser registeredAccountUser = accountUserDao.save(accountUser);
-//        playerImageService.savePlayerImage(player.getId(), playerImageService.loadFile("image104-66.jpg"));
         log.debug("User with username {} was registered successfully", registeredAccountUser.getUsername());
         return userMapper.toUserDto(registeredAccountUser);
     }
 
     public PlayerImage addNewImage(String nameImage, Player player){
         PlayerImage playerImage = new PlayerImage();
-        playerImage.setId(playerImageDao.maxId() + 1);
+        if (playerImageDao.count() != 0){
+            playerImage.setId(playerImageDao.maxId() + 1);
+        }
         playerImage.setPath(nameImage);
         playerImage.setPlayer(player);
-        System.out.println(playerImageDao.count(playerImage.getId()));
         return playerImage;
     }
 
     public Player addNewPlayer(AccountUser accountUser){
         Player player = participantMapper.toPlayer(accountUser);
         player.setRating(BigDecimal.valueOf(500.00));
-        player.setId(playerService.maxId() + 1);
+        if (playerService.count() != 0){
+            player.setId(playerService.maxId() + 1);
+        }
         player.setStatus(Status.NOT_ACTIVE);
         return player;
     }
-
-
-
 
     @Override
     @Transactional
@@ -141,6 +145,8 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         }
         return accountUserDao.save(accountUser);
     }
+
+
     @Override
     public void generateConfirmationCode(UserDto thisUser, String code) {
         ConfirmationCode confirmationCode = ConfirmationCode.builder().

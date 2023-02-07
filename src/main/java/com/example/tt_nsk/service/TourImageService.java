@@ -1,11 +1,7 @@
 package com.example.tt_nsk.service;
 
-import com.example.tt_nsk.dao.PlayerDao;
-import com.example.tt_nsk.dao.PlayerImageDao;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.dao.TourImageDao;
-import com.example.tt_nsk.entity.Player;
-import com.example.tt_nsk.entity.PlayerImage;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.TourImage;
 import com.example.tt_nsk.exception.StorageException;
@@ -61,7 +57,7 @@ public class TourImageService {
         String filename = UUID.randomUUID() + "_" + StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         return this.save(file, filename);
     }
-
+    // сохроняем файл(картинку) из клиента в директорию на сервере с помощью и возвращаем сгененрированное новое имя картинки
     public String save(MultipartFile file, String filename) {
         try {
             if (file.isEmpty()) {
@@ -80,7 +76,6 @@ public class TourImageService {
             } catch (IOException e) {
                 throw new StorageException(String.format("Error while creating file %s", filename));
             }
-
         } catch (IOException e) {
             throw new StorageException("Error while creating storage");
         }
@@ -89,10 +84,11 @@ public class TourImageService {
         } catch (IOException e) {
             throw new StorageException(String.format("Error while saving file %s", filename));
         }
-
         return filename;
     }
 
+
+    // сохроняем файл(картинку) из клиента в директорию на сервере с помощью - save(multipartFile), + сбилдили TourImage и сохранили данный турнир
     public Tour saveTourImage(Long tourId, MultipartFile multipartFile) {
         if (!multipartFile.isEmpty()) {
             Tour tour = tourDao.getReferenceById(tourId);
@@ -119,11 +115,6 @@ public class TourImageService {
         Resource resource = loadAsResource(imageName);
         return ImageIO.read(resource.getFile());
     }
-//    public BufferedImage loadFileAsImageCaptcha() throws IOException {
-//        String imageName = "C:/Users/79130/IdeaProjects/gb-shop-may/./storage/products/captcha.png";
-//        Resource resource = loadAsResource(imageName);
-//        return ImageIO.read(resource.getFile());
-//    }
 
     public String uploadMultipleFilesByTourId(Long id) {
         return tourImageDao.findImageNameByTourId(id);
@@ -139,7 +130,6 @@ public class TourImageService {
 
 
     public Resource loadAsResource(String filename) {
-
         if (StringUtils.hasText(filename)) {
             try {
                 Path file = rootLocation.resolve(path).resolve(filename);

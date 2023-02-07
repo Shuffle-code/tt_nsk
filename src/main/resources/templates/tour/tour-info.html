@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Игрок</title>
@@ -11,29 +11,42 @@
 </head>
 <body>
 <div th:replace="~{common/navbar :: navi(TourInfo)}"></div>
-<div class="container">
-  <h1 th:date="${'Дата: ' + tour.date}"></h1>
-  <h2 th:text="${'Название: ' + tour.title}"></h2>
-  <h2 th:text="${'Адрес: ' + tour.address.getStreet}"></h2>
-  <h2 th:text="${'Колличество игроков: ' + tour.amountPlayers}"></h2>
-  <h2 th:text="${'Победитель: ' + tour.player.getFirstname + ' ' + tour.player.getLastname}"></h2>
-
-  <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div th:each="imageId, i : ${tourImagesId}" class="carousel-item"
-           th:classappend="${i.index==0 ? 'active' : ''}">
-        <img th:src="@{'/tour/images/' + ${imageId}}" alt="" class="d-block w-100"/>
+<div class="container" style="width: 80%;">
+  <h2 th:text="${tour.date}"></h2>
+<!--<div class="container">-->
+  <div class="justify-content-center" style="width: 100%;">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div th:each="imageId, i : ${tourImagesId}" class="carousel-item"
+             th:classappend="${i.index==0 ? 'active' : ''}">
+          <img th:src="@{'/tour/images/' + ${imageId}}" alt="" class="d-block w-100"/>
+        </div>
       </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Предыдущий</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Следующий</span>
+      </button>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Предыдущий</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Следующий</span>
-    </button>
   </div>
+  <div class="card-body">
+  <h2 th:text="${'Дата: ' + tour.date}"></h2>
+  <h4 th:text="${'Название: ' + tour.title}"></h4>
+  <h4 th:text="${'Адрес: ' + tour.address.getStreet}"></h4>
+  <h4 th:text="${'Колличество игроков: ' + tour.amountPlayers}"></h4>
+  <h4 th:text="${'Победитель: ' + tour.player.getFirstname + ' ' + tour.player.getLastname}"></h4>
+  <p th:text="${'Статус: ' + tour.status.title}"></p>
+    <a sec:authorize="hasAuthority('player.readOnly')"
+       th:href="@{/player/all}" class="btn btn-primary">Перейти куда-нибудь</a>
+    <a sec:authorize="hasAuthority('player.update')"
+       th:href="@{/tour/new(id=${tour.id})}" class="btn btn-primary">Изменить данные турнира</a>
+  </div>
+<!--</div>-->
+
+
 
 <!--<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">-->
 <!--  <div class="carousel-indicators">-->
@@ -73,9 +86,13 @@
 <!--    <span class="visually-hidden">Следующий</span>-->
 <!--  </button>-->
 <!--</div>-->
+  <foot>
+    <br>
+    <br>
+  </foot>
+</div>
 </div>
 
-<!--"d-block w-100"-->
 <div th:replace="~{common/footer :: footerBlock}"/>
 </body>
 </html>

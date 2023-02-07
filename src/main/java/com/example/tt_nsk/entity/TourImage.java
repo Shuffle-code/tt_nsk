@@ -15,11 +15,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class TourImage extends BaseEntity {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
-//    private Long id;
-
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;

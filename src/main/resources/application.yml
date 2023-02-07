@@ -1,20 +1,96 @@
+#server:
+#  port: 8090
+#
+#spring:
+#  profiles:
+#    active: ${SPRING_PROFILES_INCLUDE:tt-nsk}
+#  config:
+#    import: optional:configserver:${SPRING_CLOUD_CONFIG_URI:http://127.0.0.1:8888}
+#  cloud:
+#    config:
+#      label: ${SPRING_CLOUD_CONFIG_LEVEL:master}
+#      username: ${SPRING_CLOUD_CONFIG_USERNAME:user}
+#      password: ${SPRING_CLOUD_CONFIG_PASSWORD:pass}
+#
+
 spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: false
+        #default_schema: nsk_tt1
+    generate-ddl: false
+    #database-platform: nsk_tt1
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    username: "shuffle2149@gmail.com"
+    password: "rsapzkolnfowyxad"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
-    url: "jdbc:mysql://localhost:3306/nsk_tt"
-    username: "shuffle"
-    password: "shuffle"
+
+    url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&
+    allowPublicKeyRetrieval=true&useSSL=false&
+    useUnicode=true&
+    characterEncoding=UTF-8&serverTimezone=UTC"
+    username: "root"
+    password: "root"
+
+#    url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
+#      username: "shuffle"
+#      password: "shuffle"
+
+  #liquibase:
+
+#liquibase:
+
+#    url: "jdbc:mysql://localhost:3306/tt_Nsk"
+#    username: "admin"
+#    password: "qwertyuiop"
+
+  liquibase:
+    change-log: db/changelog/db.changelog-master.xml
+    enabled: true
+
+
+
+#  mvc:
+#    static-path-pattern: '/storage/players/**'
+
 # Для ручного управления безопастностью (http://shuffle:shuffle@localhost:8080/player)
 #  security:
 #    user:
 #      name: 'shuffle'
 #      password: 'shuffle'
+
 storage:
-  location:
-    './storage'
+#  location: '/home/shuffle/java/storage'
+ location: '/home/sergei/IdeaProjects/tt_nsk/storage'
+#    location: 'C:\Users\79130\storage'
+# C:\Users\79130\Documents\java\command work
 
 servlet:
   multipart:
     max-file-size: 10MB
     max-request-size: 10MB
     enabled: true
+
+server:
+#  hostname: site
+  port: 8091
+
+
+
 

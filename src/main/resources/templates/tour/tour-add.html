@@ -18,14 +18,14 @@
           enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
         <div class="col-md-8">
-            <div class="input-group mb-3">
+            <div class="input-group mb-1">
                 <span class="input-group-text">Дата</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" placeholder="ГГГГ-ММ-ДД"
                        aria-describedby="inputGroup-sizing-default" th:field="*{date}">
             </div>
         </div>
         <div class="col-md-8">
-            <div class="input-group mb-3">
+            <div class="input-group mb-1">
                 <span class="input-group-text">Название</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" placeholder="обязательно для заполнения"
                        aria-describedby="inputGroup-sizing-default" th:field="*{title}">
@@ -40,7 +40,7 @@
             </select>
         </div>
         <div class="col-md-8">
-            <div class="input-group mb-3">
+            <div class="input-group mb-1">
                 <span class="input-group-text" id="amountPlayers">Кол-во игроков</span>
                 <input type="text" class="form-control" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-default" th:field="*{amountPlayers}">
@@ -61,7 +61,6 @@
 <!--                        th:value="${current.lastname}"-->
 <!--                        th:text="${current.lastname}"></option>-->
 <!--            </select>-->
-
 <!--        </div>-->
 
 
@@ -73,30 +72,11 @@
                         th:text="${statusValue.title}"></option>
             </select>
         </div>
-
-<!--        <div class="col-md-8">-->
-<!--            <select class="form-select" aria-label="Default select example" th:field="*{status}">-->
-<!--                <option th:each="statusValue : ${T(com.example.tt_nsk.entity.enums.Status).values()}"-->
-<!--                        th:value="${statusValue.name()}"-->
-<!--                        th:text="${statusValue.title}"></option>-->
-<!--            </select>-->
-<!--        </div>-->
-
-<!--        <div class="col-md-8">-->
-<!--            <div class="input-group mb-3">-->
-<!--                <span class="input-group-text" id="image">Изображение</span>-->
-<!--                <input type="file" name="file" class="form-control-file" accept="image/*">-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-12">-->
-<!--            <button class="btn btn-primary" type="submit">Сохранить</button>-->
-<!--        </div>-->
-<!--        <form method="post" enctype="multipart/form-data" th:action="@{/player/upload}">-->
         <div class="col-md-8">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="images">Изображения</span>
+            <div class="input-group mb-1">
                 <input type="hidden" th:field="${tour.id}">
-                <input type="file" name="files" multiple class="form-control-file"> <br/><br/>
+                <input type="file" name="files" multiple class="form-control" id="inputGroupFile02">
+                <label class="input-group-text" for="inputGroupFile02">Загрузка изображений</label>
             </div>
         </div>
         <div class="col-12">
@@ -106,7 +86,5 @@
     </form>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
-
-
 </body>
 </html>

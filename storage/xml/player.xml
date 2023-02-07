@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Players>
+    <Player id="26c0268">
+        <name>Сабиров Рустам Ильдарович</name>
+        <shortname>Сабиров Р. И.</shortname>
+        <country/>
+        <region>Татарстан</region>
+        <location>Набережные Челны</location>
+        <birthdate>1985</birthdate>
+        <sex>М</sex>
+        <rating>122.80</rating>
+        <deltaR>0.00</deltaR>
+        <place>44326</place>
+        <stats>10;25;34</stats>
+        <stats2>0;0;0</stats2>
+    </Player>
+    <Player id="36e036a">
+        <name>Мочалов Сергей Викентьевич</name>
+        <shortname>Мочалов С. В.</shortname>
+        <country>Россия</country>
+        <region>Чувашия</region>
+        <location>Новочебоксарск</location>
+        <birthdate/>
+        <sex>М</sex>
+        <rating>285.11</rating>
+        <deltaR>0.00</deltaR>
+        <place>21739</place>
+        <stats>6;18;22</stats>
+        <stats2>0;0;0</stats2>
+    </Player>
+</Players>

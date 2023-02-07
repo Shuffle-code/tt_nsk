@@ -15,10 +15,19 @@
 <div th:replace="~{common/navbar :: navi(PlayerList)}"></div>
 
 <div class="d-flex justify-content-center">
+<!--    <div class="border d-flex align-items-center justify-content-center" style="height: auto;">-->
     <span th:if="${players.size() == 0}">Игроков нет</span>
     <div th:unless="${players.size() == 0}">
-        <table class="table">
-            <thead>
+        <div class="p-1 text-center bg-light">
+        <h2>Игроки</h2>
+        </div>
+        <div class="form-outline">
+            <input type="search" placeholder="Введите данные игрока" class="form-control" id="datatable-search-input">
+<!--            <label class="form-label" for="datatable-search-input">Search</label>-->
+        </div>
+
+        <table class="table" id="datatable">
+            <thead class="bg-light">
             <tr>
                 <th scope="col">№</th>
                 <th colspan="2" scope="col">Фамилия</th>
@@ -49,23 +58,36 @@
                 <td th:text="${player.ratingTtw}"></td>
                 <td sec:authorize="hasAuthority('player.update')">
                     <a type="button"  th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>
-                    <!--                    <a type="button" th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>-->
                 </td>
                 <td sec:authorize="hasAuthority('player.read') || isAnonymous()">
                     <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning">Просмотреть</a>
                 </td>
                 <td sec:authorize="hasAuthority('player.delete')">
-                    <a type="button"  th:href="@{${'/player/delete/' + player.id}}" class="btn btn-danger">Удалить</a>
+                    <a type="button"  th:href="@{${'/player/status_delete/' + player.id}}" class="btn btn-danger">Удалить</a>
                 </td>
-<!--                <td>-->
-<!--                    <a type="button" sec:authorize="hasAuthority('player.read')" th:href="@{/player/addToCart(id=${player.id})}" class="btn btn-success">Добавить в корзину</a>-->
-<!--                    &lt;!&ndash;                    <a type="button" sec:authorize="isAnonymous()" th:href="@{/player/authorizePage}" class="btn btn-success">Добавить в корзину</a>&ndash;&gt;-->
-<!--                </td>-->
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <th scope="col">№</th>
+                <th colspan="2" scope="col">Фамилия</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Год рождения</th>
+                <th scope="col">Рейтинг</th>
+                <th scope="col">Рейтинг ttw</th>
+                <th scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
+                <th scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</th>
+                <th scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</th>
+            </tr>
+            </tfoot>
         </table>
-    </div>
+
+        <foot>
+            <br>
+            <br>
+        </foot>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
+<script src="/script/searce.js"></script>
 </body>
 </html>

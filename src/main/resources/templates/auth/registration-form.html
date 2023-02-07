@@ -49,14 +49,14 @@
                     <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{username}" placeholder="username (*)" class="form-control"/>
+                        <input th:field="*{username}" placeholder="Логин:" class="form-control"/>
                     </div>
 
                     <!-- Password -->
                     <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" th:field="*{password}" placeholder="password (*)" class="form-control"/>
+                        <input type="password" th:field="*{password}" placeholder="Пароль:" class="form-control"/>
                     </div>
 
                     <!-- Confirm Password -->
@@ -64,7 +64,7 @@
                          th:errors="*{matchingPassword}"/>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" th:field="*{matchingPassword}" placeholder="confirm password (*)"
+                        <input type="password" th:field="*{matchingPassword}" placeholder="Повторите пароль:"
                                class="form-control"/>
                     </div>
 
@@ -73,38 +73,42 @@
                     <div class="error" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"/>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{firstname}" placeholder="first name (*)" class="form-control"/>
+                        <input th:field="*{firstname}" placeholder="Имя:" class="form-control"/>
                     </div>
 
                     <!-- Last name -->
                     <div class="error" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"/>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{lastname}" placeholder="last name (*)" class="form-control"/>
+                        <input th:field="*{lastname}" placeholder="Фамилия:" class="form-control"/>
                     </div>
 
                     <!-- Email -->
                     <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{email}" placeholder="email (*)" class="form-control"/>
+                        <input th:field="*{email}" placeholder="Е-mail:" class="form-control"/>
                     </div>
 
                     <!-- Phone -->
                     <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"/>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input th:field="*{phone}" placeholder="phone (*)" class="form-control"/>
+                        <input th:field="*{phone}" placeholder="Телефон:" class="form-control"/>
                     </div>
 
-                    <div style="margin-top: 10px" class="form-group">
-                        <div class="col-sm-6 controls">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                    <div style="margin-top: 2px" class="form-group">
+                        <div>
+                            <button type="submit" class="btn btn-primary">Регистрация</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+        <foot>
+            <br>
+            <br>
+        </foot>
     </div>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>

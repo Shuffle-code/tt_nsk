@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+  http://www.liquibase.org/xml/ns/pro 
+  http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+
+    <include
+            file="db/changelog/createTables/create-table-account_user.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-address.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-account.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-tournament.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-player.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-player_image.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-player_ttw.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-authority.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-role_authority.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-confirmation_code.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-tour_image.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-user_role.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-user_tournament.xml"/>
+
+                    <!-- =====> наполнение таблиц <===== -->
+    <include
+            file="db/changelog/fillTables/fill-table-account_role.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-player.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-account_user.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-address.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-authority.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-confirmation_code.xml"/>
+
+       <include
+               file="db/changelog/fillTables/fill-table-player_image.xml"/>
+
+       <include
+               file="db/changelog/fillTables/fill-table-role_authority.xml"/>
+       <include
+               file="db/changelog/fillTables/fill-table-tournament.xml"/>
+
+      <include
+              file="db/changelog/fillTables/fill-table-tour_image.xml"/>
+
+      <include
+              file="db/changelog/fillTables/fill-table-user_role.xml"/>
+
+
+</databaseChangeLog> 
