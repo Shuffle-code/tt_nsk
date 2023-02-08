@@ -144,7 +144,7 @@ public class PlayService {
         return place;
     }
 
-    public List<List<String>> compileResultTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
+    public List<List<String>> compileLegUpTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
         if (playerBriefRepresentationDtoList.isEmpty()) {
             return Collections.emptyList();
         }
