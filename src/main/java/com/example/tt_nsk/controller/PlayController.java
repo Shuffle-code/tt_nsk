@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/tour")
-@Tag(name = "Контроллер, позволяющий отслеживать ход игры и созранять результаты")
+@Tag(name = "Контроллер, позволяющий отслеживать ход игры и сохранять результаты")
 public class PlayController {
     private final PlayService playService;
     private final TourController tourController;
@@ -65,38 +65,48 @@ public class PlayController {
         return playerService.findAllActiveSortedByRating();
     }
 
+    @Operation(summary = "Начало турнира")
     @PutMapping("/starttournament/{tourId}")
-    public boolean startTournament(HttpSession httpSession, Model model, @PathVariable long tourId){
-        if(!Data.hasTourStarted()) {
+    public String startTournament(HttpSession httpSession, Model model, @PathVariable long tourId) {
+        if (!CurrentTournamentData.hasTourStarted()) {
             CurrentTournament currentTournament = startTournament(tourId);
             model.addAttribute("tournament", currentTournament);
-            return true;
-        } else {
-            return false;
         }
+        return "tour/setting-score.html";
     }
+
 
     @GetMapping("/currentscore/{tourId}")
     public String currentScore(HttpSession httpSession, Model model, @PathVariable long tourId){
 
-        if(Data.hasTourStarted()) {
-            model.addAttribute("tournament", Data.tournament());
-            return "tour/currentScore.html";
+        if(CurrentTournamentData.hasTourStarted()) {
+            model.addAttribute("tournament", CurrentTournamentData.tournament());
+            return "tour/setting-score.html";
         } else {
             return "tour/not_started_yet.html";
         }
     }
 
-    @PutMapping("/setscore/{gameOrder}/{winnerId}/{playSetOrder}")
-    public String setScore(@PathVariable int gameOrder, @PathVariable long winnerId, @PathVariable int playSetOrder){
-        Data.tournament().getGamesList().get(gameOrder).setWinner(1L, 2);
-        return new String();
+    @Operation(summary = "Сохранение результатов сета")
+    @PutMapping("/setscore/{gameOrder}/{winnerOrderInPair}/{playSetOrder}")
+    //@ResponseBody
+    public String setScore(HttpSession httpSession, Model model, @PathVariable int gameOrder, @PathVariable long winnerOrderInPair, @PathVariable int playSetOrder){
+        if (CurrentTournamentData.hasTourStarted()) {
+            CurrentTournamentData.tournament().getGamesList().get(gameOrder).setWinner(winnerOrderInPair, playSetOrder);
+            model.addAttribute("tournament", CurrentTournamentData.tournament());
+            return "tour/setting-score.html";
+        } else {
+            return "tour/not_started_yet.html";
+        }
     }
 
-    @Operation(summary = "Сохранение результатов сета")
-    @GetMapping("/settingscore")
+    @Operation(summary = "Просмотр текущего счета")
+    @PutMapping("/settingscore")
     public String settingScoreTable(HttpSession httpSession, Model model){
-        model.addAttribute("tournament", Data.tournament());
+        if (!CurrentTournamentData.hasTourStarted()) {
+            return "tour/not_started_yet.html";
+        }
+        model.addAttribute("tournament", CurrentTournamentData.tournament());
         return "tour/setting-score.html";
 
     }
@@ -115,7 +125,7 @@ public class PlayController {
                 .legUpTable(legUpTable)
                 .gamesList(gameList)
                 .build();
-        Data.startTour(ct);
+        CurrentTournamentData.startTour(ct);
         return ct;
     }
 
@@ -334,28 +344,6 @@ public class PlayController {
             throw new RuntimeException(e);
         }
         return filename;
-    }
-
-    private static class Data{
-
-        private static boolean tourStarted = false;
-        private static CurrentTournament tournament = null;
-
-        public static void startTour(CurrentTournament _tournament){
-            if (Objects.isNull(tournament)) {
-                tournament = _tournament;
-            }
-            tourStarted = true;
-        }
-
-        public static boolean hasTourStarted(){
-            return tourStarted;
-        }
-
-        public static CurrentTournament tournament(){
-            return tournament;
-        }
-
     }
 
 }
