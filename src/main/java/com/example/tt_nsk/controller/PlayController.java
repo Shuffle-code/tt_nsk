@@ -66,7 +66,7 @@ public class PlayController {
     }
 
     @Operation(summary = "Начало турнира")
-    @PutMapping("/starttournament/{tourId}")
+    @GetMapping("/starttournament/{tourId}")
     public String startTournament(HttpSession httpSession, Model model, @PathVariable long tourId) {
         if (!CurrentTournamentData.hasTourStarted()) {
             CurrentTournament currentTournament = startTournament(tourId);
@@ -88,7 +88,7 @@ public class PlayController {
     }
 
     @Operation(summary = "Сохранение результатов сета")
-    @PutMapping("/setscore/{gameOrder}/{winnerOrderInPair}/{playSetOrder}")
+    @RequestMapping(value = "/setscore/{gameOrder}/{winnerOrderInPair}/{playSetOrder}", method = RequestMethod.GET)
     //@ResponseBody
     public String setScore(HttpSession httpSession, Model model, @PathVariable int gameOrder, @PathVariable long winnerOrderInPair, @PathVariable int playSetOrder){
         if (CurrentTournamentData.hasTourStarted()) {
@@ -101,7 +101,7 @@ public class PlayController {
     }
 
     @Operation(summary = "Просмотр текущего счета")
-    @PutMapping("/settingscore")
+    @GetMapping("/settingscore")
     public String settingScoreTable(HttpSession httpSession, Model model){
         if (!CurrentTournamentData.hasTourStarted()) {
             return "tour/not_started_yet.html";
@@ -110,9 +110,6 @@ public class PlayController {
         return "tour/setting-score.html";
 
     }
-
-
-
 
     private CurrentTournament startTournament(long tourId) {
         List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayersOrderByRatingDesc(tourId);
