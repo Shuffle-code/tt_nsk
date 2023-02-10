@@ -1,6 +1,7 @@
 package com.example.tt_nsk.tournament;
 
 import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import org.springframework.data.util.Pair;
 
@@ -46,7 +47,9 @@ public class TournamentData {
 
     @RequiredArgsConstructor
     @Getter
+    @JsonPropertyOrder({"gameStatus", "gameWinner", "playerPair", "playSetList"})
     public static class Game {
+
         enum GameStatus {NOT_STARTED_YET, IS_BEING_PLAYED, FINISHED}
         private GameStatus gameStatus = GameStatus.NOT_STARTED_YET;
         private final Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto> playerPair;
@@ -64,26 +67,6 @@ public class TournamentData {
                 return true;
             }
         }
-
-//        private void checkGameStatus() {
-//            int firstPlayerWinSets = 0;
-//            int secondPlayerWinSets = 0;
-//
-//            for (PlaySet playSet : playSetList) {
-//                if (playSet.firstPlayerResult > playSet.secondPlayerResult) {
-//                    firstPlayerWinSets++;
-//                } else {
-//                    secondPlayerWinSets++;
-//                }
-//            }
-//
-//            if (Math.abs(firstPlayerWinSets - secondPlayerWinSets) >=  CurrentTournament.getInstance().getSetsToWinGame()) {
-//                gameStatus = GameStatus.FINISHED;
-//                defineWinnerAndGameStatus(firstPlayerWinSets, secondPlayerWinSets);
-//            } else if (!playSetList.isEmpty()) {
-//                gameStatus = GameStatus.IS_BEING_PLAYED;
-//            }
-//        }
 
         private void defineWinnerAndGameStatus() {
             int firstPlayerWonSets = 0;
