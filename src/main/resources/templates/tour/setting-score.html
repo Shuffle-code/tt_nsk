@@ -35,24 +35,29 @@
         <th scope="col"
             th:text="${tournament.getGamesList.get(iter.count - 1).getPlayerPair.getSecond.firstname + ' ' + tournament.getGamesList.get(iter.count - 1).getPlayerPair.getSecond.lastname}"></th>
 
-        <th scope="col"
-            th:action="@{/courier/notInTime}" method="post">
+        <th scope="col">
+
             <select class="form-control" id="playSet1" name="task">
                 <option th:option="${game.getPlaySets[0]}"
                         th:text="${game.getPlaySets[0]}"></option>
                 <option value="1">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
-                <option value="3">3</option>
+
             </select>
+            <!--<a type="button" th:href="@{'/tour/setscore/' + ${iter.count} + '/' + ${th:option} + '/0'}"
+               class="btn btn-warning">Save</a>-->
+
+
         </th>
 
         <th scope="col">
             <select class="form-control" id="playSet2" name="task">
+                <option th:option="${game.getPlaySets[1]}"
+                        th:text="${game.getPlaySets[1]}"></option>
                 <option value="1">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
-                <option value="3">3</option>
             </select>
 
         </th>
@@ -60,10 +65,11 @@
         <th scope="col"
             th:action="@{/courier/notInTime}" method="post">
             <select class="form-control" id="playSet3" name="task">
+                <option th:option="${game.getPlaySets[2]}"
+                        th:text="${game.getPlaySets[2]}"></option>
                 <option value="1">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
-                <option value="3">3</option>
             </select>
             <!--                <button type="submit">Not in time</button>-->
 
@@ -78,10 +84,8 @@
     <a
        type="button" id="sss" th:href="@{'/tour/setscore/0/1/0'}"
        class="btn btn-warning">Save</a>
-
-
-
 </td>
+
 <th
         th:text="${tournament.getGamesList.get(0).getPlaySets[0]}">
 </th>

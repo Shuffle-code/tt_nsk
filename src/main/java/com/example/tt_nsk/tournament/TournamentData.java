@@ -1,5 +1,6 @@
-package com.example.tt_nsk.dto;
+package com.example.tt_nsk.tournament;
 
+import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import lombok.*;
 import org.springframework.data.util.Pair;
 
@@ -10,22 +11,23 @@ import java.util.Optional;
 @Data
 @Getter
 @Builder
-public class CurrentTournament {
+public class TournamentData {
 
-    //private final List<PlayerBriefRepresentationDto> players;
-    private final List<List<String>> legUpTable;
-    private final List<Game> gamesList;
+    private static final int SCORE_DIFFERENCE = 2;
+    private List<List<String>> legUpTable;
+    private List<Game> gamesList;
+    private int setsToWinGame;
 
-   public List<Integer> columns() {
+    public List<Integer> columns() {
         List<Integer> integers = new ArrayList<>();
         for (int i = 1; i < legUpTable.size() + 1; i++) {
             integers.add(i);
         }
 
         return integers;
-   }
+    }
 
-    public Optional<String> getResult(int coordinateX, int coordinateY) {
+    public Optional<String> getLegUp(int coordinateX, int coordinateY) {
         if (coordinateY > legUpTable.size() - 1 || coordinateX > legUpTable.get(coordinateY).size() - 1) {
             return Optional.empty();
         } else {
@@ -33,7 +35,7 @@ public class CurrentTournament {
         }
     }
 
-    public boolean setResult(int coordinateX, int coordinateY, String result) {
+    public boolean setLegUp(int coordinateX, int coordinateY, String result) {
         if (coordinateY > legUpTable.size() - 1 || coordinateX > legUpTable.get(coordinateY).size() - 1) {
             return false;
         } else {
@@ -44,19 +46,26 @@ public class CurrentTournament {
 
     @RequiredArgsConstructor
     @Getter
-    public static class Game{
+    public static class Game {
         private final Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto> playerPair;
-        private final Long[] playSets = new Long[]{0L, 0L, 0L};
+        private final List<PlaySet> playSets = new ArrayList<>();
 
-        public boolean setWinner(Long winnerOrderInPair, int playSetOrder){
-            if (playSetOrder < 0 && playSetOrder > 3) {
+        public boolean addPlaySet(int firstPlayerResult, int secondPlayerResult) {
+            if (Math.abs(firstPlayerResult - secondPlayerResult) < SCORE_DIFFERENCE) {
                 return false;
+            } else {
+                playSets.add(new PlaySet(firstPlayerResult, secondPlayerResult));
+                return true;
             }
-            if (winnerOrderInPair !=1 & winnerOrderInPair !=2){
-                return false;
-            }
-            playSets[playSetOrder] = winnerOrderInPair;
-            return true;
         }
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlaySet {
+        private final int firstPlayerResult;
+        private final int secondPlayerResult;
+    }
+
 }
+

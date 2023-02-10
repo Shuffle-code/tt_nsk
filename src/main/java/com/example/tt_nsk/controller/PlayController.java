@@ -3,11 +3,11 @@ package com.example.tt_nsk.controller;
 import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dao.TourDao;
-import com.example.tt_nsk.dto.CurrentTournament;
-import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
+import com.example.tt_nsk.tournament.TournamentData;
 import com.example.tt_nsk.entity.*;
 import com.example.tt_nsk.entity.enums.TourStatus;
 import com.example.tt_nsk.service.*;
+import com.example.tt_nsk.tournament.CurrentTournament;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.util.Pair;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,6 @@ import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Api
 @Controller
@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 public class PlayController {
     private final PlayService playService;
     private final TourController tourController;
-    private final PlayerService playerService;
+    public final PlayerService playerService;
     private final AddressService addressService;
     private final TourImageService tourImageService;
     private final TourDao tourDao;
@@ -56,87 +56,70 @@ public class PlayController {
     @Value("${storage.location}")
     private String storagePath;
 
-    private final PlayerTournamentRepo playerTournamentRepo;
-    private final PlayerDao playerDao;
+    public final PlayerTournamentRepo playerTournamentRepo;
+    public final PlayerDao playerDao;
 
-    private final ModelMapper modelMapper = new ModelMapper();
+
 
     public List<Player> getAllActiveSortedByRating() {
         return playerService.findAllActiveSortedByRating();
     }
 
     @Operation(summary = "Начало турнира")
-    @GetMapping("/starttournament/{tourId}")
-    public String startTournament(HttpSession httpSession, Model model, @PathVariable long tourId) {
-        if (!CurrentTournamentData.hasTourStarted()) {
-            CurrentTournament currentTournament = startTournament(tourId);
-            model.addAttribute("tournament", currentTournament);
+    @GetMapping("/starttournament/{tourId}/{setsToWinGame}")
+    @ResponseBody
+    public ResponseEntity<TournamentData> startTournament(HttpSession httpSession, Model model, @PathVariable long tourId, @PathVariable int setsToWinGame) {
+        TournamentData tournamentData = null;
+        if (!CurrentTournament.hasTourStarted()) {
+            tournamentData = playService.startTournament(tourId, setsToWinGame);
+            model.addAttribute("tournament", tournamentData);
         }
-        return "tour/setting-score.html";
+        //return "tour/setting-score.html";
+        return new ResponseEntity<>(tournamentData, HttpStatus.OK);
     }
 
 
     @GetMapping("/currentscore/{tourId}")
-    public String currentScore(HttpSession httpSession, Model model, @PathVariable long tourId){
+    @ResponseBody
+    public ResponseEntity<TournamentData> currentScore(HttpSession httpSession, Model model, @PathVariable long tourId){
 
-        if(CurrentTournamentData.hasTourStarted()) {
-            model.addAttribute("tournament", CurrentTournamentData.tournament());
-            return "tour/setting-score.html";
+        if(CurrentTournament.hasTourStarted()) {
+            model.addAttribute("tournament", CurrentTournament.tournamentData());
+            //return "tour/setting-score.html";
+            return new ResponseEntity<>(CurrentTournament.tournamentData(), HttpStatus.OK);
         } else {
-            return "tour/not_started_yet.html";
+            //return "tour/not_started_yet.html";
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
         }
     }
 
     @Operation(summary = "Сохранение результатов сета")
-    @RequestMapping(value = "/setscore/{gameOrder}/{winnerOrderInPair}/{playSetOrder}", method = RequestMethod.GET)
-    //@ResponseBody
-    public String setScore(HttpSession httpSession, Model model, @PathVariable int gameOrder, @PathVariable long winnerOrderInPair, @PathVariable int playSetOrder){
-        if (CurrentTournamentData.hasTourStarted()) {
-            CurrentTournamentData.tournament().getGamesList().get(gameOrder).setWinner(winnerOrderInPair, playSetOrder);
-            model.addAttribute("tournament", CurrentTournamentData.tournament());
-            return "tour/setting-score.html";
+    @RequestMapping(value = "/setscore/{gameOrder}/{firstPlayerResult}/{secondPlayerResult}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<TournamentData> setScore(HttpSession httpSession, Model model, @PathVariable int gameOrder, @PathVariable int firstPlayerResult, @PathVariable int secondPlayerResult){
+        if (CurrentTournament.hasTourStarted()) {
+            CurrentTournament.tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
+            model.addAttribute("tournament", CurrentTournament.tournamentData());
+            return new ResponseEntity<>(CurrentTournament.tournamentData(), HttpStatus.OK);
+            //return "tour/setting-score.html";
         } else {
-            return "tour/not_started_yet.html";
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+            //return "tour/not_started_yet.html";
         }
     }
 
     @Operation(summary = "Просмотр текущего счета")
     @GetMapping("/settingscore")
-    public String settingScoreTable(HttpSession httpSession, Model model){
-        if (!CurrentTournamentData.hasTourStarted()) {
-            return "tour/not_started_yet.html";
-        }
-        model.addAttribute("tournament", CurrentTournamentData.tournament());
-        return "tour/setting-score.html";
-
-    }
-
-    private CurrentTournament startTournament(long tourId) {
-        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayersOrderByRatingDesc(tourId);
-        List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> playerPairs =
-               playerService.dividePlayersIntoPairs(playerBriefRepresentationDtoListSortedByRatingDesc);
-        List<List<String>> legUpTable = List.copyOf(playService.compileLegUpTable(playerBriefRepresentationDtoListSortedByRatingDesc));
-        List<CurrentTournament.Game> gameList = List.copyOf(playerPairs.stream().map(p -> new CurrentTournament.Game(p)).collect(Collectors.toList()));
-        CurrentTournament ct = CurrentTournament.builder()
-                //.players(playerBriefRepresentationDtoListSortedByRatingDesc)
-                .legUpTable(legUpTable)
-                .gamesList(gameList)
-                .build();
-        CurrentTournamentData.startTour(ct);
-        return ct;
-    }
-
-    /*
-    @GetMapping("/allplayers")
     @ResponseBody
+    public ResponseEntity<TournamentData> settingScoreTable(HttpSession httpSession, Model model){
+        if (!CurrentTournament.hasTourStarted()) {
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+            //return "tour/not_started_yet.html";
+        }
+        model.addAttribute("tournament", CurrentTournament.tournamentData());
+        return new ResponseEntity<>(CurrentTournament.tournamentData(), HttpStatus.OK);
+        //return "tour/setting-score.html";
 
-     */
-    private List<PlayerBriefRepresentationDto> getAllRegisteredPlayersOrderByRatingDesc(Long tournamentId) {
-
-        List<Long> playerIdList = playerTournamentRepo.findAllByTournamentId(tournamentId)
-                .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
-        List<Player> playerList = playerDao.findAllByIdsOrderByRatingDesc(playerIdList);
-        return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
     }
 
 
