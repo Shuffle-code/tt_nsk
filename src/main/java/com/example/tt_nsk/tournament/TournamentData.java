@@ -16,7 +16,7 @@ public class TournamentData {
     private static final int SCORE_DIFFERENCE = 2;
     private List<List<String>> legUpTable;
     private List<Game> gamesList;
-    private int setsToWinGame;
+    //private int setsToWinGame;
 
     public List<Integer> columns() {
         List<Integer> integers = new ArrayList<>();
@@ -47,15 +47,65 @@ public class TournamentData {
     @RequiredArgsConstructor
     @Getter
     public static class Game {
+        enum GameStatus {NOT_STARTED_YET, IS_BEING_PLAYED, FINISHED}
+        private GameStatus gameStatus = GameStatus.NOT_STARTED_YET;
         private final Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto> playerPair;
-        private final List<PlaySet> playSets = new ArrayList<>();
+        private final List<PlaySet> playSetList = new ArrayList<>();
+        private PlayerBriefRepresentationDto gameWinner = null;
+
 
         public boolean addPlaySet(int firstPlayerResult, int secondPlayerResult) {
-            if (Math.abs(firstPlayerResult - secondPlayerResult) < SCORE_DIFFERENCE) {
+            if ((Math.abs(firstPlayerResult - secondPlayerResult) < SCORE_DIFFERENCE)
+                    || gameStatus.equals(GameStatus.FINISHED)) {
                 return false;
             } else {
-                playSets.add(new PlaySet(firstPlayerResult, secondPlayerResult));
+                playSetList.add(new PlaySet(firstPlayerResult, secondPlayerResult));
+                defineWinnerAndGameStatus();
                 return true;
+            }
+        }
+
+//        private void checkGameStatus() {
+//            int firstPlayerWinSets = 0;
+//            int secondPlayerWinSets = 0;
+//
+//            for (PlaySet playSet : playSetList) {
+//                if (playSet.firstPlayerResult > playSet.secondPlayerResult) {
+//                    firstPlayerWinSets++;
+//                } else {
+//                    secondPlayerWinSets++;
+//                }
+//            }
+//
+//            if (Math.abs(firstPlayerWinSets - secondPlayerWinSets) >=  CurrentTournament.getInstance().getSetsToWinGame()) {
+//                gameStatus = GameStatus.FINISHED;
+//                defineWinnerAndGameStatus(firstPlayerWinSets, secondPlayerWinSets);
+//            } else if (!playSetList.isEmpty()) {
+//                gameStatus = GameStatus.IS_BEING_PLAYED;
+//            }
+//        }
+
+        private void defineWinnerAndGameStatus() {
+            int firstPlayerWonSets = 0;
+            int secondPlayerWonSets = 0;
+
+            for (PlaySet playSet : playSetList) {
+                if (playSet.firstPlayerResult > playSet.secondPlayerResult) {
+                    firstPlayerWonSets++;
+                } else {
+                    secondPlayerWonSets++;
+                }
+            }
+
+            if (Math.abs(firstPlayerWonSets - secondPlayerWonSets) >= CurrentTournament.getInstance().getSetsToWinGame()) {
+                gameStatus = GameStatus.FINISHED;
+                if (firstPlayerWonSets > secondPlayerWonSets) {
+                    gameWinner = playerPair.getFirst();
+                } else {
+                    gameWinner = playerPair.getSecond();
+                }
+            } else if (!playSetList.isEmpty()) {
+                gameStatus = GameStatus.IS_BEING_PLAYED;
             }
         }
     }

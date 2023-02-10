@@ -3,9 +3,10 @@ package com.example.tt_nsk.tournament;
 import java.util.Objects;
 
 public class CurrentTournament {
-    private static boolean tourStarted = false;
-    private static TournamentData tournament = null;
+    private boolean tourStarted = false;
+    private TournamentData tournament = null;
     private static final CurrentTournament INSTANCE = new CurrentTournament();
+    private int setsToWinGame;
 
     private CurrentTournament(){
 
@@ -15,20 +16,23 @@ public class CurrentTournament {
         return INSTANCE;
     }
 
+    public int getSetsToWinGame() {
+        return setsToWinGame;
+    }
 
-
-    public static void startTour(TournamentData _tournament){
+    public  void startTour(TournamentData _tournament, int _setsToWinGame){
         if (Objects.isNull(tournament)) {
             tournament = _tournament;
+            setsToWinGame = _setsToWinGame;
         }
         tourStarted = true;
     }
 
-    public static boolean hasTourStarted(){
+    public boolean hasTourStarted(){
         return tourStarted;
     }
 
-    public  static TournamentData tournamentData(){
+    public TournamentData tournamentData(){
         return tournament;
     }
 

@@ -218,13 +218,12 @@ public class PlayService {
         List<TournamentData.Game> gameList = List.copyOf(playerPairs.stream().map(p -> new TournamentData.Game(p)).collect(Collectors.toList()));
 
         TournamentData tournamentData = TournamentData.builder()
-                .setsToWinGame(setsToWinGame)
                 .gamesList(gameList)
                 .legUpTable(legUpTable)
                 .build();
 
-
-        CurrentTournament.startTour(tournamentData);
+        CurrentTournament currentTournament = CurrentTournament.getInstance();
+        currentTournament.startTour(tournamentData, setsToWinGame);
         return tournamentData;
     }
 

@@ -34,6 +34,7 @@ import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Api
 @Controller
@@ -70,7 +71,7 @@ public class PlayController {
     @ResponseBody
     public ResponseEntity<TournamentData> startTournament(HttpSession httpSession, Model model, @PathVariable long tourId, @PathVariable int setsToWinGame) {
         TournamentData tournamentData = null;
-        if (!CurrentTournament.hasTourStarted()) {
+        if (!CurrentTournament.getInstance().hasTourStarted()) {
             tournamentData = playService.startTournament(tourId, setsToWinGame);
             model.addAttribute("tournament", tournamentData);
         }
@@ -79,14 +80,15 @@ public class PlayController {
     }
 
 
-    @GetMapping("/currentscore/{tourId}")
+    @GetMapping("/currentscore")
     @ResponseBody
-    public ResponseEntity<TournamentData> currentScore(HttpSession httpSession, Model model, @PathVariable long tourId){
+    public ResponseEntity<List<List<TournamentData.PlaySet>>> currentScore(HttpSession httpSession, Model model){
 
-        if(CurrentTournament.hasTourStarted()) {
-            model.addAttribute("tournament", CurrentTournament.tournamentData());
+        if(CurrentTournament.getInstance().hasTourStarted()) {
+            model.addAttribute("tournament", CurrentTournament.getInstance().tournamentData());
             //return "tour/setting-score.html";
-            return new ResponseEntity<>(CurrentTournament.tournamentData(), HttpStatus.OK);
+            List<List<TournamentData.PlaySet>> currentScore = CurrentTournament.getInstance().tournamentData().getGamesList().stream().map(game -> game.getPlaySetList()).collect(Collectors.toList());
+            return new ResponseEntity<>(currentScore, HttpStatus.OK);
         } else {
             //return "tour/not_started_yet.html";
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
@@ -97,10 +99,10 @@ public class PlayController {
     @RequestMapping(value = "/setscore/{gameOrder}/{firstPlayerResult}/{secondPlayerResult}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<TournamentData> setScore(HttpSession httpSession, Model model, @PathVariable int gameOrder, @PathVariable int firstPlayerResult, @PathVariable int secondPlayerResult){
-        if (CurrentTournament.hasTourStarted()) {
-            CurrentTournament.tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
-            model.addAttribute("tournament", CurrentTournament.tournamentData());
-            return new ResponseEntity<>(CurrentTournament.tournamentData(), HttpStatus.OK);
+        if (CurrentTournament.getInstance().hasTourStarted()) {
+            CurrentTournament.getInstance().tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
+            model.addAttribute("tournament", CurrentTournament.getInstance().tournamentData());
+            return new ResponseEntity<>(CurrentTournament.getInstance().tournamentData(), HttpStatus.OK);
             //return "tour/setting-score.html";
         } else {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
@@ -112,12 +114,12 @@ public class PlayController {
     @GetMapping("/settingscore")
     @ResponseBody
     public ResponseEntity<TournamentData> settingScoreTable(HttpSession httpSession, Model model){
-        if (!CurrentTournament.hasTourStarted()) {
+        if (!CurrentTournament.getInstance().hasTourStarted()) {
             return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
             //return "tour/not_started_yet.html";
         }
-        model.addAttribute("tournament", CurrentTournament.tournamentData());
-        return new ResponseEntity<>(CurrentTournament.tournamentData(), HttpStatus.OK);
+        model.addAttribute("tournament", CurrentTournament.getInstance().tournamentData());
+        return new ResponseEntity<>(CurrentTournament.getInstance().tournamentData(), HttpStatus.OK);
         //return "tour/setting-score.html";
 
     }
