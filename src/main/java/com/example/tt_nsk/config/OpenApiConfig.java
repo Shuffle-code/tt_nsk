@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootConfiguration
-@ComponentScan(basePackages = {"com.example.tt_nsk.controller"})
+//@ComponentScan(basePackages = {"com.example.tt_nsk.controller"})
 public class OpenApiConfig {
 
     @Bean

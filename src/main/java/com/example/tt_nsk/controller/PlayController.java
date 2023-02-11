@@ -3,16 +3,23 @@ package com.example.tt_nsk.controller;
 import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dao.TourDao;
-import com.example.tt_nsk.dto.CurrentTournament;
-import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.*;
 import com.example.tt_nsk.entity.enums.TourStatus;
-import com.example.tt_nsk.service.*;
+import com.example.tt_nsk.service.AddressService;
+import com.example.tt_nsk.service.PlayService;
+import com.example.tt_nsk.service.PlayerService;
+import com.example.tt_nsk.service.TourImageService;
+import com.example.tt_nsk.tournament.CurrentTournament;
+import com.example.tt_nsk.tournament.TournamentData;
 import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,26 +27,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Api
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/tour")
+@Tag(name = "Контроллер, позволяющий отслеживать ход игры и сохранять результаты")
 public class PlayController {
     private final PlayService playService;
     private final TourController tourController;
-    private final PlayerService playerService;
+    public final PlayerService playerService;
     private final AddressService addressService;
     private final TourImageService tourImageService;
     private final TourDao tourDao;
@@ -47,44 +57,66 @@ public class PlayController {
     List<String> list;
     String filename;
     private static final String path = "tours";
+
     @Value("${storage.location}")
     private String storagePath;
 
-    private final PlayerTournamentRepo playerTournamentRepo;
-    private final PlayerDao playerDao;
+    public final PlayerTournamentRepo playerTournamentRepo;
+    public final PlayerDao playerDao;
 
-    private final ModelMapper modelMapper = new ModelMapper();
 
     public List<Player> getAllActiveSortedByRating() {
         return playerService.findAllActiveSortedByRating();
     }
 
-    @GetMapping("/allplayers")
+    @Operation(summary = "Начало турнира")
+    @GetMapping("/starttournament/{tourId}/{setsToWinGame}")
     @ResponseBody
-    public List<PlayerBriefRepresentationDto> getAllRegisteredPlayers(Long tournamentId) {
-        List<Long> playerIdList = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId)
-                .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
-        List<Player> playerList = playerDao.findAllByIdsOrderByRatingDesc(playerIdList);
-        //createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
-        return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
+    public ResponseEntity<TournamentData> startTournament(HttpSession httpSession, Model model,
+    @Parameter(name = "tourId", description = "ID турнира", example = "87") @PathVariable long tourId,
+    @Parameter(name = "setsToWinGame", description = "Количество выигранных сетов для победы в игре", example = "3") @PathVariable int setsToWinGame) {
+        TournamentData tournamentData = null;
+        if (!CurrentTournament.getInstance().hasTourStarted()) {
+            tournamentData = playService.startTournament(tourId, setsToWinGame);
+            model.addAttribute("tournament", tournamentData);
+        }
+        //return "tour/setting-score.html";
+        return new ResponseEntity<>(tournamentData, HttpStatus.OK);
     }
 
-
+    @Operation(summary = "Получен е текущего счета")
     @GetMapping("/currentscore")
-    public String createCurrentTournament(HttpSession httpSession, Model model){
-        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
-        List<List<String>> results = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
+    @ResponseBody
+    public ResponseEntity<List<List<TournamentData.PlaySet>>> currentScore(HttpSession httpSession, Model model) {
 
-        CurrentTournament ct = CurrentTournament.builder()
-                .players(playerBriefRepresentationDtoListSortedByRatingDesc)
-                .resultTable(results)
-                .build();
-        model.addAttribute("score", ct);
-
-        return "tour/currentScore.html";
+        if (CurrentTournament.getInstance().hasTourStarted()) {
+            model.addAttribute("tournament", CurrentTournament.getInstance().tournamentData());
+            //return "tour/setting-score.html";
+            List<List<TournamentData.PlaySet>> currentScore = CurrentTournament.getInstance().tournamentData().getGamesList().stream().map(game -> game.getPlaySetList()).collect(Collectors.toList());
+            return new ResponseEntity<>(currentScore, HttpStatus.OK);
+        } else {
+            //return "tour/not_started_yet.html";
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 
-
+    @Operation(summary = "Сохранение результатов сета")
+    @RequestMapping(value = "/setscore/{gameOrder}/{firstPlayerResult}/{secondPlayerResult}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<TournamentData> setScore(HttpSession httpSession, Model model,
+    @Parameter(name = "gameOrder", description = "Номер пары игроков в турнире", example = "1") @PathVariable int gameOrder,
+    @Parameter(name = "firstPlayerResult", description = "Результат первого игрока в сете", example = "9") @PathVariable int firstPlayerResult,
+    @Parameter(name = "secondPlayerResult", description = "Результат второго игрока в сете", example = "11") @PathVariable int secondPlayerResult) {
+        if (CurrentTournament.getInstance().hasTourStarted()) {
+            CurrentTournament.getInstance().tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
+            model.addAttribute("tournament", CurrentTournament.getInstance().tournamentData());
+            return new ResponseEntity<>(CurrentTournament.getInstance().tournamentData(), HttpStatus.OK);
+            //return "tour/setting-score.html";
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+            //return "tour/not_started_yet.html";
+        }
+    }
 
     @PostMapping("/count")
 //    @ResponseBody
@@ -128,7 +160,7 @@ public class PlayController {
         }
         list = playService.arrayWithoutNull(playService.getListResultTour(score));
 
-        score.setEndTour((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
+        score.setEndTour((playService.getSizeArrayList(list) / allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
 
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1));
 //        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
