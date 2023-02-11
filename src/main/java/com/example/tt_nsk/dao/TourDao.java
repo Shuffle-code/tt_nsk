@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
 import java.util.List;
@@ -22,4 +23,8 @@ public interface TourDao extends JpaRepository<Tour, Long> {
 
     @Query(nativeQuery = true, value = "SELECT id, title, date, winner_id, address_id, amount_players, VERSION, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY, LAST_MODIFIED_DATE, STATUS, RESULT_TOUR FROM tournament WHERE date >= :date")
     List<Tour> findUpcomingTournaments(Date date);
+
+    @Query(nativeQuery = true, value = "UPDATE tournament SET current_tournament = :currentTournament")
+    void updateCurrentTournament(@Param("currentTournament") String currentTournament);
+
 }
