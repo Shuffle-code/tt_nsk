@@ -65,10 +65,12 @@
     <include
             file="db/changelog/fillTables/fill-table-user_role.xml"/>
 
-    <!-- =====> наполнение таблиц <===== -->
+    <!-- =====> изменение таблиц <===== -->
 
     <include
             file="db/changelog/modifyTable/modify-table-player.xml"/>
+    <include
+            file="db/changelog/modifyTable/add-column-current_tournament-to-table-tournament.xml"/>
 
 
 </databaseChangeLog> 
