@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -22,5 +23,7 @@ public interface PlayerTournamentRepo extends CrudRepository<PlayerTournament, L
 
     List<PlayerTournament> findAllByTournamentIdOrderByPlayerId(Long tournamentId);
 
+
+    List<PlayerTournament> findAllByTournamentId(Long tournamentId);
 
 }
