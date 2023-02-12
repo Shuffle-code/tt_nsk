@@ -41,12 +41,16 @@
             </li>
             <li sec:authorize="hasAuthority('player.create')" class="nav-item">
                 <a class="nav-link" th:classappend="${activeTab == 'TourNew' ? 'active' : ''}" th:href="@{/tour/new}">Создать турнир</a>
+
             <li class="nav-item">
-                <a class="nav-link" th:classappend="${activeTab == 'Participate' ? 'active' : ''}" th:href="@{/tour}"
-                   th:text="'Турнир(' + ${session.countPlaying == null ? '0)' : session.countPlaying + ')'}"></a>
+                <a class="nav-link" th:classappend="${activeTab == 'TourUpcoming' ? 'active' : ''}" th:href="@{/upcomingTournaments/all}">Выбрать турнир</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:classappend="${activeTab == 'Rules' ? 'active' : ''}" th:href="@{/rules}">Правила турнира</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${activeTab == 'Participate' ? 'active' : ''}" th:href="@{/tour}"
+                   th:text="'ЦУМ 400-650(' + ${session.countPlaying == null ? '0)' : session.countPlaying + ')'}"></a>
             </li>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 <!--            <li sec:authorize="hasAuthority('player.participant')" class="nav-item">-->

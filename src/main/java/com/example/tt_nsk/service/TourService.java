@@ -1,12 +1,12 @@
 package com.example.tt_nsk.service;
 
+import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dao.TourDao;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.TourImage;
 import com.example.tt_nsk.entity.enums.Status;
-import com.example.tt_nsk.entity.enums.TourStatus;
-import lombok.Data;
+import com.example.tt_nsk.entity.security.PlayerTournament;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,10 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +28,8 @@ import java.util.Optional;
 public class TourService {
     private final TourDao tourDao;
     private final TourImageService tourImageService;
+    private final PlayerTournamentRepo playerTournamentRepo;
+    private final PlayerService playerService;
 
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
     public Long count() {
@@ -94,6 +94,20 @@ public class TourService {
             log.error(e.getMessage());
         }
     }
+    public List<PlayerTournament> findAllByTourId(Long tourId){
+        return playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tourId);
+    }
+
+    public List<Player> getListPlayersForFutureTour(List<PlayerTournament> playerTournamentList){
+        List<Player> playerListForFutureTour = new ArrayList<>();
+        for (PlayerTournament p : playerTournamentList) {
+            playerListForFutureTour.add(playerService.findById(p.getPlayerId()));
+        }
+        playerListForFutureTour.sort(Comparator.comparing(Player :: getRating).reversed());
+        return playerListForFutureTour;
+    }
+
+
 
     public List<Tour> findAll(int page, int size) {
         return tourDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size));

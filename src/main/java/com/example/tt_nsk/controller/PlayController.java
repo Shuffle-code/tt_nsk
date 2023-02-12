@@ -65,7 +65,7 @@ public class PlayController {
     public final PlayerDao playerDao;
 
 
-    public List<Player> getAllActiveSortedByRating() {
+    public List<Player> getAllActiveSortedByRating(){
         return playerService.findAllActiveSortedByRating();
     }
 
