@@ -72,7 +72,6 @@ public class EnrollTournament {
         }
         model = createModel(httpSession, model);
         return "/tour/upcoming-tours.html";
-
     }
 
     @Operation(summary = "Снять игрока с турнира")
@@ -98,7 +97,7 @@ public class EnrollTournament {
             model.addAttribute("tours", createTournamentBriefRepresentationDtoList());
         }
         accountUserOptional.ifPresent(accountUser -> {
-            model.addAttribute("playerId", accountUser.getId());
+            model.addAttribute("playerId", accountUser.getPlayer().getId());
             model.addAttribute("tours", createTournamentBriefRepresentationDtoList(accountUser.getId()));
         });
         return model;
