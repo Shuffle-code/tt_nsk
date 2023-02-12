@@ -12,16 +12,20 @@
 <body>
 
 
-<div th:replace="~{common/navbar :: navi(TourInfo)}"></div>
+<div th:replace="~{common/navbar :: navi(TourUpcoming)}"></div>
 
 <div class="d-flex justify-content-center">
     <span th:if="${tours.size() == 0}">Турниров нет</span>
     <div th:unless="${tours.size() == 0}">
         <div class="p-1 text-center bg-light">
-            <h2>Предстоящие турниры</h2>
+            <h3>Предстоящие турниры</h3>
             <td sec:authorize="isAnonymous()">
-                <h4>Чтобы принять участие в турнире, необходимо войти в систему под своим именем</h4>
+                <h5>Чтобы принять участие в турнире, войдите под своим логином</h5>
             </td>
+        </div>
+        <div class="input-group">
+            <input type="search" class="form-control rounded" placeholder="Введите дату турнира" aria-label="Search" aria-describedby="search-addon" />
+            <button type="button" class="btn btn-primary">Поиск</button>
         </div>
         <div>
             <table class="table table-striped">
@@ -31,8 +35,10 @@
                     <th scope="col">Дата</th>
                     <th scope="col">Название</th>
                     <th scope="col">Город</th>
-                    <th sec:authorize="!isAnonymous()" scope="col">Участие</th>
-                    <th sec:authorize="!isAnonymous()" scope="col">Действие</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col">Кол-во</th>
+                    <th sec:authorize="!isAnonymous()" scope="col">Регистрация/снятие</th>
+                    <th sec:authorize="!isAnonymous()" scope="col">Состав</th>
                 </tr>
                 </thead>
 
@@ -42,10 +48,10 @@
                     <td th:text="${tour.date}"></td>
                     <td th:text="${tour.title}"></td>
                     <td th:text="${tour.address.getCity()}"></td>
+                    <td th:text="${tour.address.getStreet()}"></td>
 
-                    <td sec:authorize="!isAnonymous()">
+                    <td>
                         <a th:if="${tour.registered == true}">
-
                             <img
                                     th:src="${(session.user == null)} ? '' : '/player/image/' + ${session.user.getPlayer().getId()}"
                                     class="rounded-circle"
@@ -53,23 +59,28 @@
                                     loading="lazy"
                             />
                         </a>
+                        <a th:if="${tour.registered == true}"
+                           th:text="'(' + ${tour.amountPlayers} + ')'"></a>
+                        <a th:if="${tour.registered == false}"
+                           th:text="'(' + ${tour.amountPlayers} + ')'"></a>
 
                     </td>
-
-
                     <td sec:authorize="!isAnonymous()">
-
                         <a th:if="${tour.registered == false}"
                            type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
-                           class="btn btn-warning">Зарегистрироваться</a>
+                           class="btn btn-outline-success  btn-rounded">Зарегистрироваться</a>
                         <a th:if="${tour.registered == true}"
                            type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
-                           class="btn btn-warning">Сняться с турнира</a>
-
+                           class="btn btn-outline-secondary btn-rounded">Сняться с турнира</a>
+                    </td>
+                    <td sec:authorize="!isAnonymous()">
+<!--                        <a th:if="${tour.registered == false}"-->
+                        <a
+                           type="button" th:href="@{${'/tour/play/' + tour.id}}"
+                           class="btn btn-outline-primary btn-rounded">Посмотреть</a>
                     </td>
                 </tr>
                 </tbody>
-
                 <tfoot>
                 </tfoot>
             </table>

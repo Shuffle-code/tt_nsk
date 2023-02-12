@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.sql.Date;
 
-@Data
+//@Data
 @Getter
 @Setter
 public class TournamentBriefRepresentationDto {
@@ -16,6 +16,7 @@ public class TournamentBriefRepresentationDto {
     private String title;
     private Date date;
     private Address address;
+    private Long amountPlayers;
     private boolean registered;
 }
 

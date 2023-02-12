@@ -21,4 +21,6 @@ public interface PlayerTournamentRepo extends CrudRepository<PlayerTournament, L
     void disenroll(@Param("playerId") Long playerId, @Param("tournamentId") Long tournamentId);
 
     List<PlayerTournament> findAllByTournamentIdOrderByPlayerId(Long tournamentId);
+
+
 }

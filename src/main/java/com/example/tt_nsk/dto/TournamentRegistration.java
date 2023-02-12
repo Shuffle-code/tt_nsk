@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-@Data
+//@Data
 @Getter
 @AllArgsConstructor
 public class TournamentRegistration {

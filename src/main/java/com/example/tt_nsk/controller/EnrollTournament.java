@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,6 @@ public class EnrollTournament {
     public String getUpcomingTournaments(HttpSession httpSession, Model model) {
         model = createModel(httpSession, model);
         return "/tour/upcoming-tours.html";
-
     }
 
     @Operation(summary = "Получение списка турниров, на которые записан игрок")
@@ -59,8 +59,13 @@ public class EnrollTournament {
 
     ) {
         PlayerTournament playerTournament = new PlayerTournament(playerId, tournamentId);
+
         try {
             playerTournamentRepo.save(playerTournament);
+            int size = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId).size();
+            Tour tour = tourDao.findById(tournamentId).get();
+            tour.setAmountPlayers(BigDecimal.valueOf(size));
+            tourDao.save(tour);
         } catch (org.springframework.dao.DataIntegrityViolationException exception) {
             model = createModel(httpSession, model);
             return "/tour/upcoming-tours.html";
@@ -78,6 +83,10 @@ public class EnrollTournament {
 
     ) {
         playerTournamentRepo.disenroll(playerId, tournamentId);
+        int size = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId).size();
+        Tour tour = tourDao.findById(tournamentId).get();
+        tour.setAmountPlayers(BigDecimal.valueOf(size));
+        tourDao.save(tour);
         model = createModel(httpSession, model);
         return "/tour/upcoming-tours.html";
 

@@ -16,9 +16,19 @@ import java.util.*;
 @Slf4j
 public class PlayService {
     private final PlayerService playerService;
+    private final TourService tourService;
 
     public List<Double> getCurrentRatingAllPlayers() {
         List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
+        List<Double> ratingList = new ArrayList<>();
+        for (Player player : allActiveSortedByRating) {
+            ratingList.add(player.getRating().doubleValue());
+        }
+        return ratingList;
+    }
+
+    public List<Double> getCurrentRatingAllPlayersForSelectTour(Long id) {
+        List<Player> allActiveSortedByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
         List<Double> ratingList = new ArrayList<>();
         for (Player player : allActiveSortedByRating) {
             ratingList.add(player.getRating().doubleValue());

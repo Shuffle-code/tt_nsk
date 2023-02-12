@@ -55,7 +55,7 @@ public class PlayController {
 
     private final ModelMapper modelMapper = new ModelMapper();
 
-    public List<Player> getAllActiveSortedByRating() {
+    public List<Player> getAllActiveSortedByRating(){
         return playerService.findAllActiveSortedByRating();
     }
 
