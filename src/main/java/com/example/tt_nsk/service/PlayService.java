@@ -27,6 +27,15 @@ public class PlayService {
         return ratingList;
     }
 
+    public List<Double> getCurrentRatingAllPlayersForSelectTour(List<Player> allActiveSortedByRating) {
+//        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
+        List<Double> ratingList = new ArrayList<>();
+        for (Player player : allActiveSortedByRating) {
+            ratingList.add(player.getRating().doubleValue());
+        }
+        return ratingList;
+    }
+
     public List<Double> getCurrentRatingAllPlayersForSelectTour(Long id) {
         List<Player> allActiveSortedByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
         List<Double> ratingList = new ArrayList<>();
@@ -242,6 +251,18 @@ public class PlayService {
         for (int i = 0; i < getCurrentRatingAllPlayers().size(); i++) {
             Scoring scoring = new Scoring();
             scoring.setRating(getCurrentRatingAllPlayers().get((i)));
+            scoring.setPlacePlayer(i + 1);
+            scoring.setIdPlayer(allActiveSortedByRating.get(i).getId());
+            scoringMap.put(String.valueOf(i), scoring);
+        }
+        return scoringMap;
+    }
+    public Map<String, Scoring> writeMapWithNullScore (List<Player> allActiveSortedByRating){
+        Map<String, Scoring> scoringMap = new HashMap<>();
+//        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
+        for (int i = 0; i < getCurrentRatingAllPlayersForSelectTour(allActiveSortedByRating).size(); i++) {
+            Scoring scoring = new Scoring();
+            scoring.setRating(getCurrentRatingAllPlayersForSelectTour(allActiveSortedByRating).get((i)));
             scoring.setPlacePlayer(i + 1);
             scoring.setIdPlayer(allActiveSortedByRating.get(i).getId());
             scoringMap.put(String.valueOf(i), scoring);
