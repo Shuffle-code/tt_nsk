@@ -40,6 +40,18 @@ public class TourController {
 //        httpSession.setAttribute("countPlaying", playerService.countPlaying());
 //        return "tour/tour-form";
 //    }
+
+@GetMapping("/play/{tourId}")
+public String findAllActiveSortedRatingForSelectTour(Model model,Score score, HttpSession httpSession,
+                                                     @PathVariable(name = "tourId") Long id) {
+    Tour tour = tourDao.findById(id).get();
+    List<Player> allByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
+    LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayersForSelectTour(id)));
+    model.addAttribute("legUp", legUp);
+    model.addAttribute("tour", tour);
+    model.addAttribute("scope", score);
+    return returnPage(allByRating, model, httpSession);
+}
     @GetMapping
     public String findAllActiveSortedRatingForWebpage(Model model,Score score, HttpSession httpSession) {
         Tour tour = new Tour();
@@ -49,7 +61,6 @@ public class TourController {
         model.addAttribute("tour", tour);
         model.addAttribute("scope", score);
         httpSession.setMaxInactiveInterval(25000);
-
         return returnPage(allActiveSortedByRating, model, httpSession);
     }
     public String returnPage(List<Player> allActiveSortedByRating, Model model, HttpSession httpSession){

@@ -1,10 +1,13 @@
 package com.example.tt_nsk.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter
+@Setter
 public class PlayerBriefRepresentationDto {
-
     private Long playerId;
     private String firstname;
     private String patronymic;
@@ -13,7 +16,4 @@ public class PlayerBriefRepresentationDto {
     private Double delta;
     private String sets;
     private Integer place;
-
-
-
 }

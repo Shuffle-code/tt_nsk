@@ -1,15 +1,23 @@
 package com.example.tt_nsk.service;
 
+import com.example.tt_nsk.controller.PlayController;
+import com.example.tt_nsk.dao.PlayerDao;
+import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.LegUp;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.Score;
 import com.example.tt_nsk.entity.Scoring;
+import com.example.tt_nsk.tournament.CurrentTournament;
+import com.example.tt_nsk.tournament.TournamentData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +25,23 @@ import java.util.*;
 public class PlayService {
     private final PlayerService playerService;
 
+    private final TourService tourService;
+    private final PlayerTournamentRepo playerTournamentRepo;
+    private final PlayerDao playerDao;
+    public final ModelMapper modelMapper = new ModelMapper();
+
+
     public List<Double> getCurrentRatingAllPlayers() {
         List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
+        List<Double> ratingList = new ArrayList<>();
+        for (Player player : allActiveSortedByRating) {
+            ratingList.add(player.getRating().doubleValue());
+        }
+        return ratingList;
+    }
+
+    public List<Double> getCurrentRatingAllPlayersForSelectTour(Long id) {
+        List<Player> allActiveSortedByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
         List<Double> ratingList = new ArrayList<>();
         for (Player player : allActiveSortedByRating) {
             ratingList.add(player.getRating().doubleValue());
@@ -144,7 +167,7 @@ public class PlayService {
         return place;
     }
 
-    public List<List<String>> compileResultTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
+    public List<List<String>> compileLegUpTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
         if (playerBriefRepresentationDtoList.isEmpty()) {
             return Collections.emptyList();
         }
@@ -197,6 +220,32 @@ public class PlayService {
         } else {
             return legUp +"/0";
         }
+    }
+
+    public TournamentData startTournament(long tourId, int setsToWinGame) {
+        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayersOrderByRatingDesc(tourId);
+        List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> playerPairs =
+               playerService.dividePlayersIntoPairs(playerBriefRepresentationDtoListSortedByRatingDesc);
+        List<List<String>> legUpTable = List.copyOf(compileLegUpTable(playerBriefRepresentationDtoListSortedByRatingDesc));
+        List<TournamentData.Game> gameList = List.copyOf(playerPairs.stream().map(p -> new TournamentData.Game(p)).collect(Collectors.toList()));
+
+        TournamentData tournamentData = TournamentData.builder()
+                .gamesList(gameList)
+                .legUpTable(legUpTable)
+                .build();
+
+        CurrentTournament currentTournament = CurrentTournament.getInstance();
+        currentTournament.startTour(tournamentData, setsToWinGame);
+        return tournamentData;
+    }
+
+    private List<PlayerBriefRepresentationDto> getAllRegisteredPlayersOrderByRatingDesc(Long tournamentId) {
+
+
+        List<Long> playerIdList = playerTournamentRepo.findAllByTournamentId(tournamentId)
+                .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
+        List<Player> playerList = playerDao.findAllByIdsOrderByRatingDesc(playerIdList);
+        return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
     }
 
     public class WinComparator implements Comparator<Scoring>
