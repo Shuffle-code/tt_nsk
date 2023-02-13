@@ -98,7 +98,7 @@ public class EnrollTournament {
         }
         accountUserOptional.ifPresent(accountUser -> {
             model.addAttribute("playerId", accountUser.getPlayer().getId());
-            model.addAttribute("tours", createTournamentBriefRepresentationDtoList(accountUser.getId()));
+            model.addAttribute("tours", createTournamentBriefRepresentationDtoList(accountUser.getPlayer().getId()));
         });
         return model;
     }
