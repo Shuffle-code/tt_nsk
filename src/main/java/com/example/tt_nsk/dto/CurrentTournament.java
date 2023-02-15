@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Data
+//@Data
 @Getter
 @Builder
 public class CurrentTournament {

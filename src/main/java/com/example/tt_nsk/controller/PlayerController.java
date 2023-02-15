@@ -60,13 +60,9 @@ public class PlayerController {
         Player player;
         if (id != null) {
             player = playerService.findById(id);
-//            List<String> images = new ArrayList<>(PlayerImageService.uploadMultipleFilesByPlayerId(id));
-//            model.addAttribute("PlayerImages", images);
         } else {
             player = new Player();
         }
-//        model.addAttribute("categoryService", categoryService);
-//        model.addAttribute("manufacturers", manufacturerService.findAll());
         model.addAttribute("player", player);
         return "player/player-form";
     }

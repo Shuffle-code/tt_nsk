@@ -52,14 +52,18 @@ public class PlayController {
 
     private final PlayerTournamentRepo playerTournamentRepo;
     private final PlayerDao playerDao;
-
+    private final TourService tourService;
     private final ModelMapper modelMapper = new ModelMapper();
 
     public List<Player> getAllActiveSortedByRating(){
         return playerService.findAllActiveSortedByRating();
     }
+    public List<Player> getAllSortedByRating(@PathVariable(name = "tourId") Long id){
+        return tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
+    }
 
-    @GetMapping("/allplayers")
+
+    @GetMapping("/all-players")
     @ResponseBody
     public List<PlayerBriefRepresentationDto> getAllRegisteredPlayers(Long tournamentId) {
         List<Long> playerIdList = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId)
@@ -70,7 +74,7 @@ public class PlayController {
     }
 
 
-    @GetMapping("/currentscore")
+    @GetMapping("/current-score")
     public String createCurrentTournament(HttpSession httpSession, Model model){
         List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
         List<List<String>> results = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
@@ -86,11 +90,15 @@ public class PlayController {
 
 
 
-    @PostMapping("/count")
+    @PostMapping("/count/{tourId}")
 //    @ResponseBody
-    public String scoringTour(Score score, Model model, HttpSession httpSession) {
+    public String scoringTour(Score score, Model model, HttpSession httpSession, @PathVariable(name = "tourId", required = false) Long id) {
+        System.out.println("id = " + id);
         LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
-        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
+        List<Player> allActiveSortedByRating;
+        if (id == null) {
+            allActiveSortedByRating = getAllActiveSortedByRating();
+        }else allActiveSortedByRating = getAllSortedByRating(id);
         switch (allActiveSortedByRating.size()) {
             case 3:
                 tourController.createListPlayersTour(model, httpSession, allActiveSortedByRating);
@@ -137,7 +145,9 @@ public class PlayController {
 //        System.out.println(jsonObject);
         resultTour = playService.getResultTour(list);
         playService.placePlayer(resultTour);
+        Tour tour = tourDao.findById(id).get();
         model.addAttribute("legUp", legUp);
+        model.addAttribute("tour", tour);
         return returnPageScoring(allActiveSortedByRating, model, resultTour);
     }
 
