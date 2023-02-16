@@ -14,7 +14,7 @@
 
 <div th:replace="~{common/navbar :: navi(Participate)}"></div>
 <div class="d-flex justify-content-center">
-    <form class="row g-3 needs-validation" th:object="${score}" th:action="@{${'/tour/count/' + tour.id}}" method="post"
+    <form class="row g-3 needs-validation" th:object="${score}" th:action="@{/tour/count(id=${tour.id})}" method="post"
           enctype="multipart/form-data">
     <span th:if="${countPlaying == 0}">Игроков нет</span>
     <div th:unless="${countPlaying == 0}">

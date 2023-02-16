@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/tour")
 public class TourController {
-
     private final PlayerService playerService;
     private final TourDao tourDao;
     private final UserService userService;
@@ -34,27 +33,27 @@ public class TourController {
     private final AccountRoleDao accountRoleDao;
     private final PlayService playService;
     private final PairService pairService;
-@GetMapping("/play/{tourId}")
-public String findSortedRatingForSelectTour(Model model,Score score, HttpSession httpSession,
-                                                     @PathVariable(name = "tourId") Long id) {
-    Tour tour = tourDao.findById(id).get();
-    List<Player> allByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
-    LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayersForSelectTour(id)));
-    model.addAttribute("legUp", legUp);
-    model.addAttribute("tour", tour);
-    model.addAttribute("scope", score);
-    return returnPage(allByRating, model, httpSession);
-}
+
     @GetMapping
-    public String findAllActiveSortedRatingForWebpage(Model model,Score score, HttpSession httpSession) {
-        Tour tour = new Tour();
-        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
-        LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
+    public String findAllActiveSortedRatingForWebpage(Model model,Score score, HttpSession httpSession,
+                                                      @RequestParam(name = "id", required = false) Long id) {
+        Tour tour;
+        List<Player> allByRating;
+        LegUp legUp;
+        if (id != null) {
+            tour = tourDao.findById(id).get();
+            allByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
+            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allByRating), allByRating));
+        } else {
+            tour = new Tour();
+            allByRating = playerService.findAllActiveSortedByRating();
+            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
+        }
         model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
         model.addAttribute("scope", score);
         httpSession.setMaxInactiveInterval(25000);
-        return returnPage(allActiveSortedByRating, model, httpSession);
+        return returnPage(allByRating, model, httpSession);
     }
     public String returnPage(List<Player> allSortedByRating, Model model, HttpSession httpSession){
       switch (allSortedByRating.size()) {
@@ -111,7 +110,16 @@ public String findSortedRatingForSelectTour(Model model,Score score, HttpSession
         model.addAttribute("player3", allSortedByRating.get(2));
     return model;
     }
-
+    public Model createModelWith7Players(Model model, List<Player> allSortedByRating){
+        model.addAttribute("player1", allSortedByRating.get(0));
+        model.addAttribute("player2", allSortedByRating.get(1));
+        model.addAttribute("player3", allSortedByRating.get(2));
+        model.addAttribute("player4", allSortedByRating.get(3));
+        model.addAttribute("player5", allSortedByRating.get(4));
+        model.addAttribute("player6", allSortedByRating.get(5));
+        model.addAttribute("player7", allSortedByRating.get(6));
+        return model;
+    }
     public Model createModelWith10Players(Model model, List<Player> allSortedByRating){
         model.addAttribute("player1", allSortedByRating.get(0));
         model.addAttribute("player2", allSortedByRating.get(1));
@@ -126,42 +134,26 @@ public String findSortedRatingForSelectTour(Model model,Score score, HttpSession
         return model;
     }
 
-    public Model createModelWith7Players(Model model, List<Player> allSortedByRating){
-        model.addAttribute("player1", allSortedByRating.get(0));
-        model.addAttribute("player2", allSortedByRating.get(1));
-        model.addAttribute("player3", allSortedByRating.get(2));
-        model.addAttribute("player4", allSortedByRating.get(3));
-        model.addAttribute("player5", allSortedByRating.get(4));
-        model.addAttribute("player6", allSortedByRating.get(5));
-        model.addAttribute("player7", allSortedByRating.get(6));
-        return model;
-    }
-
-
-    public void createListPlayersTour(Model model, HttpSession httpSession, List<Player> allSortedByRating){
-        createModelWith3Players(model, allSortedByRating);
-        addAttributeFor3Model(finishMethodCreateListPlayersTour(model, httpSession, allSortedByRating), model);
-    }
-
     public Model addAttributeFor3Model (Map<String, Scoring> resultTour, Model model){
         model.addAttribute("result1" , resultTour.get("0"));
         model.addAttribute("result2" , resultTour.get("1"));
         model.addAttribute("result3" , resultTour.get("2"));
         return model;
     }
+    public void createListPlayersTour(Model model, HttpSession httpSession, List<Player> allSortedByRating){
+        createModelWith3Players(model, allSortedByRating);
+        addAttributeFor3Model(finishMethodCreateListPlayersTour(model, httpSession, allSortedByRating), model);
+    }
     public void createListFor4PlayersTour(Model model, HttpSession httpSession, List<Player> allSortedByRating){
         createModelWith3Players(model, allSortedByRating);
         model.addAttribute("player4", allSortedByRating.get(3));
         addAttributeFor4Model(finishMethodCreateListPlayersTour(model, httpSession, allSortedByRating), model);
-
     }
     public Model addAttributeFor4Model (Map<String, Scoring> resultTour, Model model){
         addAttributeFor3Model(resultTour, model);
         model.addAttribute("result4" , resultTour.get("3"));
         return model;
     }
-
-
 
     public void createListFor5PlayersTour(Model model, HttpSession httpSession, List<Player> allSortedByRating){
         createModelWith3Players(model, allSortedByRating);

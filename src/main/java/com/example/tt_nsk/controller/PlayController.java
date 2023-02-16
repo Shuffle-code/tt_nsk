@@ -90,15 +90,23 @@ public class PlayController {
 
 
 
-    @PostMapping("/count/{tourId}")
+    @PostMapping("/count")
 //    @ResponseBody
-    public String scoringTour(Score score, Model model, HttpSession httpSession, @PathVariable(name = "tourId", required = false) Long id) {
+    public String scoringTour(Score score, Model model, HttpSession httpSession,
+                              @RequestParam(name = "id", required = false) Long id) {
         System.out.println("id = " + id);
-        LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
+        LegUp legUp;
         List<Player> allActiveSortedByRating;
+        Tour tour;
         if (id == null) {
             allActiveSortedByRating = getAllActiveSortedByRating();
-        }else allActiveSortedByRating = getAllSortedByRating(id);
+            tour = new Tour();
+            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
+        }else {
+            allActiveSortedByRating = getAllSortedByRating(id);
+            tour = tourDao.findById(id).get();
+            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allActiveSortedByRating)));
+        }
         switch (allActiveSortedByRating.size()) {
             case 3:
                 tourController.createListPlayersTour(model, httpSession, allActiveSortedByRating);
@@ -135,17 +143,9 @@ public class PlayController {
                 break;
         }
         list = playService.arrayWithoutNull(playService.getListResultTour(score));
-
         score.setEndTour((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
-
-//        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1));
-//        System.out.println((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
-//        System.out.println(score);
-//        JSONObject jsonObject = new JSONObject(score);
-//        System.out.println(jsonObject);
         resultTour = playService.getResultTour(list);
         playService.placePlayer(resultTour);
-        Tour tour = tourDao.findById(id).get();
         model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
         return returnPageScoring(allActiveSortedByRating, model, resultTour);
