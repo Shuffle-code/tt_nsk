@@ -49,7 +49,6 @@ public class PlayController {
     private static final String path = "tours";
     @Value("${storage.location}")
     private String storagePath;
-
     private final PlayerTournamentRepo playerTournamentRepo;
     private final PlayerDao playerDao;
     private final TourService tourService;
@@ -61,8 +60,6 @@ public class PlayController {
     public List<Player> getAllSortedByRating(@PathVariable(name = "tourId") Long id){
         return tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
     }
-
-
     @GetMapping("/all-players")
     @ResponseBody
     public List<PlayerBriefRepresentationDto> getAllRegisteredPlayers(Long tournamentId) {
@@ -72,8 +69,6 @@ public class PlayController {
         //createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
         return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
     }
-
-
     @GetMapping("/current-score")
     public String createCurrentTournament(HttpSession httpSession, Model model){
         List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
@@ -87,110 +82,31 @@ public class PlayController {
 
         return "tour/currentScore.html";
     }
-
-
-
     @PostMapping("/count")
 //    @ResponseBody
     public String scoringTour(Score score, Model model, HttpSession httpSession,
                               @RequestParam(name = "id", required = false) Long id) {
-        System.out.println("id = " + id);
         LegUp legUp;
-        List<Player> allActiveSortedByRating;
+        List<Player> allByRating;
         Tour tour;
-        if (id == null) {
-            allActiveSortedByRating = getAllActiveSortedByRating();
-            tour = new Tour();
-            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
-        }else {
-            allActiveSortedByRating = getAllSortedByRating(id);
+        if (id != null) {
             tour = tourDao.findById(id).get();
-            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allActiveSortedByRating)));
-        }
-        switch (allActiveSortedByRating.size()) {
-            case 3:
-                tourController.createListPlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 4:
-                tourController.createListFor4PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 5:
-                tourController.createListFor5PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 6:
-                tourController.createListFor6PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 7:
-                tourController.createListFor7PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 8:
-                tourController.createListFor8PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 9:
-                tourController.createListFor9PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 10:
-                tourController.createListFor10PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 11:
-                tourController.createListFor11PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 12:
-                tourController.createListFor12PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
-            case 13:
-                tourController.createListFor13PlayersTour(model, httpSession, allActiveSortedByRating);
-                break;
+            allByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
+            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allByRating), allByRating));
+        } else {
+            tour = new Tour();
+            allByRating = playerService.findAllActiveSortedByRating();
+            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
         }
         list = playService.arrayWithoutNull(playService.getListResultTour(score));
-        score.setEndTour((playService.getSizeArrayList(list)/allActiveSortedByRating.size() + 1) == allActiveSortedByRating.size());
+        score.setEndTour((playService.getSizeArrayList(list)/allByRating.size() + 1) == allByRating.size());
         resultTour = playService.getResultTour(list);
         playService.placePlayer(resultTour);
         model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
-        return returnPageScoring(allActiveSortedByRating, model, resultTour);
+//        return returnPageScoring(allByRating, model, resultTour);
+        return tourController.returnPage(allByRating, model, httpSession, resultTour);
     }
-
-    public String returnPageScoring(List<Player> allActiveSortedByRating, Model model, Map<String, Scoring> resultTour) {
-        switch (allActiveSortedByRating.size()) {
-            case 3:
-                tourController.addAttributeFor3Model(resultTour, model);
-                return "tour/tour-form-server-for3players";
-            case 4:
-                tourController.addAttributeFor4Model(resultTour, model);
-                return "tour/tour-form-server-for4players";
-            case 5:
-                tourController.addAttributeFor5Model(resultTour, model);
-                return "tour/tour-form-server-for5players";
-            case 6:
-                tourController.addAttributeFor6Model(resultTour, model);
-                return "tour/tour-form-server-for6players";
-            case 7:
-                tourController.addAttributeFor7Model(resultTour, model);
-                return "tour/tour-form-server-for7players";
-            case 8:
-                tourController.addAttributeFor8Model(resultTour, model);
-                return "tour/tour-form-server-for8players";
-            case 9:
-                tourController.addAttributeFor9Model(resultTour, model);
-                return "tour/tour-form-server-for9players";
-            case 10:
-                tourController.addAttributeFor10Model(resultTour, model);
-                return "tour/tour-form-server-for10players";
-            case 11:
-                tourController.addAttributeFor11Model(resultTour, model);
-                return "tour/tour-form-server-for11players";
-            case 12:
-                tourController.addAttributeFor12Model(resultTour, model);
-                return "tour/tour-form-server-for12players";
-            case 13:
-                tourController.addAttributeFor13Model(resultTour, model);
-                return "tour/tour-form-server-for13players";
-            default:
-                return "tour/tour-form";
-        }
-    }
-
     @GetMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create')")
     public String showFormForPlayedTour(Model model) {
@@ -200,7 +116,6 @@ public class PlayController {
         filename = createScreenshotMultipleScreens();
         return "tour/add-played-tour";
     }
-
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
     public String saveTourForPlayedTour(Tour tour, @RequestParam("files") MultipartFile[] files) {
@@ -214,8 +129,6 @@ public class PlayController {
         tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
         return "redirect:/tour/all";
     }
-
-
     private void savePlayersFromTour(Map<String, Scoring> resultTour) {
         List<Scoring> listFromMap = playService.getListFromMap(resultTour);
         for (Scoring sc : listFromMap) {
@@ -224,8 +137,6 @@ public class PlayController {
             playerService.save(byId);
         }
     }
-
-
     public Tour savePlayedTour(Tour tour, MultipartFile multipartFile) {
         tour.setAmountPlayers(BigDecimal.valueOf(resultTour.size()));
         tour.setDate(new Date());

@@ -26,7 +26,6 @@ public class PlayService {
         }
         return ratingList;
     }
-
     public List<Double> getCurrentRatingAllPlayersForSelectTour(List<Player> allActiveSortedByRating) {
 //        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
         List<Double> ratingList = new ArrayList<>();
@@ -368,6 +367,20 @@ public class PlayService {
     public HashMap<String, String> getLegUpBeforeStartingTour(List<Double> currentRating){
         HashMap<String, String> legUpStrArr = new HashMap<>();
         Double currentRatingElement = getAllActiveSortedByRating().get(0).getRating().doubleValue();
+        for (int i = 0; i < currentRating.size() - 1 ; i++) {
+            for (int j = 1; j < currentRating.size(); j++) {
+                if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
+                    legUpStrArr.put("fx" + (i + 1) + "y" + (j + 1), scoringLegUp(currentRatingElement, currentRating.get(j)));
+                }
+            }
+            currentRatingElement = currentRating.get(i + 1);
+        }
+        return legUpStrArr;
+    }
+
+    public HashMap<String, String> getLegUpBeforeStartingTour(List<Double> currentRating, List<Player> playerList){
+        HashMap<String, String> legUpStrArr = new HashMap<>();
+        Double currentRatingElement = playerList.get(0).getRating().doubleValue();
         for (int i = 0; i < currentRating.size() - 1 ; i++) {
             for (int j = 1; j < currentRating.size(); j++) {
                 if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
