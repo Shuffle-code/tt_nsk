@@ -93,18 +93,21 @@ public class PlayController {
             tour = tourDao.findById(id).get();
             allByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
             legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allByRating), allByRating));
+            list = playService.arrayWithoutNull(playService.getListResultTour(score));
+            score.setEndTour((playService.getSizeArrayList(list)/allByRating.size() + 1) == allByRating.size());
+            resultTour = playService.getResultTour(list, allByRating);
+            playService.placePlayer(resultTour);
         } else {
             tour = new Tour();
             allByRating = playerService.findAllActiveSortedByRating();
             legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
+            list = playService.arrayWithoutNull(playService.getListResultTour(score));
+            score.setEndTour((playService.getSizeArrayList(list)/allByRating.size() + 1) == allByRating.size());
+            resultTour = playService.getResultTour(list);
+            playService.placePlayer(resultTour);
         }
-        list = playService.arrayWithoutNull(playService.getListResultTour(score));
-        score.setEndTour((playService.getSizeArrayList(list)/allByRating.size() + 1) == allByRating.size());
-        resultTour = playService.getResultTour(list);
-        playService.placePlayer(resultTour);
         model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
-//        return returnPageScoring(allByRating, model, resultTour);
         return tourController.returnPage(allByRating, model, httpSession, resultTour);
     }
     @GetMapping("/save")

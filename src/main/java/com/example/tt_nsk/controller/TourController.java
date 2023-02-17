@@ -55,6 +55,9 @@ public class TourController {
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore(allByRating);
         return returnPage(allByRating, model, httpSession, resultTour);
     }
+
+
+
     public String returnPage(List<Player> allSortedByRating, Model model, HttpSession httpSession, Map<String, Scoring> resultTour){
       switch (allSortedByRating.size()) {
           case 3:
