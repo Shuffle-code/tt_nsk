@@ -84,7 +84,7 @@ public class PlayController {
         return new ResponseEntity<>(tournamentData, HttpStatus.OK);
     }
 
-    @Operation(summary = "Получен е текущего счета")
+    @Operation(summary = "Получение текущего счета")
     @GetMapping("/currentscore")
     @ResponseBody
     public ResponseEntity<List<List<TournamentData.PlaySet>>> currentScore(HttpSession httpSession, Model model) {

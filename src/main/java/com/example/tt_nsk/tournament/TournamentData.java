@@ -17,7 +17,8 @@ public class TournamentData {
     private static final int SCORE_DIFFERENCE = 2;
     private List<List<String>> legUpTable;
     private List<Game> gamesList;
-    //private int setsToWinGame;
+    private boolean tourStarted = false;
+    private int playSetsToWinGame;
 
     public List<Integer> columns() {
         List<Integer> integers = new ArrayList<>();
@@ -80,7 +81,7 @@ public class TournamentData {
                 }
             }
 
-            if (Math.abs(firstPlayerWonSets - secondPlayerWonSets) >= CurrentTournament.getInstance().getSetsToWinGame()) {
+            if (Math.abs(firstPlayerWonSets - secondPlayerWonSets) >= CurrentTournament.getInstance().tournamentData().getPlaySetsToWinGame()) {
                 gameStatus = GameStatus.FINISHED;
                 if (firstPlayerWonSets > secondPlayerWonSets) {
                     gameWinner = playerPair.getFirst();
