@@ -73,8 +73,8 @@ public class PlayController {
     @GetMapping("/starttournament/{tourId}/{setsToWinGame}")
     @ResponseBody
     public ResponseEntity<TournamentData> startTournament(HttpSession httpSession, Model model,
-    @Parameter(name = "tourId", description = "ID турнира", example = "87") @PathVariable long tourId,
-    @Parameter(name = "setsToWinGame", description = "Количество выигранных сетов для победы в игре", example = "3") @PathVariable int setsToWinGame) {
+                                                          @Parameter(name = "tourId", description = "ID турнира", example = "87") @PathVariable long tourId,
+                                                          @Parameter(name = "setsToWinGame", description = "Количество выигранных сетов для победы в игре", example = "3") @PathVariable int setsToWinGame) {
         TournamentData tournamentData = null;
         if (!CurrentTournament.getInstance().hasTourStarted()) {
             tournamentData = playService.startTournament(tourId, setsToWinGame);
@@ -104,12 +104,15 @@ public class PlayController {
     @RequestMapping(value = "/setscore/{gameOrder}/{firstPlayerResult}/{secondPlayerResult}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<TournamentData> setScore(HttpSession httpSession, Model model,
-    @Parameter(name = "gameOrder", description = "Номер пары игроков в турнире", example = "1") @PathVariable int gameOrder,
-    @Parameter(name = "firstPlayerResult", description = "Результат первого игрока в сете", example = "9") @PathVariable int firstPlayerResult,
-    @Parameter(name = "secondPlayerResult", description = "Результат второго игрока в сете", example = "11") @PathVariable int secondPlayerResult) {
+                                                   @Parameter(name = "gameOrder", description = "Номер пары игроков в турнире", example = "1") @PathVariable int gameOrder,
+                                                   @Parameter(name = "firstPlayerResult", description = "Результат первого игрока в сете", example = "9") @PathVariable int firstPlayerResult,
+                                                   @Parameter(name = "secondPlayerResult", description = "Результат второго игрока в сете", example = "11") @PathVariable int secondPlayerResult) {
         if (CurrentTournament.getInstance().hasTourStarted()) {
-            CurrentTournament.getInstance().tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
+            boolean playSetAdded = CurrentTournament.getInstance().tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
             model.addAttribute("tournament", CurrentTournament.getInstance().tournamentData());
+            if (playSetAdded) {
+                String currentTournamentState = playService.createCurrentTournamentState(CurrentTournament.getInstance().tournamentData());
+            }
             return new ResponseEntity<>(CurrentTournament.getInstance().tournamentData(), HttpStatus.OK);
             //return "tour/setting-score.html";
         } else {

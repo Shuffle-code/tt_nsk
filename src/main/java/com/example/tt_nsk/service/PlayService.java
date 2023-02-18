@@ -1,6 +1,5 @@
 package com.example.tt_nsk.service;
 
-import com.example.tt_nsk.controller.PlayController;
 import com.example.tt_nsk.dao.PlayerDao;
 import com.example.tt_nsk.dao.PlayerTournamentRepo;
 import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
@@ -10,14 +9,25 @@ import com.example.tt_nsk.entity.Score;
 import com.example.tt_nsk.entity.Scoring;
 import com.example.tt_nsk.tournament.CurrentTournament;
 import com.example.tt_nsk.tournament.TournamentData;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.SerializableString;
+import com.fasterxml.jackson.core.io.SerializedString;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.restassured.internal.assertion.Assertion;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.CRC32;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +37,9 @@ public class PlayService {
     private final PlayerTournamentRepo playerTournamentRepo;
     private final PlayerDao playerDao;
     public final ModelMapper modelMapper = new ModelMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Base64.Encoder encoder = Base64.getEncoder();
+    private final Base64.Decoder decoder = Base64.getDecoder();
 
     public List<Double> getCurrentRatingAllPlayers() {
         List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
@@ -36,6 +49,7 @@ public class PlayService {
         }
         return ratingList;
     }
+
     public List<Double> getCurrentRatingAllPlayers(List<Player> allActiveSortedByRating) {
 //        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
         List<Double> ratingList = new ArrayList<>();
@@ -54,6 +68,7 @@ public class PlayService {
         }
         return withoutNull;
     }
+
     public int getSizeArrayList (List<String> list){
         return list.size();
     }
@@ -215,13 +230,9 @@ public class PlayService {
         List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> playerPairs =
                playerService.dividePlayersIntoPairs(playerBriefRepresentationDtoListSortedByRatingDesc);
         List<List<String>> legUpTable = List.copyOf(compileLegUpTable(playerBriefRepresentationDtoListSortedByRatingDesc));
-        List<TournamentData.Game> gameList = List.copyOf(playerPairs.stream().map(p -> new TournamentData.Game(p)).collect(Collectors.toList()));
+        List<TournamentData.Game> gameList = List.copyOf(playerPairs.stream().map(p -> new TournamentData.Game(p.getFirst(), p.getSecond())).collect(Collectors.toList()));
 
-        TournamentData tournamentData = TournamentData.builder()
-                .gamesList(gameList)
-                .legUpTable(legUpTable)
-                .build();
-
+        TournamentData tournamentData = new TournamentData(tourId, legUpTable, gameList, true, setsToWinGame);
         CurrentTournament currentTournament = CurrentTournament.getInstance();
         currentTournament.startTour(tournamentData, setsToWinGame);
         return tournamentData;
@@ -234,6 +245,24 @@ public class PlayService {
                 .stream().map(pt -> pt.getPlayerId()).collect(Collectors.toList());
         List<Player> playerList = playerDao.findAllByIdsOrderByRatingDesc(playerIdList);
         return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
+    }
+
+    public String createCurrentTournamentState(TournamentData tournamentData) {
+        String tournamentDataString;
+        try {
+            tournamentDataString = objectMapper.writeValueAsString(tournamentData);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "";
+        }
+
+        String encodedTournament = encoder.encodeToString(tournamentDataString.getBytes());
+
+//        byte[] qq =decoder.decode(encodedTournament);
+//        String qqqq = encoder.encodeToString(qq);
+//        encodedTournament.equals(qqqq);
+        
+        return encodedTournament;
     }
 
     public class WinComparator implements Comparator<Scoring>
