@@ -70,6 +70,7 @@ public class PlayController {
         //createCurrentTournament(playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList()));
         return playerList.stream().map(player -> modelMapper.map(player, PlayerBriefRepresentationDto.class)).collect(Collectors.toList());
     }
+
     @GetMapping("/current-score")
     public String createCurrentTournament(HttpSession httpSession, Model model){
         List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
@@ -111,6 +112,7 @@ public class PlayController {
         model.addAttribute("tour", tour);
         return tourController.returnPage(allByRating, model, httpSession, resultTour);
     }
+
     @GetMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create')")
     public String showFormForPlayedTour(Model model) {
@@ -120,6 +122,7 @@ public class PlayController {
         filename = createScreenshotMultipleScreens();
         return "tour/add-played-tour";
     }
+
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
     public String saveTourForPlayedTour(Tour tour, @RequestParam("files") MultipartFile[] files) {
@@ -133,6 +136,7 @@ public class PlayController {
         tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
         return "redirect:/tour/all";
     }
+
     private void savePlayersFromTour(Map<String, Scoring> resultTour) {
         List<Scoring> listFromMap = playService.getListFromMap(resultTour);
         for (Scoring sc : listFromMap) {
@@ -141,6 +145,7 @@ public class PlayController {
             playerService.save(byId);
         }
     }
+
     public Tour savePlayedTour(Tour tour, MultipartFile multipartFile) {
         tour.setAmountPlayers(BigDecimal.valueOf(resultTour.size()));
         tour.setDate(new Date());
