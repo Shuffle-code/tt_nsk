@@ -60,10 +60,10 @@
                     <td sec:authorize="!isAnonymous()">
 
                         <a th:if="${tour.registered == false}"
-                           type="button" th:href="@{${'/upcomingTournaments/enroll/' + playerId + '/' + tour.id}}"
+                           type="button" th:href="@{${'/upcomingTournaments/enroll/' + ${session.user.getPlayer().getId()} + '/' + tour.id}}"
                            class="btn btn-warning">Зарегистрироваться</a>
                         <a th:if="${tour.registered == true}"
-                           type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
+                           type="button" th:href="@{${'/upcomingTournaments/disenroll/' + ${session.user.getPlayer().getId()} + '/' + tour.id}}"
                            class="btn btn-warning">Сняться с турнира</a>
 
                     </td>
