@@ -118,7 +118,7 @@ public class PlayerImageService {
         Long idPlayer = playerImage.getPlayer().getId();
         PlayerImage image = playerImageDao.findFirstByPlayerId(idPlayer);
         if (playerImageDao.count(playerImage.getPlayer().getId()) > 1 && image.getPath().equals("image104-66.jpg")){
-            System.out.println(image.getPath());
+//            System.out.println(image.getPath());
             playerImageDao.delete(image);
         }
     }

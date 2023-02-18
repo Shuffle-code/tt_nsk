@@ -32,16 +32,15 @@
                 <div class="col-sm-6 controls">
                     <button type="submit" class="btn btn-primary">Confirm</button>
                 </div>
-                <br>
-
-                <p>Для возврата к авторизации перейдите по <a th:href="@{/auth/login}">ссылке</a></p>
-
-                <foot>
-                    <br>
-                    <br>
-                </foot>
             </div>
             <div th:replace="~{common/footer :: footerBlock}"/>
+        </form>
+
+        <br>
+        <h6>Возврат к окну авторизации</h6>
+        <br>
+        <form th:action="@{/auth/changeUsername}" method="post">
+            <button type="submit" class="btn btn-primary">Return</button>
         </form>
 </body>
 </html>

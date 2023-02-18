@@ -57,13 +57,13 @@
                 <td th:text="${player.rating}"></td>
                 <td th:text="${player.ratingTtw}"></td>
                 <td sec:authorize="hasAuthority('player.update')">
-                    <a type="button"  th:href="@{/player(id=${player.id})}" class="btn btn-warning">Редактировать</a>
+                    <a type="button"  th:href="@{/player(id=${player.id})}" class="btn btn-warning btn-rounded">Редактировать</a>
                 </td>
                 <td sec:authorize="hasAuthority('player.read') || isAnonymous()">
-                    <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning">Просмотреть</a>
+                    <a type="button" th:href="@{'/player/' + ${player.id}}" class="btn btn-warning btn-rounded">Просмотреть</a>
                 </td>
                 <td sec:authorize="hasAuthority('player.delete')">
-                    <a type="button"  th:href="@{${'/player/status_delete/' + player.id}}" class="btn btn-danger">Удалить</a>
+                    <a type="button"  th:href="@{${'/player/status_delete/' + player.id}}" class="btn btn-danger btn-rounded">Удалить</a>
                 </td>
             </tr>
             </tbody>

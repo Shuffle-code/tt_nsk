@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @RequiredArgsConstructor
-public class Pair {
+public class Pair<P, P1> {
     Player player1;
     Player player2;
 }
