@@ -55,7 +55,7 @@ dependencies {
 	implementation 'org.liquibase:liquibase-core:4.7.1'
 	implementation 'org.modelmapper:modelmapper:3.1.1'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
-//	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.1'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.7.1'
 
 
 

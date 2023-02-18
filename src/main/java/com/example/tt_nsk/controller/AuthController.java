@@ -4,7 +4,7 @@ import com.example.tt_nsk.dao.security.ConfirmationCodeDao;
 import com.example.tt_nsk.dto.UserDto;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.ConfirmationCode;
-//import com.example.tt_nsk.service.EmailService;
+import com.example.tt_nsk.service.EmailService;
 import com.example.tt_nsk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class AuthController {
     private final UserService userService;
     private final ConfirmationCodeDao confirmationCodeDao;
     private static UserDto thisUser;
-//    private final EmailService emailService;
+    private final EmailService emailService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -66,8 +66,13 @@ public class AuthController {
         model.addAttribute("username", username);
 
         String confirmationCode = userService.getConfirmationCode();
-//        emailService.sendConfirmationCode(confirmationCode, userDto.getEmail());
-//        System.out.println("Confirmation code! " + confirmationCode);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                emailService.sendConfirmationCode(confirmationCode, userDto.getEmail());
+            }
+        }).start();
 
         userService.generateConfirmationCode(thisUser, confirmationCode);
         model.addAttribute("id", thisUser.getId());
@@ -76,13 +81,11 @@ public class AuthController {
     }
 
     @PostMapping("/confirmation")
-    public String handleConfirmationForm (String code, Model model) {
+    public String handleConfirmationForm(String code, Model model) {
         model.addAttribute("code", code);
         System.out.println("code: " + code);
-        ConfirmationCode confirmationCodeBy_id = confirmationCodeDao.findConfirmationCodeByAccountUser_Id(thisUser.getId());
 
-//        System.out.println(confirmationCodeBy_id.getCode() + " + from model: " + code);
-//        System.out.println("from model: " + code);
+        ConfirmationCode confirmationCodeBy_id = confirmationCodeDao.findConfirmationCodeByAccountUser_Id(thisUser.getId());
 
         if (confirmationCodeBy_id.equals(code)) {
             System.out.println(confirmationCodeBy_id.equals(code));
@@ -95,9 +98,17 @@ public class AuthController {
 
             return "redirect:/auth/login";
         }
-//        System.out.println(!code.equals(confirmationCodeBy_id.toString()));
-//        return "auth/registration-confirmation";
 
         return "auth/invalid-confirmation";
+    }
+
+    @PostMapping("/changeUsername")
+    public String changeUsername() {
+        thisUser.setUsername(String.format("%s_id%s_%s",
+                thisUser.getUsername(), thisUser.getId(), "deleted"));
+        userService.update(thisUser);
+        userService.deleteById(thisUser.getId());
+
+        return "redirect:/auth/login";
     }
 }
