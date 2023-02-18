@@ -49,7 +49,7 @@ public class TournamentData {
         }
     }
 
-    //@RequiredArgsConstructor
+    @AllArgsConstructor
     @NoArgsConstructor
     @Getter
     @JsonPropertyOrder({"gameStatus", "gameWinner", "playerPair", "playSetList"})
@@ -61,7 +61,6 @@ public class TournamentData {
         private GameStatus gameStatus = GameStatus.NOT_STARTED_YET;
         private PlayerBriefRepresentationDto firstPlayer;
         private PlayerBriefRepresentationDto secondPlayer;
-        //private Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto> playerPair;
         private List<PlaySet> playSetList = new ArrayList<>();
         private PlayerBriefRepresentationDto gameWinner = null;
 

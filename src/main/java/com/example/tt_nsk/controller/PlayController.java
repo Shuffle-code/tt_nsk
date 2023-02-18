@@ -35,10 +35,8 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Api
@@ -70,7 +68,7 @@ public class PlayController {
     }
 
     @Operation(summary = "Начало турнира")
-    @GetMapping("/starttournament/{tourId}/{setsToWinGame}")
+    @GetMapping("/new_tournament/{tourId}/{setsToWinGame}")
     @ResponseBody
     public ResponseEntity<TournamentData> startTournament(HttpSession httpSession, Model model,
                                                           @Parameter(name = "tourId", description = "ID турнира", example = "87") @PathVariable long tourId,
@@ -83,6 +81,23 @@ public class PlayController {
         //return "tour/setting-score.html";
         return new ResponseEntity<>(tournamentData, HttpStatus.OK);
     }
+
+    @Operation(summary = "Восстановление сохраненного турнира из базы данных")
+    @GetMapping("/restored_tournament/{tourId}")
+    @ResponseBody
+    public ResponseEntity<TournamentData> restoreTournament(HttpSession httpSession, Model model,
+                                                            @Parameter(name = "tourId", description = "ID турнира", example = "87") @PathVariable long tourId
+    ) {
+        Optional<TournamentData> tournamentDataOptional = playService.restoreTournament(tourId);
+        if (tournamentDataOptional.isPresent()) {
+            CurrentTournament currentTournament = CurrentTournament.getInstance();
+            currentTournament.startTour(tournamentDataOptional.get(), tournamentDataOptional.get().getPlaySetsToWinGame());
+            return new ResponseEntity<>(tournamentDataOptional.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
 
     @Operation(summary = "Получение текущего счета")
     @GetMapping("/currentscore")

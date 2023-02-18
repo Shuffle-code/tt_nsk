@@ -35,8 +35,7 @@ public interface TourDao extends JpaRepository<Tour, Long> {
     @Query(nativeQuery = true, value = "SELECT id, title, date, winner_id, address_id, amount_players, VERSION, CREATED_BY, CREATED_DATE, LAST_MODIFIED_BY, LAST_MODIFIED_DATE, STATUS, RESULT_TOUR FROM tournament WHERE date >= :date")
     List<Tour> findUpcomingTournaments(Date date);
 
-    @Query(nativeQuery = true , value = "UPDATE tournament SET current_tournament = :currentTournament WHERE id =:id")
-    void updateCurrentTournament(@Param("currentTournament") String currentTournament, @Param("id") long id);
-
+    @Query(nativeQuery = true, value = "SELECT current_tournament FROM tournament WHERE id = :id")
+    Optional<String> findCurrentTournamentById(@Param("id") long id);
 
 }

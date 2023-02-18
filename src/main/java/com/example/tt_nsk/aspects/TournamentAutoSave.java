@@ -21,7 +21,7 @@ public class TournamentAutoSave {
 
         String toBeSaved = playService.createCurrentTournamentState(CurrentTournament.getInstance().tournamentData());
         tourDao.updateCurrentTournamentById(toBeSaved, CurrentTournament.getInstance().tournamentData().getTuornamentId());
-        System.out.println("Saved!!!!");
+        System.out.println("Saved: " + CurrentTournament.getInstance().tournamentData());
     }
 
 }
