@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Api
+//@Api
 @Controller
 @AllArgsConstructor
 @RequestMapping("/upcomingTournaments")
-@Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры")
+//@Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры")
 public class EnrollTournament {
 
     private final TourDao tourDao;
@@ -39,7 +39,7 @@ public class EnrollTournament {
     @GetMapping(value = "/all")
     public String getUpcomingTournaments(HttpSession httpSession, Model model) {
         model = createModel(httpSession, model);
-        return "/tour/upcoming-tours.html";
+        return "tour/upcoming-tours";
     }
 
     @Operation(summary = "Получение списка турниров, на которые записан игрок")
@@ -68,10 +68,10 @@ public class EnrollTournament {
             tourDao.save(tour);
         } catch (org.springframework.dao.DataIntegrityViolationException exception) {
             model = createModel(httpSession, model);
-            return "/tour/upcoming-tours.html";
+            return "tour/upcoming-tours";
         }
         model = createModel(httpSession, model);
-        return "/tour/upcoming-tours.html";
+        return "tour/upcoming-tours";
     }
 
     @Operation(summary = "Снять игрока с турнира")
@@ -87,7 +87,7 @@ public class EnrollTournament {
         tour.setAmountPlayers(BigDecimal.valueOf(size));
         tourDao.save(tour);
         model = createModel(httpSession, model);
-        return "/tour/upcoming-tours.html";
+        return "tour/upcoming-tours";
 
     }
 

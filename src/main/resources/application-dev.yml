@@ -24,17 +24,17 @@ spring:
         #default_schema: nsk_tt1
     generate-ddl: false
     #database-platform: nsk_tt1
-  mail:
-    host: "smtp.gmail.com"
-    port: 587
-    username: "shuffle2149@gmail.com"
-    password: "rsapzkolnfowyxad"
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#  mail:
+#    host: "smtp.gmail.com"
+#    port: 587
+#    username: "shuffle2149@gmail.com"
+#    password: "rsapzkolnfowyxad"
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
 
   mvc:
     pathmatch:

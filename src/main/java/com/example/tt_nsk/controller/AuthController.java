@@ -4,7 +4,7 @@ import com.example.tt_nsk.dao.security.ConfirmationCodeDao;
 import com.example.tt_nsk.dto.UserDto;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.ConfirmationCode;
-import com.example.tt_nsk.service.EmailService;
+//import com.example.tt_nsk.service.EmailService;
 import com.example.tt_nsk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class AuthController {
     private final UserService userService;
     private final ConfirmationCodeDao confirmationCodeDao;
     private static UserDto thisUser;
-    private final EmailService emailService;
+//    private final EmailService emailService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -66,7 +66,7 @@ public class AuthController {
         model.addAttribute("username", username);
 
         String confirmationCode = userService.getConfirmationCode();
-        emailService.sendConfirmationCode(confirmationCode, userDto.getEmail());
+//        emailService.sendConfirmationCode(confirmationCode, userDto.getEmail());
 //        System.out.println("Confirmation code! " + confirmationCode);
 
         userService.generateConfirmationCode(thisUser, confirmationCode);

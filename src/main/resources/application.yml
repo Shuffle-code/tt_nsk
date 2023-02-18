@@ -24,17 +24,17 @@ spring:
         #default_schema: nsk_tt1
     generate-ddl: false
     #database-platform: nsk_tt1
-  mail:
-    host: "smtp.gmail.com"
-    port: 587
-    username: "shuffle2149@gmail.com"
-    password: "rsapzkolnfowyxad"
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
+#  mail:
+#    host: "smtp.gmail.com"
+#    port: 587
+#    username: "shuffle2149@gmail.com"
+#    password: "rsapzkolnfowyxad"
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
 
   mvc:
     pathmatch:
@@ -78,7 +78,7 @@ spring:
 storage:
   location: '/home/shuffle/java/storage'
 # location: '/home/sergei/IdeaProjects/tt_nsk/storage'
-#    location: 'C:\Users\79130\storage'
+#  location: 'C:\Users\79130\storage'
 # C:\Users\79130\Documents\java\command work
 
 servlet:
