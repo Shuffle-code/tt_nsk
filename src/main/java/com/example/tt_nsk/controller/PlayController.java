@@ -122,17 +122,12 @@ public class PlayController {
                                                    @Parameter(name = "firstPlayerResult", description = "Результат первого игрока в сете", example = "9") @PathVariable int firstPlayerResult,
                                                    @Parameter(name = "secondPlayerResult", description = "Результат второго игрока в сете", example = "11") @PathVariable int secondPlayerResult) {
         if (CurrentTournament.getInstance().hasTourStarted()) {
-            boolean playSetAdded = CurrentTournament.getInstance().tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
+            CurrentTournament.getInstance().tournamentData().getGamesList().get(gameOrder).addPlaySet(firstPlayerResult, secondPlayerResult);
             model.addAttribute("tournament", CurrentTournament.getInstance().tournamentData());
-            if (playSetAdded) {
-                String currentTournamentState = playService.createCurrentTournamentState(CurrentTournament.getInstance().tournamentData());
-            }
             return new ResponseEntity<>(CurrentTournament.getInstance().tournamentData(), HttpStatus.OK);
             //return "tour/setting-score.html";
-        } else {
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
-            //return "tour/not_started_yet.html";
         }
+        return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @PostMapping("/count")
