@@ -98,7 +98,6 @@ public class PlayController {
         }
     }
 
-
     @Operation(summary = "Получение текущего счета")
     @GetMapping("/currentscore")
     @ResponseBody

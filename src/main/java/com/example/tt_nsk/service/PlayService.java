@@ -189,10 +189,6 @@ public class PlayService {
                     String str = calculateLegUp(mainPlayerRating, opponentPlayerRating);
                     row.add(str);
                 }
-
-//                else {
-//                    row.add("N/A");
-//                }
             }
             resultTable.add(row);
         }
@@ -257,13 +253,7 @@ public class PlayService {
             e.printStackTrace();
             return "";
         }
-
         String encodedTournament = encoder.encodeToString(tournamentDataString.getBytes());
-
-//        byte[] qq =decoder.decode(encodedTournament);
-//
-//        encodedTournament.equals(qqqq);
-
         return encodedTournament;
     }
 
@@ -302,7 +292,6 @@ public class PlayService {
         scoringCurrent.setCountWin(scoringCurrent.getCountWin() + sumWin(getNumbersFromScoreForArray(split)));
         scoringCurrent.setIndexPlayer(Integer.parseInt(split[1]));
         scoringMap.put(String.valueOf(i - 1), scoringCurrent);
-//        System.out.println(scoringMap);
     }
 
     public List<Player> getAllActiveSortedByRating() {
