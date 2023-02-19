@@ -34,7 +34,7 @@ public class TourController {
     private final AccountRoleDao accountRoleDao;
     private final PlayService playService;
     private final PairService pairService;
-//    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
+    //    public String findAllActiveSortedRating(Model model, HttpSession httpSession) {
 //        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
 //        model.addAttribute("playersTour", allActiveSortedByRating);
 //        httpSession.setAttribute("countPlaying", playerService.countPlaying());
@@ -53,45 +53,45 @@ public class TourController {
         return returnPage(allActiveSortedByRating, model, httpSession);
     }
     public String returnPage(List<Player> allActiveSortedByRating, Model model, HttpSession httpSession){
-      switch (allActiveSortedByRating.size()) {
-          case 3:
-              createListPlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for3players";
-          case 4:
-              createListFor4PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for4players";
-          case 5:
-              createListFor5PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for5players";
-          case 6:
-              createListFor6PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for6players";
-          case 7:
-              createListFor7PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for7players";
-          case 8:
-              createListFor8PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for8players";
-          case 9:
-              createListFor9PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for9players";
-          case 10:
-              createListFor10PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for10players";
-          case 11:
-              createListFor11PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for11players";
-          case 12:
-              createListFor12PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for12players";
-          case 13:
-              createListFor13PlayersTour(model, httpSession, allActiveSortedByRating);
-              return "tour/tour-form-server-for13players";
-          default:
-              model.addAttribute("playersTour", allActiveSortedByRating);
-              httpSession.setAttribute("countPlaying", playerService.countPlaying());
-              return "tour/tour-form";
-      }
+        switch (allActiveSortedByRating.size()) {
+            case 3:
+                createListPlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for3players";
+            case 4:
+                createListFor4PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for4players";
+            case 5:
+                createListFor5PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for5players";
+            case 6:
+                createListFor6PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for6players";
+            case 7:
+                createListFor7PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for7players";
+            case 8:
+                createListFor8PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for8players";
+            case 9:
+                createListFor9PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for9players";
+            case 10:
+                createListFor10PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for10players";
+            case 11:
+                createListFor11PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for11players";
+            case 12:
+                createListFor12PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for12players";
+            case 13:
+                createListFor13PlayersTour(model, httpSession, allActiveSortedByRating);
+                return "tour/tour-form-server-for13players";
+            default:
+                model.addAttribute("playersTour", allActiveSortedByRating);
+                httpSession.setAttribute("countPlaying", playerService.countPlaying());
+                return "tour/tour-form";
+        }
     }
     public void createListPlayersTour(Model model, HttpSession httpSession, List<Player> allActiveSortedByRating){
         model.addAttribute("player1", allActiveSortedByRating.get(0));
@@ -529,7 +529,3 @@ public class TourController {
         return new byte[]{};
     }
 }
-
-
-
-

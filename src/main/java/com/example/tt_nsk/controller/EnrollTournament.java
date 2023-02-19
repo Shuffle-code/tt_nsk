@@ -17,17 +17,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Api
+//@Api
 @Controller
 @AllArgsConstructor
 @RequestMapping("/upcomingTournaments")
-@Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры")
+//@Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры")
 public class EnrollTournament {
 
     private final TourDao tourDao;
@@ -38,8 +39,7 @@ public class EnrollTournament {
     @GetMapping(value = "/all")
     public String getUpcomingTournaments(HttpSession httpSession, Model model) {
         model = createModel(httpSession, model);
-        return "/tour/upcoming-tours.html";
-
+        return "tour/upcoming-tours";
     }
 
     @Operation(summary = "Получение списка турниров, на которые записан игрок")
@@ -59,15 +59,19 @@ public class EnrollTournament {
 
     ) {
         PlayerTournament playerTournament = new PlayerTournament(playerId, tournamentId);
+
         try {
             playerTournamentRepo.save(playerTournament);
+            int size = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId).size();
+            Tour tour = tourDao.findById(tournamentId).get();
+            tour.setAmountPlayers(BigDecimal.valueOf(size));
+            tourDao.save(tour);
         } catch (org.springframework.dao.DataIntegrityViolationException exception) {
             model = createModel(httpSession, model);
-            return "/tour/upcoming-tours.html";
+            return "tour/upcoming-tours";
         }
         model = createModel(httpSession, model);
-        return "/tour/upcoming-tours.html";
-
+        return "tour/upcoming-tours";
     }
 
     @Operation(summary = "Снять игрока с турнира")
@@ -78,8 +82,12 @@ public class EnrollTournament {
 
     ) {
         playerTournamentRepo.disenroll(playerId, tournamentId);
+        int size = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId).size();
+        Tour tour = tourDao.findById(tournamentId).get();
+        tour.setAmountPlayers(BigDecimal.valueOf(size));
+        tourDao.save(tour);
         model = createModel(httpSession, model);
-        return "/tour/upcoming-tours.html";
+        return "tour/upcoming-tours";
 
     }
 
@@ -89,8 +97,8 @@ public class EnrollTournament {
             model.addAttribute("tours", createTournamentBriefRepresentationDtoList());
         }
         accountUserOptional.ifPresent(accountUser -> {
-            model.addAttribute("playerId", accountUser.getId());
-            model.addAttribute("tours", createTournamentBriefRepresentationDtoList(accountUser.getId()));
+            model.addAttribute("playerId", accountUser.getPlayer().getId());
+            model.addAttribute("tours", createTournamentBriefRepresentationDtoList(accountUser.getPlayer().getId()));
         });
         return model;
     }

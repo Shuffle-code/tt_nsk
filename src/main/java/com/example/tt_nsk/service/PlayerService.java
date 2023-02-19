@@ -59,7 +59,7 @@ public class PlayerService {
         return playerDao.maxId();
     }
 
-//    @Transactional
+    //    @Transactional
     public Player save(Player player, MultipartFile multipartFile) {
 //        Product product = productMapper.toProduct(productDto, manufacturerDao, categoryDao);
 //        Product productFromDB = productDao.getById(productDto.getId()); // todo при создании нового продукта id=null
@@ -169,19 +169,19 @@ public class PlayerService {
         return str;
     }
 
-//    @Transactional(readOnly = true)
+    //    @Transactional(readOnly = true)
 //    public PlayerDto findById(Long id) {
 //        return playerMapper.toPlayerDto(playerDao.findById(id).orElse(null));
 //    }
     @Transactional(readOnly = true)
     public Player findById(Long id) {
-    return playerDao.findById(id).orElse(null);
-}
+        return playerDao.findById(id).orElse(null);
+    }
 
     public List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> dividePlayersIntoPairs(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc) {
         List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> pairList = new ArrayList<>();
         PlayerBriefRepresentationDto[] pbrDto = playerBriefRepresentationDtoListSortedByRatingDesc.toArray(new PlayerBriefRepresentationDto[]{});
-                //new PlayerBriefRepresentationDto[playerBriefRepresentationDtoListSortedByRatingDesc.size()];
+        //new PlayerBriefRepresentationDto[playerBriefRepresentationDtoListSortedByRatingDesc.size()];
 
         for (int i = 0; i < playerBriefRepresentationDtoListSortedByRatingDesc.size() - 1; i++) {
             for (int j = i + 1; j < playerBriefRepresentationDtoListSortedByRatingDesc.size(); j++) {

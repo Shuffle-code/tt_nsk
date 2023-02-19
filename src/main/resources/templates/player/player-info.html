@@ -12,9 +12,6 @@
 <body>
 
 <div th:replace="~{common/navbar :: navi(PlayerInfo)}"></div>
-
-
-
 <div class="container" style="width: 40%;">
   <h2 th:text="${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
   <div class="justify-content-center" style="width: 100%;">
