@@ -22,5 +22,5 @@ public interface PlayerTournamentRepo extends CrudRepository<PlayerTournament, L
 
     List<PlayerTournament> findAllByTournamentIdOrderByPlayerId(Long tournamentId);
 
-
+    List<PlayerTournament> findAllByTournamentId(Long tournamentId);
 }
