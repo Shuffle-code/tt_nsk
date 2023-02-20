@@ -1,6 +1,7 @@
 package com.example.tt_nsk.service;
 
 import com.example.tt_nsk.dao.PlayerDao;
+import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.PlayerImage;
 import com.example.tt_nsk.entity.enums.Status;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -177,4 +180,22 @@ public class PlayerService {
     public Player findById(Long id) {
     return playerDao.findById(id).orElse(null);
 }
+
+    public List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> dividePlayersIntoPairs(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc) {
+        List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> pairList = new ArrayList<>();
+        PlayerBriefRepresentationDto[] pbrDto = playerBriefRepresentationDtoListSortedByRatingDesc.toArray(new PlayerBriefRepresentationDto[]{});
+        //new PlayerBriefRepresentationDto[playerBriefRepresentationDtoListSortedByRatingDesc.size()];
+
+        for (int i = 0; i < playerBriefRepresentationDtoListSortedByRatingDesc.size() - 1; i++) {
+            for (int j = i + 1; j < playerBriefRepresentationDtoListSortedByRatingDesc.size(); j++) {
+                Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto> pair = Pair.of(
+                        playerBriefRepresentationDtoListSortedByRatingDesc.get(i),
+                        playerBriefRepresentationDtoListSortedByRatingDesc.get(j)
+                );
+                pairList.add(pair);
+
+            }
+        }
+        return pairList;
+    }
 }

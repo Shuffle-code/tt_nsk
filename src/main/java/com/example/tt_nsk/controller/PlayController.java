@@ -140,6 +140,42 @@ public class PlayController {
             playerService.save(byId);
         }
     }
+
+    public HashMap<String, String> getLegUpBeforeStartingTour(List<Double> currentRating){
+        HashMap<String, String> legUpStrArr = new HashMap<>();
+        Double currentRatingElement = getAllActiveSortedByRating().get(0).getRating().doubleValue();
+        for (int i = 0; i < currentRating.size() - 1 ; i++) {
+            for (int j = 1; j < currentRating.size(); j++) {
+                if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
+                    legUpStrArr.put("fx" + (i + 1) + "y" + (j + 1), scoringLegUp(currentRatingElement, currentRating.get(j)));
+                }
+            }
+            currentRatingElement = currentRating.get(i + 1);
+        }
+        return legUpStrArr;
+    }
+
+    public String scoringLegUp (Double ratingPlayerHighRating, Double ratingPlayerLowRating){
+        double difference = ratingPlayerHighRating - ratingPlayerLowRating;
+        if (difference >= 0 && difference <= 25){
+            return "0/0";
+        } else if (difference > 25 && difference <= 50){
+            return "0/1";
+        } else if (difference > 50 && difference <= 75){
+            return "0/2";
+        } else if (difference > 75 && difference <= 100){
+            return "0/3";
+        } else if (difference > 100 && difference <= 125){
+            return "0/4";
+        } else if (difference > 125 && difference  <= 150){
+            return "0/5";
+        } else if (difference > 150 && difference <= 175) {
+            return "0/6";
+        }
+        return "0/7";
+    }
+
+
     public Tour savePlayedTour(Tour tour, MultipartFile multipartFile) {
         tour.setAmountPlayers(BigDecimal.valueOf(resultTour.size()));
         tour.setDate(new Date());
