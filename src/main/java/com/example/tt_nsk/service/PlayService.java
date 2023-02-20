@@ -1,6 +1,7 @@
 package com.example.tt_nsk.service;
 
 import com.example.tt_nsk.dao.TourDao;
+import com.example.tt_nsk.dto.PlayerBriefRepresentationDto;
 import com.example.tt_nsk.entity.LegUp;
 import com.example.tt_nsk.entity.Player;
 import com.example.tt_nsk.entity.Score;
@@ -20,10 +21,29 @@ import java.util.*;
 @Slf4j
 public class PlayService {
     private final TourDao tourDao;
+    private final TourService tourService;
     private final PlayerService playerService;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Base64.Encoder encoder = Base64.getEncoder();
     private final Base64.Decoder decoder = Base64.getDecoder();
+
+    public List<Double> getCurrentRatingAllPlayersForSelectTour(List<Player> allActiveSortedByRating) {
+//        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
+        List<Double> ratingList = new ArrayList<>();
+        for (Player player : allActiveSortedByRating) {
+            ratingList.add(player.getRating().doubleValue());
+        }
+        return ratingList;
+    }
+
+    public List<Double> getCurrentRatingAllPlayersForSelectTour(Long id) {
+        List<Player> allActiveSortedByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
+        List<Double> ratingList = new ArrayList<>();
+        for (Player player : allActiveSortedByRating) {
+            ratingList.add(player.getRating().doubleValue());
+        }
+        return ratingList;
+    }
 
     public List<Double> getCurrentRatingAllPlayers() {
         List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
@@ -651,5 +671,221 @@ public class PlayService {
         }
         return legUp;
     }
+
+    public List<List<String>> compileResultTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
+        if (playerBriefRepresentationDtoList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        Double highestRating = playerBriefRepresentationDtoList.get(0).getRating();
+        List<List<String>> resultTable = new ArrayList<>();
+        for (int y = 0; y < playerBriefRepresentationDtoList.size(); y++) {
+            double mainPlayerRating = playerBriefRepresentationDtoList.get(y).getRating();
+            List<String> row = new ArrayList<>();
+            for (int x = 0; x < playerBriefRepresentationDtoList.size(); x++) {
+                if (y == x) {
+                    row.add("TT");
+                } else /*if (highestRating > playerBriefRepresentationDtoList.get(j).getRating() && highestRating != 500)*/ {
+                    double opponentPlayerRating = playerBriefRepresentationDtoList.get(x).getRating();
+                    String str = calculateLegUp(mainPlayerRating, opponentPlayerRating);
+                    row.add(str);
+                }
+
+//                else {
+//                    row.add("N/A");
+//                }
+            }
+            resultTable.add(row);
+        }
+        return resultTable;
+    }
+
+//    public Map<String, Scoring> getResultTour(List<String> listResultTour) {
+//        double coefficientTour = getCoefficientTour();
+//        Map<String, Scoring> scoringMap = writeMapWithNullScore();
+//        for (int i = 0; i < listResultTour.size(); i++) {
+//            String[] split = listResultTour.get(i).split("[xy='.,/ ;:*-]+");
+//            switch (split[1]){
+//                case ("1"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("2"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("3"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("4"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("5"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("6"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("7"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("8"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("9"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("10"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("11"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("12"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                case ("13"):
+//                    writeScoreInMap(split, scoringMap, coefficientTour);
+//                    break;
+//                default:writeMapWithNullScore();
+//                    break;
+//            }
+//        }return scoringMap;
+//    }
+
+    public Map<String, Scoring> getResultTour(List<String> listResultTour, List<Player> allActiveSortedByRating ) {
+        double coefficientTour = getCoefficientTour();
+        Map<String, Scoring> scoringMap = writeMapWithNullScore(allActiveSortedByRating);
+        for (int i = 0; i < listResultTour.size(); i++) {
+            String[] split = listResultTour.get(i).split("[xy='.,/ ;:*-]+");
+            switch (split[1]){
+                case ("1"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("2"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("3"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("4"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("5"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("6"):
+                    writeScoreInMap(split, scoringMap, coefficientTour,allActiveSortedByRating);
+                    break;
+                case ("7"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("8"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("9"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("10"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("11"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("12"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                case ("13"):
+                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+                    break;
+                default:writeMapWithNullScore(allActiveSortedByRating);
+                    break;
+            }
+        }return scoringMap;
+    }
+
+    public void writeScoreInMap(String[] split, Map<String, Scoring> scoringMap, double coefficientTour, List<Player> allActiveSortedByRating){
+        int i = Integer.parseInt(split[1]);
+        Scoring scoringCurrent = scoringMap.get(String.valueOf(i - 1));
+        Double deltaSet = scoringDeltaSet(split, coefficientTour, allActiveSortedByRating);
+        scoringCurrent.setRating(scoringCurrent.getRating() + deltaSet);
+        scoringCurrent.setDelta(scoringCurrent.getDelta() + deltaSet);
+        scoringCurrent.setSet(scoringCurrent.getSet() + sumSet(getNumbersFromScoreForArray(split)));
+        scoringCurrent.setSetWin(scoringCurrent.getSetWin() + sumWinSet(getNumbersFromScoreForArray(split)));
+        scoringCurrent.setCountWin(scoringCurrent.getCountWin() + sumWin(getNumbersFromScoreForArray(split)));
+        scoringCurrent.setIndexPlayer(Integer.parseInt(split[1]));
+        scoringMap.put(String.valueOf(i - 1), scoringCurrent);
+    }
+
+    public Double scoringDeltaSet (String[] split, double coefficientTour, List<Player> allActiveSortedByRating){
+        Double delta;
+        double ratingPlayerHighRating = getCurrentRatingAllPlayers(allActiveSortedByRating).get(Integer.parseInt(split[1]) - 1);
+        double ratingPlayerLowRating = getCurrentRatingAllPlayers(allActiveSortedByRating).get(Integer.parseInt(split[2])  - 1);
+        int[] numberFromScoreForArray = getNumbersFromScoreForArray(split);
+        if (winnerPlayer1(numberFromScoreForArray)){
+            if ((ratingPlayerHighRating - ratingPlayerLowRating ) > 200){
+                delta = 0.0;
+            } else delta = (200 - ratingPlayerHighRating + ratingPlayerLowRating)/10 * coefficientTour;
+        }else if ((ratingPlayerLowRating - ratingPlayerHighRating ) > 200) {
+            delta = 0.0;
+        }else delta = (-(200 - ratingPlayerLowRating + ratingPlayerHighRating)/10 * coefficientTour);
+//        DecimalFormat df = new DecimalFormat("#,##");
+//        System.out.println(Math.floor(delta * 100)/100);
+//        BigDecimal bd = new BigDecimal(delta).setScale(2, RoundingMode.HALF_EVEN);
+        return Math.floor(delta * 100)/100;
+    }
+
+    public Map<String, Scoring> writeMapWithNullScore (List<Player> allActiveSortedByRating){
+        Map<String, Scoring> scoringMap = new HashMap<>();
+//        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
+        for (int i = 0; i < getCurrentRatingAllPlayersForSelectTour(allActiveSortedByRating).size(); i++) {
+            Scoring scoring = new Scoring();
+            scoring.setRating(getCurrentRatingAllPlayersForSelectTour(allActiveSortedByRating).get((i)));
+            scoring.setPlacePlayer(i + 1);
+            scoring.setIdPlayer(allActiveSortedByRating.get(i).getId());
+            scoringMap.put(String.valueOf(i), scoring);
+        }
+        return scoringMap;
+    }
+
+    public HashMap<String, String> getLegUpBeforeStartingTour(List<Double> currentRating, List<Player> playerList){
+        HashMap<String, String> legUpStrArr = new HashMap<>();
+        Double currentRatingElement = playerList.get(0).getRating().doubleValue();
+        for (int i = 0; i < currentRating.size() - 1 ; i++) {
+            for (int j = 1; j < currentRating.size(); j++) {
+                if (currentRatingElement > currentRating.get(j) && currentRatingElement != 500) {
+                    legUpStrArr.put("fx" + (i + 1) + "y" + (j + 1), scoringLegUp(currentRatingElement, currentRating.get(j)));
+                }
+            }
+            currentRatingElement = currentRating.get(i + 1);
+        }
+        return legUpStrArr;
+    }
+
+    private String calculateLegUp(double mainPlayerRating, double opponentPlayerRating) {
+        int legUp;
+        double difference = Math.abs(mainPlayerRating - opponentPlayerRating);
+        if (difference >= 0 && difference <= 25){
+            legUp =  0;
+        } else if (difference > 25 && difference <= 50){
+            legUp =  1;
+        } else if (difference > 50 && difference <= 75){
+            legUp =  2;
+        } else if (difference > 75 && difference <= 100){
+            legUp =  3;
+        } else if (difference > 100 && difference <= 125){
+            legUp =  4;
+        } else if (difference > 125 && difference  <= 150){
+            legUp =  5;
+        } else if (difference > 150 && difference <= 175) {
+            legUp =  6;
+        } else {
+            legUp = 7;
+        }
+
+        if (mainPlayerRating > opponentPlayerRating) {
+            return "0/" + legUp;
+        } else {
+            return legUp +"/0";
+        }
+    }
+
 
 }
