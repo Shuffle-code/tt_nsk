@@ -18,7 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -181,7 +184,7 @@ public class PlayerService {
     public List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> dividePlayersIntoPairs(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc) {
         List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> pairList = new ArrayList<>();
         PlayerBriefRepresentationDto[] pbrDto = playerBriefRepresentationDtoListSortedByRatingDesc.toArray(new PlayerBriefRepresentationDto[]{});
-                //new PlayerBriefRepresentationDto[playerBriefRepresentationDtoListSortedByRatingDesc.size()];
+        //new PlayerBriefRepresentationDto[playerBriefRepresentationDtoListSortedByRatingDesc.size()];
 
         for (int i = 0; i < playerBriefRepresentationDtoListSortedByRatingDesc.size() - 1; i++) {
             for (int j = i + 1; j < playerBriefRepresentationDtoListSortedByRatingDesc.size(); j++) {

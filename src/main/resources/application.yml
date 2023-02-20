@@ -77,7 +77,7 @@ spring:
 
 storage:
 #  location: '/home/shuffle/java/storage'
-  location: '/home/sergei/IdeaProjects/tt_nsk/storage'
+ location: '/home/sergei/IdeaProjects/tt_nsk/storage'
 #    location: 'C:\Users\79130\storage'
 # C:\Users\79130\Documents\java\command work
 

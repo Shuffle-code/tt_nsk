@@ -24,7 +24,8 @@
             </td>
         </div>
         <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Введите дату турнира" aria-label="Search" aria-describedby="search-addon" />
+            <input type="search" class="form-control rounded" placeholder="Введите дату турнира"
+                   aria-label="Search" aria-describedby="search-addon" />
             <button type="button" class="btn btn-primary">Поиск</button>
         </div>
         <div>
@@ -76,7 +77,7 @@
                     <td sec:authorize="!isAnonymous()">
 <!--                        <a th:if="${tour.registered == false}"-->
                         <a
-                           type="button" th:href="@{${'/tour/play/' + tour.id}}"
+                           type="button" th:href="@{/tour(id=${tour.id})}"
                            class="btn btn-outline-primary btn-rounded">Посмотреть</a>
                     </td>
                 </tr>
@@ -84,6 +85,9 @@
                 <tfoot>
                 </tfoot>
             </table>
+        </div>
+
+    </div>
 </div>
 
 <div th:replace="~{common/footer :: footerBlock}"></div>

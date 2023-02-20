@@ -36,8 +36,7 @@
     <include
             file="db/changelog/createTables/create-table-user_tournament.xml"/>
 
-    <!-- =====> наполнение таблиц <===== -->
-
+                    <!-- =====> наполнение таблиц <===== -->
     <include
             file="db/changelog/fillTables/fill-table-account_role.xml"/>
     <include
@@ -51,24 +50,26 @@
     <include
             file="db/changelog/fillTables/fill-table-confirmation_code.xml"/>
 
-    <include
-            file="db/changelog/fillTables/fill-table-player_image.xml"/>
+       <include
+               file="db/changelog/fillTables/fill-table-player_image.xml"/>
 
-    <include
-            file="db/changelog/fillTables/fill-table-role_authority.xml"/>
-    <include
-            file="db/changelog/fillTables/fill-table-tournament.xml"/>
+       <include
+               file="db/changelog/fillTables/fill-table-role_authority.xml"/>
+       <include
+               file="db/changelog/fillTables/fill-table-tournament.xml"/>
 
-    <include
-            file="db/changelog/fillTables/fill-table-tour_image.xml"/>
+      <include
+              file="db/changelog/fillTables/fill-table-tour_image.xml"/>
 
-    <include
-            file="db/changelog/fillTables/fill-table-user_role.xml"/>
+      <include
+              file="db/changelog/fillTables/fill-table-user_role.xml"/>
 
-    <!-- =====> наполнение таблиц <===== -->
+    <!-- =====> изменение таблиц <===== -->
 
     <include
             file="db/changelog/modifyTable/modify-table-player.xml"/>
+    <include
+            file="db/changelog/modifyTable/modify-table-tournament.xml"/>
 
 
 </databaseChangeLog> 
