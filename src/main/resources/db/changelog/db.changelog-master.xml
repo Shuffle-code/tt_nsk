@@ -64,5 +64,12 @@
       <include
               file="db/changelog/fillTables/fill-table-user_role.xml"/>
 
+    <!-- =====> изменение таблиц <===== -->
+
+    <include
+            file="db/changelog/modifyTable/modify-table-player.xml"/>
+    <include
+            file="db/changelog/modifyTable/modify-table-tournament.xml"/>
+
 
 </databaseChangeLog> 
