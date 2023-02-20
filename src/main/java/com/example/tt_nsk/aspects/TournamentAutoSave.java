@@ -16,7 +16,7 @@ public class TournamentAutoSave {
     private final PlayService playService;
     private final TourDao tourDao;
 
-    @AfterReturning("execution(* com.example.tt_nsk.controller.PlayController.setScore(..))")
+    @AfterReturning("execution(* com.example.tt_nsk.controller.RefereeController.setScore(..))")
     public void autoSave(){
 
         String toBeSaved = playService.createCurrentTournamentState(CurrentTournament.getInstance().tournamentData());
