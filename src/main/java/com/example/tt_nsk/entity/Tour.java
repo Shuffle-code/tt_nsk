@@ -64,9 +64,6 @@ public class Tour extends InfoEntity {
 //    @Convert(converter = JsonForListPlayersDao.class)
     private String resultTour;
 
-    @Column(name = "current_tournament")
-    private String currentTournament;
-
 
 //    @Override
 //    public String toString() {

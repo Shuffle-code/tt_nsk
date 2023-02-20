@@ -45,20 +45,20 @@ spring:
     allowPublicKeyRetrieval=true&useSSL=false&
     useUnicode=true&
     characterEncoding=UTF-8&serverTimezone=UTC"
-    username: "root"
-    password: "root"
+    username: "admin"
+    password: "qwertyuiop"
 
-  #    url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
-  #      username: "shuffle"
-  #      password: "shuffle"
-
-  #liquibase:
+#    url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC"
+#      username: "shuffle"
+#      password: "shuffle"
 
   #liquibase:
 
-  #    url: "jdbc:mysql://localhost:3306/tt_Nsk"
-  #    username: "admin"
-  #    password: "qwertyuiop"
+#liquibase:
+
+#    url: "jdbc:mysql://localhost:3306/tt_Nsk"
+#    username: "admin"
+#    password: "qwertyuiop"
 
   liquibase:
     change-log: db/changelog/db.changelog-master.xml
@@ -76,8 +76,8 @@ spring:
 #      password: 'shuffle'
 
 storage:
-  #  location: '/home/shuffle/java/storage'
-  location: '/home/sergei/IdeaProjects/tt_nsk/storage'
+#  location: '/home/shuffle/java/storage'
+ location: '/home/sergei/IdeaProjects/tt_nsk/storage'
 #    location: 'C:\Users\79130\storage'
 # C:\Users\79130\Documents\java\command work
 
@@ -88,5 +88,9 @@ servlet:
     enabled: true
 
 server:
-  #  hostname: site
+#  hostname: site
   port: 8091
+
+
+
+
