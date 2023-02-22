@@ -11,4 +11,4 @@ create table IF NOT EXISTS account_role
 )
     collate = utf8mb4_0900_ai_ci;
 
---rollback DROP TABLE account;
+--rollback DROP TABLE account_role;
