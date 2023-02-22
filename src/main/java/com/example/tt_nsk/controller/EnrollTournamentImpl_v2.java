@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,8 @@ public class EnrollTournamentImpl_v2 implements EnrollTournament{
 
     @Override
     public String getUpcomingTournaments(HttpSession httpSession, Model model) {
-        registeredPlayersRepo.findAll();
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        upcomingTournamentDataRepo.findAllByRegistrationEndsGreaterThan(now);
 
         return null;
     }

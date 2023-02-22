@@ -21,9 +21,6 @@ public class UpcomingTournamentData {
     @Column(name = "reg_ends")
     private Timestamp registrationEnds;
 
-//    @OneToOne(targetEntity = Tour.class, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "tout_id", referencedColumnName = "id")
-
     @OneToOne(targetEntity = Tour.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "tour_id", referencedColumnName = "id", insertable=false, updatable=false)
     private Tour tournament;
