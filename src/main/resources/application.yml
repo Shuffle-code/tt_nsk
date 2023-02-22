@@ -14,21 +14,9 @@ spring:
         starttls:
           enable: true
 
-#spring:
-#  profiles:
-#    active: "dev"
-#  main:
-#    banner-mode: "off"
-
-
-
----
-spring:
-  profiles:
-    active: dev
-  liquibase:
-    change-log: 'db/changelog/db.changelog-master.xml'
-    enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
   jpa:
     show-sql: false
@@ -39,6 +27,14 @@ spring:
         format_sql: false
     generate-ddl: false
 
+  liquibase:
+    change-log: 'db/changelog/db.changelog-master.xml'
+    enabled: true
+
+---
+spring:
+  profiles: dev
+
   datasource:
     url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&
     allowPublicKeyRetrieval=true&useSSL=false&
@@ -47,16 +43,26 @@ spring:
     username: "root"
     password: "root"
 
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-
 storage:
   location: '/home/sergei/IdeaProjects/tt_nsk/storage'
 
 ---
 
+spring:
+  profiles: prod
 
+  datasource:
+    url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&
+    allowPublicKeyRetrieval=true&useSSL=false&
+    useUnicode=true&
+    characterEncoding=UTF-8&serverTimezone=UTC"
+    username: "shuffle"
+    password: "shuffle"
+
+storage:
+  location: 'C:\Users\79130\storage'
+
+---
 
 
 
