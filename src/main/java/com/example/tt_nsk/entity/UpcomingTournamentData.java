@@ -1,6 +1,7 @@
 package com.example.tt_nsk.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -8,9 +9,10 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "upcoming_tournament_data")
 @Getter
+@NoArgsConstructor
 public class UpcomingTournamentData {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -24,6 +26,12 @@ public class UpcomingTournamentData {
     @OneToOne(targetEntity = Tour.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "tour_id", referencedColumnName = "id", insertable=false, updatable=false)
     private Tour tournament;
+
+    public UpcomingTournamentData(long tourId, int totalPlayers, Timestamp registrationEnds) {
+        this.tourId = tourId;
+        this.totalPlayers = totalPlayers;
+        this.registrationEnds = registrationEnds;
+    }
 
     public void setTournament(Tour tournament) {
         this.tournament = tournament;
