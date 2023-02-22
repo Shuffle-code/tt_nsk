@@ -1,6 +1,5 @@
 package com.example.tt_nsk.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
