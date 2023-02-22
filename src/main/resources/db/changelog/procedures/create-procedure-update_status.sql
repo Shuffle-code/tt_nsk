@@ -8,7 +8,7 @@ BEGIN
                                                       (SELECT total_players FROM upcoming_tournament_data WHERE tour_id = tourid_prm)) THEN
         UPDATE registered_players ra
         SET ra.status = 'REGISTERED'
-        WHERE ID IN (SELECT * FROM (SELECT ID FROM registered_players  WHERE status = 'RESERVED' ORDER BY ID ASC LIMIT 1) AS rp);
+        WHERE ID IN (SELECT * FROM (SELECT ID FROM registered_players  WHERE status = 'RESERVED' ORDER BY ID DESC LIMIT 1) AS rp);
     END IF;
 END;
 
