@@ -1,6 +1,9 @@
 server:
   port: 8091
 
+enrolltournament:
+  version: 2
+
 spring:
   mail:
     host: "smtp.gmail.com"
