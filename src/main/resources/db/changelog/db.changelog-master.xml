@@ -36,7 +36,7 @@
     <include
             file="db/changelog/createTables/create-table-user_tournament.xml"/>
 
-                    <!-- =====> наполнение таблиц <===== -->
+    <!-- =====> наполнение таблиц <===== -->
     <include
             file="db/changelog/fillTables/fill-table-account_role.xml"/>
     <include
@@ -50,19 +50,19 @@
     <include
             file="db/changelog/fillTables/fill-table-confirmation_code.xml"/>
 
-       <include
-               file="db/changelog/fillTables/fill-table-player_image.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-player_image.xml"/>
 
-       <include
-               file="db/changelog/fillTables/fill-table-role_authority.xml"/>
-       <include
-               file="db/changelog/fillTables/fill-table-tournament.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-role_authority.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-tournament.xml"/>
 
-      <include
-              file="db/changelog/fillTables/fill-table-tour_image.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-tour_image.xml"/>
 
-      <include
-              file="db/changelog/fillTables/fill-table-user_role.xml"/>
+    <include
+            file="db/changelog/fillTables/fill-table-user_role.xml"/>
 
     <!-- =====> изменение таблиц <===== -->
 
@@ -78,12 +78,23 @@
             file="db/changelog/triggers/create-trigger-next-day.xml"/>
     <include
             file="db/changelog/createTables/create-table-registered_players.xml"/>
+    <!--
+
+    ToDo - Этот триггер не работает со Spring JPA. Надо переписать или отказаться от его использования
     <include
-            file="db/changelog/triggers/create-trigger-reg_status.xml"/>
+                file="db/changelog/triggers/create-trigger-reg_status.xml"/>
+
+                -->
     <include
-            file="db/changelog/procedures/create-procedure-update_status.xml"/>
+            file="db/changelog/procedures/create-procedure-update_status_after_insert.xml"/>
+
+    <!--
+
+    ToDo - Этот триггер не работает со Spring JPA. Надо переписать или отказаться от его использования
     <include
             file="db/changelog/triggers/create-trigger-reg_expired.xml"/>
+            -->
+
     <include
             file="db/changelog/modifyTable/modify-table-upcoming_tournament_data.sql"/>
 

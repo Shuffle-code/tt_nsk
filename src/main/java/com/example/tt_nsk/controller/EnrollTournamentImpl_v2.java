@@ -73,6 +73,10 @@ public class EnrollTournamentImpl_v2 /*implements EnrollTournament*/ {
         RegisteredPlayer registeredPlayer = new RegisteredPlayer(playerId, tournamentId, "REGISTERED");
         try {
             registeredPlayersRepo.save(registeredPlayer);
+//            upcomingTournamentDataRepo.findTotalPlayersByTourId(tournamentId)
+//                    .ifPresent(maxPlayers -> registeredPlayersRepo.refreshStatuses());
+            registeredPlayersRepo.refreshStatuses(tournamentId, 2);
+            //updateStatuses(tournamentId, 2);
             //registeredPlayersRepo.insert(playerId, tournamentId);
         }catch (Exception ex) {
             System.out.println(ex);
@@ -89,5 +93,10 @@ public class EnrollTournamentImpl_v2 /*implements EnrollTournament*/ {
         registeredPlayersRepo.deleteByPlayerIdAndTourId(playerId, tournamentId);
         //registeredPlayersRepo.refreshStatuses(tournamentId);
         return new ResponseEntity<>(registeredPlayersRepo.findAllByPlayerId(playerId), HttpStatus.OK);
+    }
+
+    private void updateStatuses(Long tournamentId, int maxPlayers) {
+
+
     }
 }
