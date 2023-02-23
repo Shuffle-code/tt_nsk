@@ -1,2 +1,4 @@
 # tt_nsk
-![](/home/sergei/Pictures/Project/Project_promo.gif) 
+
+<img src="/home/sergei/Downloads/Project_promo.gif" alt="альтернативный текст">
+
