@@ -26,19 +26,18 @@
 
 ![Gallery](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/Project_promo.gif)
 <br>
-
+  
+<div class="box1">
+![Site](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png)
+<a href="http://tt-nsk.site/player/all">Сайт проекта</a>
+     </div>
 
 <h2>Назначение проекта</h2>
 
 Проект предназначен для администрирования соревнований по настольному теннису и предоставляет следующий функционал:
 
 <body>
-   
-  <div class="box1">
-![Site](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png)
-<a href="http://tt-nsk.site/player/all">Сайт проекта</a>
-     </div>
-     <dev>
+   <dev>
      <ul>
      <li>ведение картотеки игроков;</li>
      <li>ведение картотеки турниров;</li>
