@@ -17,16 +17,10 @@ public interface RegisteredPlayersRepo extends CrudRepository<RegisteredPlayer, 
     @Query(nativeQuery = true, value = "SELECT DISTINCT tour_id FROM registered_players")
     List<Long> findDistinctTourIds();
 
-//    @Transactional
-//    @Modifying
-//    @Query(nativeQuery = true, value = "INSERT INTO registered_players (player_id, tour_id, status) VALUES (:playerId, :tournamentId, 'RESERVED')")
-//    void insert (@Param("playerId") Long playerId, @Param("tournamentId") Long tournamentId);
-
     @Transactional
     @Modifying
     void deleteByPlayerIdAndTourId(Long playerId, Long tourId);
 
-
-    @Procedure("update_after_insert")
+    @Procedure("update_status")
     void refreshStatuses(@Param("tourid") Long tourId , @Param("maxplayers") int maxPlayers);
 }

@@ -1,10 +1,7 @@
 package com.example.tt_nsk.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -25,18 +22,10 @@ public class UpcomingTournamentData {
     @Column(name = "reg_ends")
     private Timestamp registrationEnds;
 
-//    @OneToOne(targetEntity = Tour.class, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "tour_id", referencedColumnName = "id", insertable=false, updatable=false)
-//    private Tour tournament;
-
     public UpcomingTournamentData(long tourId, int totalPlayers, Timestamp registrationEnds) {
         this.tourId = tourId;
         this.totalPlayers = totalPlayers;
         this.registrationEnds = registrationEnds;
     }
-
-//    public void setTournament(Tour tournament) {
-//        this.tournament = tournament;
-//    }
 
 }

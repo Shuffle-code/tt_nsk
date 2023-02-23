@@ -86,11 +86,9 @@
 
                 -->
     <include
-            file="db/changelog/procedures/create-procedure-update_status_after_insert.xml"/>
-
-    <!--
-
-    ToDo - Этот триггер не работает со Spring JPA. Надо переписать или отказаться от его использования
+            file="db/changelog/procedures/create-procedure-update_status.xml"/>
+<!--
+ToDo - не работает со Spring JPA
     <include
             file="db/changelog/triggers/create-trigger-reg_expired.xml"/>
             -->

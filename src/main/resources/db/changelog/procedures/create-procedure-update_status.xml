@@ -7,5 +7,5 @@
       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
       http://www.liquibase.org/xml/ns/pro
       http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
-    <include file="db/changelog/procedures/create-procedure-update_status_after_insert.sql"/>
+    <include file="db/changelog/procedures/create-procedure-update_status.sql"/>
 </databaseChangeLog>

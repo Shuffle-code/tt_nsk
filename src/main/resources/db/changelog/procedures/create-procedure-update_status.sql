@@ -2,7 +2,7 @@
 -- changeset liquibase:a67500b5-0b7c-4141-92fd-e4c46da1213a splitStatements:false
 -- delimiter $$
 
-CREATE PROCEDURE update_after_insert(IN tourid BIGINT, IN maxplayers SMALLINT)
+CREATE PROCEDURE update_status(IN tourid BIGINT, IN maxplayers SMALLINT)
 BEGIN
 
     DROP TEMPORARY TABLE IF EXISTS mw;

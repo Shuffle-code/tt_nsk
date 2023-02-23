@@ -5,7 +5,6 @@ import com.example.tt_nsk.dao.UpcomingTournamentDataRepo;
 import com.example.tt_nsk.dto.AnnouncedTournament;
 import com.example.tt_nsk.entity.RegisteredPlayer;
 import com.example.tt_nsk.entity.UpcomingTournamentData;
-import com.example.tt_nsk.entity.security.PlayerTournament;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,10 +13,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
@@ -73,11 +70,8 @@ public class EnrollTournamentImpl_v2 /*implements EnrollTournament*/ {
         RegisteredPlayer registeredPlayer = new RegisteredPlayer(playerId, tournamentId, "REGISTERED");
         try {
             registeredPlayersRepo.save(registeredPlayer);
-//            upcomingTournamentDataRepo.findTotalPlayersByTourId(tournamentId)
-//                    .ifPresent(maxPlayers -> registeredPlayersRepo.refreshStatuses());
-            registeredPlayersRepo.refreshStatuses(tournamentId, 2);
-            //updateStatuses(tournamentId, 2);
-            //registeredPlayersRepo.insert(playerId, tournamentId);
+            upcomingTournamentDataRepo.findTotalPlayersByTourId(tournamentId)
+                    .ifPresent(maxPlayers -> registeredPlayersRepo.refreshStatuses(tournamentId, maxPlayers));
         }catch (Exception ex) {
             System.out.println(ex);
         }
@@ -91,12 +85,9 @@ public class EnrollTournamentImpl_v2 /*implements EnrollTournament*/ {
             @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
     ) {
         registeredPlayersRepo.deleteByPlayerIdAndTourId(playerId, tournamentId);
-        //registeredPlayersRepo.refreshStatuses(tournamentId);
+        upcomingTournamentDataRepo.findTotalPlayersByTourId(tournamentId)
+                .ifPresent(maxPlayers -> registeredPlayersRepo.refreshStatuses(tournamentId, maxPlayers));
         return new ResponseEntity<>(registeredPlayersRepo.findAllByPlayerId(playerId), HttpStatus.OK);
     }
 
-    private void updateStatuses(Long tournamentId, int maxPlayers) {
-
-
-    }
 }
