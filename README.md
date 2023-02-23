@@ -1,4 +1,4 @@
 # tt_nsk
 
-<p style="text-align:center">Администратор турниров по настольному теннису</p>
+<p size = 26 style="text-align:center">Администратор турниров по настольному теннису</p>
 
