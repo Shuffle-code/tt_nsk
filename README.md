@@ -11,6 +11,7 @@
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 
 ![Gallery](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/Project_promo.gif)
+<br>
 ![Site](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png)
 
 <h2>Назначение проекта</h2>
