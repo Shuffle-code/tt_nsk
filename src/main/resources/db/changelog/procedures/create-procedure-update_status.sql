@@ -9,6 +9,7 @@ BEGIN
     CREATE TEMPORARY TABLE mw (max_players smallint);
     INSERT INTO mw SELECT ID FROM registered_players WHERE tour_id = tourid ORDER BY ID ASC LIMIT maxplayers;
     UPDATE registered_players rp2 SET status = 'RESERVED' WHERE tour_id = tourid AND ID NOT IN (SELECT * FROM mw AS mw1);
+    UPDATE registered_players rp2 SET status = 'REGISTERED' WHERE tour_id = tourid AND ID IN (SELECT * FROM mw AS mw1);
     DROP TEMPORARY TABLE IF EXISTS mw;
 END;
 
