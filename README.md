@@ -1,19 +1,3 @@
-<!DOCTYPE html>
-<html>
- <head>
-  <meta charset="utf-8">
-   <style>
-    .box2 { 
-    background: #fc0; /* Цвет фона */
-    width: 300px; /* Ширина блока */
-    padding: 10px; /* Поля */
-    margin-top: 10px; /* Отступ сверху */
-    border: 2px solid #000; /* Параметры рамки */
-    -moz-box-sizing: border-box; /* Для Firefox */  
-    box-sizing: border-box; /* Ширина блока с полями */
-   }
-  </style>
- </head>
 <h1>Администратор турниров по настольному теннису</h1>
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
@@ -28,10 +12,10 @@
 ![Gallery](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/Project_promo.gif)
 <br>
   
-<div class="box1">
+
 ![Site](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png)
 <a href="http://tt-nsk.site/player/all">Сайт проекта</a>
-     </div>
+     
 
 <h2>Назначение проекта</h2>
 
