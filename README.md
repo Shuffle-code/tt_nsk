@@ -2,7 +2,17 @@
 <html>
  <head>
   <meta charset="utf-8">
-  <title>box-sizing</title>
+   <style>
+    .box2 { 
+    background: #fc0; /* Цвет фона */
+    width: 300px; /* Ширина блока */
+    padding: 10px; /* Поля */
+    margin-top: 10px; /* Отступ сверху */
+    border: 2px solid #000; /* Параметры рамки */
+    -moz-box-sizing: border-box; /* Для Firefox */  
+    box-sizing: border-box; /* Ширина блока с полями */
+   }
+  </style>
 <h1>Администратор турниров по настольному теннису</h1>
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
@@ -23,17 +33,7 @@
 Проект предназначен для администрирования соревнований по настольному теннису и предоставляет следующий функционал:
 
 <body>
-    <style>
-    .box2 { 
-    background: #fc0; /* Цвет фона */
-    width: 300px; /* Ширина блока */
-    padding: 10px; /* Поля */
-    margin-top: 10px; /* Отступ сверху */
-    border: 2px solid #000; /* Параметры рамки */
-    -moz-box-sizing: border-box; /* Для Firefox */  
-    box-sizing: border-box; /* Ширина блока с полями */
-   }
-  </style>
+   
   <div class="box1">
 ![Site](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png)
 <a href="http://tt-nsk.site/player/all">Сайт проекта</a>
@@ -57,7 +57,7 @@
 </ul>
      </dev>
      
- </body>
+
 </body>
 </html>
 
