@@ -16,7 +16,7 @@ public interface RegisteredPlayersRepo extends CrudRepository<RegisteredPlayer, 
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "INSERT INTO registered_players (player_id, tour_id) VALUES (:playerId, :tournamentId)")
+    @Query(nativeQuery = true, value = "INSERT INTO registered_players (player_id, tour_id, status) VALUES (:playerId, :tournamentId, 'RESERVED')")
     void insert (@Param("playerId") Long playerId, @Param("tournamentId") Long tournamentId);
 
     @Transactional

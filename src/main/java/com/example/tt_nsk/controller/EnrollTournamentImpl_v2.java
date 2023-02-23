@@ -7,6 +7,7 @@ import com.example.tt_nsk.entity.RegisteredPlayer;
 import com.example.tt_nsk.entity.UpcomingTournamentData;
 import com.example.tt_nsk.entity.security.PlayerTournament;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,9 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
@@ -28,7 +27,7 @@ import java.util.List;
 @RequestMapping("/tournaments/enrollment")
 @Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры. Версия 2")
 @ConditionalOnProperty(prefix = "enrolltournament", name = "version", havingValue = "2")
-public class EnrollTournamentImpl_v2 implements EnrollTournament {
+public class EnrollTournamentImpl_v2 /*implements EnrollTournament*/ {
 
     private final RegisteredPlayersRepo registeredPlayersRepo;
     private final UpcomingTournamentDataRepo upcomingTournamentDataRepo;
@@ -48,34 +47,47 @@ public class EnrollTournamentImpl_v2 implements EnrollTournament {
         return new ResponseEntity<>(upcomingTournamentDataRepo.findLast(), HttpStatus.CREATED);
     }
 
-    @Override
-    public String getUpcomingTournaments(HttpSession httpSession, Model model) {
+    @Operation(summary = "Получение списка предстоящих турниров")
+    @GetMapping(value = "/all")
+    @ResponseBody
+    public ResponseEntity<List<UpcomingTournamentData>> getUpcomingTournaments() {
         Timestamp now = new Timestamp(System.currentTimeMillis());
-        List<UpcomingTournamentData> upcomingTournamentDataList = upcomingTournamentDataRepo.findAllByRegistrationEndsGreaterThan(now);
-        return upcomingTournamentDataList.toString();
+        List<UpcomingTournamentData> upcomingTournamentDataList = upcomingTournamentDataRepo.findAllByRegistrationEndsIsAfter(now);
+
+        return new ResponseEntity<>(upcomingTournamentDataList, HttpStatus.OK);
     }
 
-    @Override
-    public List<PlayerTournament> getTournamentsByPlayerId(Long playerId) {
-        //ToDo
-        return (List) registeredPlayersRepo.findAllByPlayerId(playerId);
+    @Operation(summary = "Получение списка турниров, на которые записан игрок")
+    @GetMapping(value = "/tournaments/{playerId}")
+    @ResponseBody
+    public ResponseEntity<List<RegisteredPlayer>> getTournamentsByPlayerId(Long playerId) {
+        return new ResponseEntity<>(registeredPlayersRepo.findAllByPlayerId(playerId), HttpStatus.OK);
     }
 
-    @Override
-    public String enrollTournament(HttpSession httpSession, Model model, Long playerId, Long tournamentId) {
-        RegisteredPlayer registeredPlayer = new RegisteredPlayer(playerId, tournamentId);
+    @Operation(summary = "Зарегистрировать игрока на турнир")
+    @RequestMapping(value = "/enroll/{playerId}/{tournamentId}", method = RequestMethod.GET)
+    public ResponseEntity<List<RegisteredPlayer>> enrollTournament(
+            @Parameter(name = "playerId", description = "ID игрока", example = "2") @PathVariable Long playerId,
+            @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
+    ) {
+        RegisteredPlayer registeredPlayer = new RegisteredPlayer(playerId, tournamentId, "REGISTERED");
         try {
             registeredPlayersRepo.save(registeredPlayer);
+            //registeredPlayersRepo.insert(playerId, tournamentId);
         }catch (Exception ex) {
             System.out.println(ex);
         }
-        return null;
+        return new ResponseEntity<>(registeredPlayersRepo.findAllByPlayerId(playerId), HttpStatus.OK);
     }
 
-    @Override
-    public String disenrollTournament(HttpSession httpSession, Model model, Long playerId, Long tournamentId) {
+    @Operation(summary = "Снять игрока с турнира")
+    @GetMapping("/disenroll/{playerId}/{tournamentId}")
+    public ResponseEntity<List<RegisteredPlayer>> disenrollTournament(
+            @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
+            @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
+    ) {
         registeredPlayersRepo.deleteByPlayerIdAndTourId(playerId, tournamentId);
-        registeredPlayersRepo.refreshStatuses(tournamentId);
-        return null;
+        //registeredPlayersRepo.refreshStatuses(tournamentId);
+        return new ResponseEntity<>(registeredPlayersRepo.findAllByPlayerId(playerId), HttpStatus.OK);
     }
 }
