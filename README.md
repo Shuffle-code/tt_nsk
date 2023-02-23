@@ -2,9 +2,10 @@
 <h1>Администратор турниров по настольному теннису</h1>
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
 <br>
 ![Gallery](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/Project_promo.gif)
-![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
 <h2>Назначение проекта</h2>
 
