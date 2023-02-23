@@ -13,9 +13,9 @@
 <br>
   
 <dev>
-  <h1   <a href="http://tt-nsk.site/player/all" align = middle><img src="https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png" align = middle>
-   </img></a>>Сайт проекта: </h1>
-
+  <h1   href="http://tt-nsk.site/player/all" align = middle>
+   </img></a>Сайт проекта: </h1>
+   <img src="https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png" align = middle>
 </dev>
      
 
