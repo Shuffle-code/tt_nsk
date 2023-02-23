@@ -1,14 +1,15 @@
 # tt_nsk
 <h1>Администратор турниров по настольному теннису</h1>
-
-![](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/Project_promo.gif)
+<body>
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![Gallery](https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/Project_promo.gif)
+
 
 <h2>Назначение проекта</h2>
 
 Проект предназначен для администрирования соревнований по настольному теннису и предоставляет следующий функционал:
 
-<body>
+
      <dev>
      <ul>
      <li>ведение картотеки игроков;</li>
