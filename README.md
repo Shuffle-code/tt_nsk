@@ -13,7 +13,7 @@
 <br>
   
 <dev>
-  <text>Site</text>
+  <h1>Сайт проекта: </h1>
  <a href="http://tt-nsk.site/player/all" align = middle><img src="https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png" align = middle>
    </img></a>
 </dev>
