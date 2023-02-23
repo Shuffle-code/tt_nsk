@@ -14,10 +14,8 @@
   
 <dev>
 <img src="https://github.com/Shuffle-code/tt_nsk/blob/SergeiAidinov-patch-1/web-logo-empty-background.png" align = middle>
-  <a href="http://tt-nsk.site/player/all">Сайт проекта</a>
-  
-  </img>
-
+   </img>
+ <a href="http://tt-nsk.site/player/all" align = middle>Сайт проекта</a>
 </dev>
      
 
