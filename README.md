@@ -1,4 +1,8 @@
-# tt_nsk
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>box-sizing</title>
 <h1>Администратор турниров по настольному теннису</h1>
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
@@ -54,7 +58,8 @@
      </dev>
      
  </body>
-
+</body>
+</html>
 
 
 
