@@ -13,6 +13,7 @@
     box-sizing: border-box; /* Ширина блока с полями */
    }
   </style>
+ </head>
 <h1>Администратор турниров по настольному теннису</h1>
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
