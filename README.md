@@ -40,8 +40,7 @@
 <ul>
      <li>Файл для запуска приложения: tt_nsk.jar.</li>
      <li>Изменить значения в конфигурационном файле:
-<p>spring:</p>
- <p> datasource:</p>
+<p>spring_datasource:</p>
 <p>url: </p>
 <p>username: </p>
 <p>password: </p>
