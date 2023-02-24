@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/tournaments/enrollment")
 @Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры. Версия 2")
 @ConditionalOnProperty(prefix = "enrolltournament", name = "version", havingValue = "2")
-public class EnrollTournamentImpl_v2 /*implements EnrollTournament*/ {
+public class EnrollTournamentImpl_v2 {
 
     private final RegisteredPlayersRepo registeredPlayersRepo;
     private final UpcomingTournamentDataRepo upcomingTournamentDataRepo;
