@@ -41,11 +41,11 @@
      <li>Файл для запуска приложения: tt_nsk.jar.</li>
      <li>Изменить значения в конфигурационном файле:
 <p>spring_datasource:</p>
-<p>&ensp;url: </p>
-<p>&ensp;username: </p>
-<p>&ensp;password: </p>
+<p>&emsp;url: </p>
+<p>&emsp;username: </p>
+<p>&emsp;password: </p>
 <p>storage:
-<p>&ensp;location: </p>
+<p>&emsp;location: </p>
   </li>
    <li>Запуск: java -jar tt_nsk.jar &</li>
    <li>База данных при её отсутствии, создается с помощью liquibase</li>
