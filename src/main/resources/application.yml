@@ -31,6 +31,18 @@ spring:
     change-log: 'db/changelog/db.changelog-master.xml'
     enabled: true
 
+  storage:
+    location: '/home/shuffle/java/storage'
+
+  datasource:
+  url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&
+  allowPublicKeyRetrieval=true&useSSL=false&
+  useUnicode=true&
+  characterEncoding=UTF-8&serverTimezone=UTC"
+  username: "admin"
+  password: "qwertyuiop"
+  #url: "jdbc:mysql://localhost:3306/tt_Nsk"
+
 ---
 spring:
   profiles: dev
