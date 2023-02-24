@@ -34,6 +34,23 @@
     </ul>
    <hr>
      </dev>
+  <dev>
+     <h2>Сборка приложения:</h2>
+
+<ul>
+     <li>Файл для запуска приложения: tt_nsk.jar.</li>
+     <li>Изменить значения в конфигурационном файле:
+spring:
+  datasource:
+url: 
+  username: 
+  password: 
+storage:
+  location: </li>
+   <li>Запуск: java -jar tt_nsk.jar &</li>
+  <li>База данных при её отсутствии, создается с помощью liquibase</li>
+</ul>
+     </dev>
      <dev>
      <h2>Технические требования:</h2>
 
