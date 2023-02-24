@@ -40,12 +40,16 @@
 <ul>
      <li>Файл для запуска приложения: tt_nsk.jar.</li>
      <li>Изменить значения в конфигурационном файле:
-<p>spring_datasource:</p>
+<p>spring:</p>       
+<p>&ensp;datasource:</p>
 <p>&emsp;url: </p>
 <p>&emsp;username: </p>
 <p>&emsp;password: </p>
-<p>storage:
+<p>&ensp;storage:</p>
 <p>&emsp;location: </p>
+<p>&ensp;mail:</p>
+<p>&emsp;username: </p> 
+<p>&emsp;password: </p>    
   </li>
    <li>Запуск: java -jar tt_nsk.jar &</li>
    <li>База данных при её отсутствии, создается с помощью liquibase</li>
