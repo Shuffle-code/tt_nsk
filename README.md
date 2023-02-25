@@ -47,8 +47,8 @@
 <p>&emsp;password: </p>    
   </li>
      <li>Создание jar-файла: Gradle->cleane->build</li>
-     <li>Файл для запуска приложения:</li>
-     <li>build/libs/tt_nsk-0.0.1-SNAPSHOT.jar</li>
+     <li>Файл для запуска приложения:
+     build/libs/tt_nsk-0.0.1-SNAPSHOT.jar</li>
    <li>Запуск: java -jar tt_nsk-0.0.1-SNAPSHOT.jar &</li>
    <li>База данных при её отсутствии, создается с помощью liquibase</li>
 </ul>
