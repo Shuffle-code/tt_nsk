@@ -36,35 +36,33 @@
      </dev>
   <dev>
      <h2>Сборка приложения:</h2>
-
 <ul>
-     <li>Файл для запуска приложения: tt_nsk.jar.</li>
-     <li>Изменить значения в конфигурационном файле:
+https://github.com/Shuffle-code/tt_nsk
+Файл.json для запроса в папке: ./storage/request, Папка для сохранения ответа: ./storage/response
+Сборка через Fork->IDEA->ProjectSetting->Artifacts
+     <li>Удаленный репозиторий: https://github.com/Shuffle-code/tt_nsk, ветка master</li>
+     <li>После скачивания проекта, зменить значения в конфигурационном файле application.yml:
 <p>spring:</p>       
-<p>&ensp;datasource:</p>
-<p>&emsp;url: </p>
-<p>&emsp;username: </p>
-<p>&emsp;password: </p>
 <p>&ensp;storage:</p>
 <p>&emsp;location: </p>
 <p>&ensp;mail:</p>
 <p>&emsp;username: </p> 
 <p>&emsp;password: </p>    
   </li>
-   <li>Запуск: java -jar tt_nsk.jar &</li>
+     <li>Создание jar-файла: Gradle->cleane->build</li>
+     <li>Файл для запуска приложения:</li>
+     <li>build/libs/tt_nsk-0.0.1-SNAPSHOT.jar</li>
+   <li>Запуск: java -jar tt_nsk-0.0.1-SNAPSHOT.jar &</li>
    <li>База данных при её отсутствии, создается с помощью liquibase</li>
 </ul>
      </dev>
      <dev>
      <h2>Технические требования:</h2>
-
 <ul>
      <li>JRE версии не ниже 17;</li>
      <li>MySQL версии не ниже 8.0;</li>
 </ul>
      </dev>
-     
-
 </body>
 </html>
 
