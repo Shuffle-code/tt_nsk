@@ -37,9 +37,6 @@
   <dev>
      <h2>Сборка приложения:</h2>
 <ul>
-https://github.com/Shuffle-code/tt_nsk
-Файл.json для запроса в папке: ./storage/request, Папка для сохранения ответа: ./storage/response
-Сборка через Fork->IDEA->ProjectSetting->Artifacts
      <li>Удаленный репозиторий: https://github.com/Shuffle-code/tt_nsk, ветка master</li>
      <li>После скачивания проекта, зменить значения в конфигурационном файле application.yml:
 <p>spring:</p>       
