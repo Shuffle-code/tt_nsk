@@ -70,6 +70,10 @@
             file="db/changelog/modifyTable/modify-table-player.xml"/>
     <include
             file="db/changelog/modifyTable/modify-table-tournament.xml"/>
+    <include
+            file="db/changelog/modifyTable/modify-table-tournament-add-scoring.xml"/>
+<!--    <include-->
+<!--            file="db/changelog/modifyTable/modify-table-player-tournament-v1.xml"/>-->
 
     <!-- =====> Регистрация на турнир <===== -->
     <include
