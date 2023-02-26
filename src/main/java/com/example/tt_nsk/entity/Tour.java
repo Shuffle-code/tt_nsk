@@ -21,6 +21,11 @@ import java.util.Objects;
 @Table (name = "tournament")
 @EntityListeners(AuditingEntityListener.class)
 public class Tour extends InfoEntity {
+
+    @Id
+    @Column(name = "id")
+    Long id;
+
     @NotBlank
     @Column(name = "title")
     private String title;
