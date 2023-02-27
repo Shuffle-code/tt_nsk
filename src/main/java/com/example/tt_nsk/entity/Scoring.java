@@ -14,17 +14,12 @@ import javax.validation.constraints.Size;
 @Component
 @Setter
 @Getter
-//@Builder
-//@NoArgsConstructor
 @RequiredArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 public class Scoring {
     private int placePlayer;
     private int indexPlayer;
-//    @Size(max = 6)
     private double rating;
     private int set;
-//    @Size(max = 6)
     private double delta;
     private int setWin;
     private int countWin;
@@ -41,6 +36,8 @@ public class Scoring {
                 ", delta=" + delta +
                 ", setWin=" + setWin +
                 ", countWin=" + countWin +
+                ", deltaWinLoss=" + deltaWinLoss +
+                ", idPlayer=" + idPlayer +
                 '}';
     }
 }

@@ -21,24 +21,23 @@ public class CurrentTournament {
         for (int i = 1; i < resultTable.size() + 1; i++) {
             integers.add(i);
         }
-
         return integers;
    }
 
-    public Optional<String> getResult(int coordinateX, int coordinateY) {
-        if (coordinateY > resultTable.size() - 1 || coordinateX > resultTable.get(coordinateY).size() - 1) {
-            return Optional.empty();
-        } else {
-            return Optional.ofNullable(resultTable.get(coordinateY).get(coordinateX));
-        }
-    }
-
-    public boolean setResult(int coordinateX, int coordinateY, String result) {
-        if (coordinateY > resultTable.size() - 1 || coordinateX > resultTable.get(coordinateY).size() - 1) {
-            return false;
-        } else {
-            resultTable.get(coordinateY).add(coordinateX, result);
-            return true;
-        }
-    }
+//    public Optional<String> getResult(int coordinateX, int coordinateY) {
+//        if (coordinateY > resultTable.size() - 1 || coordinateX > resultTable.get(coordinateY).size() - 1) {
+//            return Optional.empty();
+//        } else {
+//            return Optional.ofNullable(resultTable.get(coordinateY).get(coordinateX));
+//        }
+//    }
+//
+//    public boolean setResult(int coordinateX, int coordinateY, String result) {
+//        if (coordinateY > resultTable.size() - 1 || coordinateX > resultTable.get(coordinateY).size() - 1) {
+//            return false;
+//        } else {
+//            resultTable.get(coordinateY).add(coordinateX, result);
+//            return true;
+//        }
+//    }
 }

@@ -72,16 +72,14 @@ public class PlayController {
     }
     @GetMapping("/current-score")
     public String createCurrentTournament(HttpSession httpSession, Model model){
-        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
+        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(91L);
         List<List<String>> results = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
-
         CurrentTournament ct = CurrentTournament.builder()
                 .players(playerBriefRepresentationDtoListSortedByRatingDesc)
                 .resultTable(results)
                 .build();
         model.addAttribute("score", ct);
-
-        return "tour/currentScore.html";
+        return "tour/currentScore";
     }
     @PostMapping("/count")
 //    @ResponseBody
@@ -132,19 +130,20 @@ public class PlayController {
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
     public String saveTourForPlayedTour(Tour tour, @RequestParam("files") MultipartFile[] files) {
+        JSONObject jsonObjectResult = new JSONObject();
         if (tour.getId() == null) {
             savePlayedTour(tour);
             savePlayersFromTour(resultTour);
-//            JSONObject jsonObjectResult = new JSONObject();
-//            jsonObjectResult.put(tour.getId().toString(), resultTour);
-            tour.setResultTour(resultTour.toString());
+            jsonObjectResult.put(tour.getId().toString(), resultTour);
+            tour.setResultTour(jsonObjectResult.toString());
             tour.setStatus(TourStatus.FINISHED);
             tour.setScoring(scoring);
             tourDao.save(tour);
             tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
         }else {
             savePlayersFromTour(resultTour);
-            tourDao.updateTourAfterSave(scoring, resultTour.toString(), TourStatus.FINISHED.toString(),
+            jsonObjectResult.put(tour.getId().toString(), resultTour);
+            tourDao.updateTourAfterSave(scoring, jsonObjectResult.toString(), TourStatus.FINISHED.toString(),
                 playerService.findById(playService.getIdFirstPlace(resultTour)).getId(), tour.getId());}
             tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
         return "redirect:/tour/all";
