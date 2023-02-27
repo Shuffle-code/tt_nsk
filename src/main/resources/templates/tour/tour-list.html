@@ -45,8 +45,8 @@
                 <td th:text="${tour.date}"></td>
                 <td th:text="${tour.title}"></td>
                 <td th:text="${tour.address.getStreet}"></td>
-                <td th:text="${'играли: ' + tour.amountPlayers}"></td>
-                <td th:text="${tour.player.getFirstname + ' ' + tour.player.getLastname}"></td>
+                <td th:text="${(tour.amountPlayers == null)}? '0' : ${tour.amountPlayers}" class="text-center"></td>
+                <td th:text="${(tour.player == null)}? '' : ${tour.player.getFirstname + ' ' + tour.player.getLastname}"></td>
                 <td sec:authorize="hasAuthority('player.update')">
                     <a type="button"  th:href="@{/tour/new(id=${tour.id})}" class="btn btn-warning">Редактировать</a>
                 </td>
@@ -79,7 +79,6 @@
         </foot>
     </div>
 </div>
-
 <div th:replace="~{common/footer :: footerBlock}"/>
 
 </body>

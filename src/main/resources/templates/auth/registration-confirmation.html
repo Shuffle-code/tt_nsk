@@ -30,7 +30,7 @@
 
             <div style="margin-top: 10px" class="form-group">
                 <div class="col-sm-6 controls">
-                    <button type="submit" class="btn btn-primary">Confirm</button>
+                    <button type="submit" class="btn btn-primary">Подтвердить</button>
                 </div>
             </div>
             <div th:replace="~{common/footer :: footerBlock}"/>
@@ -40,7 +40,7 @@
         <h6>Возврат к окну авторизации</h6>
         <br>
         <form th:action="@{/auth/changeUsername}" method="post">
-            <button type="submit" class="btn btn-primary">Return</button>
+            <button type="submit" class="btn btn-primary">Вернутся</button>
         </form>
 </body>
 </html>

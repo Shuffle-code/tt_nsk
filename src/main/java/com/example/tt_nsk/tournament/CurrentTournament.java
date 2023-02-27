@@ -9,16 +9,11 @@ public class CurrentTournament {
 
 
     private CurrentTournament() {
-
     }
 
     public static CurrentTournament getInstance() {
         return INSTANCE;
     }
-
-//    public int getSetsToWinGame() {
-//        return setsToWinGame;
-//    }
 
     public void startTour(TournamentData _tournament, int _setsToWinGame) {
         if (Objects.isNull(tournament)) {

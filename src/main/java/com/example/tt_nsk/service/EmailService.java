@@ -22,8 +22,9 @@ public class EmailService {
 
             message.setFrom(from);
             message.setTo(email);
-            message.setSubject("Confirmation code");
-            message.setText("Here is your confirmation code: \n" + code);
+            message.setSubject("Приложение: 'TT_Nsk'");
+            message.setText("Ваш код для подтверждения регистрации: \n" + code + "\nС Уважением администрация: \n" +
+                    "т. 8-913-006-21-49");
 
             sender.send(message);
 
