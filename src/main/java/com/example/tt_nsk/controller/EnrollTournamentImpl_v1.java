@@ -6,7 +6,6 @@ import com.example.tt_nsk.dto.TournamentBriefRepresentationDto;
 import com.example.tt_nsk.entity.Tour;
 import com.example.tt_nsk.entity.security.AccountUser;
 import com.example.tt_nsk.entity.security.PlayerTournament;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -100,7 +99,7 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
 
     private List<TournamentBriefRepresentationDto> createTournamentBriefRepresentationDtoList(long playerId) {
         Date date = new Date(System.currentTimeMillis());
-        List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
+        List<Tour> upcomingTours = tourDao.findByDateGreaterThanEqual(date);
         List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
         List<Long> registeredTournaments = compileTournamentRegistration(playerId);
         upcomingTours.forEach(tour -> {
@@ -117,7 +116,7 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
 
     private List<TournamentBriefRepresentationDto> createTournamentBriefRepresentationDtoList() {
         Date date = new Date(System.currentTimeMillis());
-        List<Tour> upcomingTours = tourDao.findUpcomingTournaments(date);
+        List<Tour> upcomingTours = tourDao.findByDateGreaterThanEqual(date);
         List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
         upcomingTours.forEach(tour -> {
             tournamentBriefRepresentationDtoList.add(modelMapper.map(tour, TournamentBriefRepresentationDto.class));

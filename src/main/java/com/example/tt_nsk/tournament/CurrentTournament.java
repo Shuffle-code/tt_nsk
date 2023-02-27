@@ -16,10 +16,6 @@ public class CurrentTournament {
         return INSTANCE;
     }
 
-//    public int getSetsToWinGame() {
-//        return setsToWinGame;
-//    }
-
     public void startTour(TournamentData _tournament, int _setsToWinGame) {
         if (Objects.isNull(tournament)) {
             tournament = _tournament;

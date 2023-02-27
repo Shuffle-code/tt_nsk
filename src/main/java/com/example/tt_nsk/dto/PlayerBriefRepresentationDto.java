@@ -4,9 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Data
-@Getter
-@Setter
+@Data
 public class PlayerBriefRepresentationDto {
     private Long playerId;
     private String firstname;
