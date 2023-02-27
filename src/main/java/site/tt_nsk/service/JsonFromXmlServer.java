@@ -119,7 +119,7 @@ public class JsonFromXmlServer {
             if (id.chars().allMatch(Character::isDigit)) dataPlayersTtwByIdTtw.put(id, getListPlayersFromJson(Integer.parseInt(id)));
 //            getListPlayersFromJson(Integer.parseInt(id));
         }
-        log.info(dataPlayersTtwByIdTtw.size());
+        log.info(String.valueOf(dataPlayersTtwByIdTtw.size()));
         return dataPlayersTtwByIdTtw;
     }
 

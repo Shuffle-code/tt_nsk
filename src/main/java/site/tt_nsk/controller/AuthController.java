@@ -88,7 +88,7 @@ public class AuthController {
         ConfirmationCode confirmationCodeBy_id = confirmationCodeDao.findConfirmationCodeByAccountUser_Id(thisUser.getId());
 
         if (confirmationCodeBy_id.equals(code)) {
-            log.info(confirmationCodeBy_id.equals(code));
+            log.info("Код подтверждения совпадает: " + String.valueOf(confirmationCodeBy_id.equals(code)));
             AccountUser accountUser = confirmationCodeBy_id.getAccountUser();
             accountUser.setEnabled(true);
             accountUser.setAccountNonLocked(true);

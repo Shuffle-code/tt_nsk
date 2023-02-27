@@ -86,8 +86,8 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
             accountUser.setRoles(Set.of(roleAdmin));
         } else accountUser.setRoles(Set.of(roleUser));
         log.info("Count: " + count);
-        log.info(count == 0);
-        log.info(rolePlayer);
+        //log.info(count == 0);
+        log.info(rolePlayer.toString());
         accountUser.setStatus(AccountStatus.ACTIVE);
         accountUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         accountUser.setPlayer(player);
