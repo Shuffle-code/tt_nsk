@@ -63,7 +63,7 @@
                         <a th:if="${tour.registered == true}"
                            th:text="'(' + ${tour.amountPlayers} + ')'"></a>
                         <a th:if="${tour.registered == false}"
-                           th:text="'(' + ${tour.amountPlayers} + ')'"></a>
+                           th:text="${(tour.amountPlayers == null)}? '(0)' : '(' + ${tour.amountPlayers} + ')'"></a>
 
                     </td>
                     <td sec:authorize="!isAnonymous()">

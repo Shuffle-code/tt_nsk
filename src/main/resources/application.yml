@@ -1,21 +1,15 @@
-server:
-  port: 8091
-
-enrolltournament:
-  version: 1
-  
 spring:
   mail:
     host: "smtp.gmail.com"
     port: 587
     username: "shuffle2149@gmail.com"
-    password: "rsapzkolnfowyxad"
+    password: "kbnyqnkeuhdpkhld"
     properties:
       mail:
         smtp:
           auth: true
-        starttls:
-          enable: true
+          starttls:
+            enable: true
 
   mvc:
     pathmatch:
@@ -46,7 +40,11 @@ spring:
   username: "admin"
   password: "qwertyuiop"
   #url: "jdbc:mysql://localhost:3306/tt_Nsk"
+server:
+  port: 8091
 
+enrolltournament:
+  version: 1
 ---
 spring:
   profiles: dev
