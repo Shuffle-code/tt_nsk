@@ -119,7 +119,7 @@ public class JsonFromXmlServer {
             if (id.chars().allMatch(Character::isDigit)) dataPlayersTtwByIdTtw.put(id, getListPlayersFromJson(Integer.parseInt(id)));
 //            getListPlayersFromJson(Integer.parseInt(id));
         }
-        System.out.println(dataPlayersTtwByIdTtw.size());
+        log.info(dataPlayersTtwByIdTtw.size());
         return dataPlayersTtwByIdTtw;
     }
 
@@ -135,7 +135,7 @@ public class JsonFromXmlServer {
 //        Document document = documentBuilder.parse((InputStream) storagePathXml.resolve(xmlFileName));
         Document document = documentBuilder.parse("C:\\Users\\79130\\IdeaProjects\\tt_nsk\\storage\\xml\\players.xml");
 
-//        System.out.println("Example 2 - ������ �������� Cost � �������� ������� currency='USD'");
+//        log.info("Example 2 - ������ �������� Cost � �������� ������� currency='USD'");
 //        XPathFactory pathFactory = XPathFactory.newInstance();
         XPath xpath = XPathFactory.newInstance().newXPath();
         Map<String, String> dataPlayersTtwByIdTtw = new HashMap<>();

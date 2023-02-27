@@ -1,5 +1,6 @@
 package site.tt_nsk.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import site.tt_nsk.dao.RegisteredPlayersRepo;
 import site.tt_nsk.dao.UpcomingTournamentDataRepo;
 import site.tt_nsk.dto.AnnouncedTournament;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequestMapping("/tournaments/enrollment")
 @Tag(name = "Контроллер, позволяющий регистрировать игроков на турниры. Версия 2")
 @ConditionalOnProperty(prefix = "enrolltournament", name = "version", havingValue = "2")
+@Slf4j
 public class EnrollTournamentImpl_v2
 
 {
@@ -41,6 +43,7 @@ public class EnrollTournamentImpl_v2
         } catch (org.springframework.dao.DataIntegrityViolationException exception) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception ex) {
+            log.error("Ошибка открытия регистрации на турнир: " + ex.getMessage());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(upcomingTournamentDataRepo.findLast(), HttpStatus.CREATED);
@@ -75,7 +78,7 @@ public class EnrollTournamentImpl_v2
             upcomingTournamentDataRepo.findTotalPlayersByTourId(tournamentId)
                     .ifPresent(maxPlayers -> registeredPlayersRepo.refreshStatuses(tournamentId, maxPlayers));
         }catch (Exception ex) {
-            System.out.println(ex);
+            log.error("Ошибка регистрации игрока на турнир: " + ex.getMessage());
         }
         return new ResponseEntity<>(registeredPlayersRepo.findAllByPlayerId(playerId), HttpStatus.OK);
     }

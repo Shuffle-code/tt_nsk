@@ -43,9 +43,9 @@ public class PlayerController {
 
     @GetMapping("/all")
     public String getPlayerList(Model model, HttpSession httpSession) throws XPathExpressionException, ParserConfigurationException, IOException, SAXException {
-//        System.out.println(playerService.getIdTtw());
-//        System.out.println(jsonFromXmlServer.getDataPlayersTtwByIdTtw());
-//        System.out.println(jsonFromXmlServer.printMap());
+//        log.info(playerService.getIdTtw());
+//        log.info(jsonFromXmlServer.getDataPlayersTtwByIdTtw());
+//        log.info(jsonFromXmlServer.printMap());
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("players", playerService.addListForMainPage());
@@ -145,7 +145,7 @@ public class PlayerController {
     public List<Pair> getQueuePlayers(){
         List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
         for (Pair p : listOrderGames) {
-            System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
+            log.info(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
         }
         return listOrderGames;
     }
@@ -153,7 +153,7 @@ public class PlayerController {
     public void getQueue(){
         List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
         for (Pair p : listOrderGames) {
-            System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
+            log.info(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
         }
 
     }

@@ -27,12 +27,12 @@ public class testStarting {
 //        List<String> players = JsonPath.from(
 //                new String(Files.readAllBytes(storagePathJson.
 //                        resolve(jsonFileName)))).get("Players.Player.rating{Player -> Player.id == '26c0268'}");
-//        System.out.println(players);
+//        log.info(players);
 //        List<String> listResultTour = getMapPlayersFromJson();
-//        System.out.println(listResultTour);
+//        log.info(listResultTour);
         JSONObject inJson = getInJson();
         JSONArray jsonArray = inJson.getJSONArray("Player");
-        System.out.println(jsonArray);
+        log.info(jsonArray);
     }
 
     public static List<String> getMapPlayersFromJson(){
@@ -93,24 +93,24 @@ public class testStarting {
 //        score.setX2y3("3-2");
 //
 //        JSONObject jsonObj = new JSONObject(score);
-//        System.out.println(jsonObj);
-//        System.out.println(score);
-//        System.out.println(getListResultTour(score));
-//        System.out.println(getListResultTour(score).size());
-//        System.out.println(getListResultTour(score).get(1));
+//        log.info(jsonObj);
+//        log.info(score);
+//        log.info(getListResultTour(score));
+//        log.info(getListResultTour(score).size());
+//        log.info(getListResultTour(score).get(1));
 //        String $3$1 = "3/2".replaceFirst("(.)(.*)(.)", "$3$2$1");
 ////        String $2$1 = "3/2".replace(b);
-//        System.out.println($3$1);
-//        System.out.println(new LegUp());
+//        log.info($3$1);
+//        log.info(new LegUp());
 //        JsonFromXml jsonFromXml = new JsonFromXml();
 //        get
 //        Path pathXml = storagePathXml.resolve(fileName);
-//        System.out.println(storagePathXml.resolve(fileName));
+//        log.info(storagePathXml.resolve(fileName));
 //        String content = Files.readString(storagePathXml.resolve("xml\\players.xml"), StandardCharsets.UTF_8);
 //        String data = FileUtils.readFileToString(new File("c:\\student.xml"), "UTF-8");
 //        getJson();
 //        writeJson();
-//        System.out.println(content);
+//        log.info(content);
 //    }
 
 
