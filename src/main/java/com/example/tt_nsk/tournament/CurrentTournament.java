@@ -9,7 +9,6 @@ public class CurrentTournament {
 
 
     private CurrentTournament() {
-
     }
 
     public static CurrentTournament getInstance() {

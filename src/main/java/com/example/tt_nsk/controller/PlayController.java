@@ -44,6 +44,7 @@ public class PlayController {
     private final TourImageService tourImageService;
     private final TourDao tourDao;
     Map<String, Scoring> resultTour;
+    String scoring;
     List<String> list;
     String filename;
     private static final String path = "tours";
@@ -71,16 +72,14 @@ public class PlayController {
     }
     @GetMapping("/current-score")
     public String createCurrentTournament(HttpSession httpSession, Model model){
-        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(87L);
+        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(91L);
         List<List<String>> results = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
-
         CurrentTournament ct = CurrentTournament.builder()
                 .players(playerBriefRepresentationDtoListSortedByRatingDesc)
                 .resultTable(results)
                 .build();
         model.addAttribute("score", ct);
-
-        return "tour/currentScore.html";
+        return "tour/currentScore";
     }
     @PostMapping("/count")
 //    @ResponseBody
@@ -97,6 +96,8 @@ public class PlayController {
             score.setEndTour((playService.getSizeArrayList(list)/allByRating.size() + 1) == allByRating.size());
             resultTour = playService.getResultTour(list, allByRating);
             playService.placePlayer(resultTour);
+            scoring = playService.arrayWithoutNull(playService.getListResultTour(score)).toString();
+            tourDao.updateTour(playService.arrayWithoutNull(playService.getListResultTour(score)).toString(), id);
         } else {
             tour = new Tour();
             allByRating = playerService.findAllActiveSortedByRating();
@@ -105,6 +106,7 @@ public class PlayController {
             score.setEndTour((playService.getSizeArrayList(list)/allByRating.size() + 1) == allByRating.size());
             resultTour = playService.getResultTour(list);
             playService.placePlayer(resultTour);
+            scoring = playService.arrayWithoutNull(playService.getListResultTour(score)).toString();
         }
         model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
@@ -112,8 +114,14 @@ public class PlayController {
     }
     @GetMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create')")
-    public String showFormForPlayedTour(Model model) {
-        Tour tour = new Tour();
+    public String showFormForPlayedTour(Model model,
+            @RequestParam(name = "id", required = false) Long id) {
+        Tour tour;
+        if (id != null) {
+            tour = tourDao.findById(id).get();
+        }else {
+            tour = new Tour();
+        }
         model.addAttribute("addressService", addressService);
         model.addAttribute("tour", tour);
         filename = createScreenshotMultipleScreens();
@@ -122,14 +130,22 @@ public class PlayController {
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update') ")
     public String saveTourForPlayedTour(Tour tour, @RequestParam("files") MultipartFile[] files) {
-        savePlayedTour(tour);
-        savePlayersFromTour(resultTour);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put(tour.getId().toString(), resultTour);
-        tour.setResultTour(jsonObject.toString());
-        tourDao.save(tour);
-//        uploadMultipleFiles(files, playerDao.findByLastname(player.getLastname()).get().getId());
-        tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
+        JSONObject jsonObjectResult = new JSONObject();
+        if (tour.getId() == null) {
+            savePlayedTour(tour);
+            savePlayersFromTour(resultTour);
+            jsonObjectResult.put(tour.getId().toString(), resultTour);
+            tour.setResultTour(jsonObjectResult.toString());
+            tour.setStatus(TourStatus.FINISHED);
+            tour.setScoring(scoring);
+            tourDao.save(tour);
+            tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
+        }else {
+            savePlayersFromTour(resultTour);
+            jsonObjectResult.put(tour.getId().toString(), resultTour);
+            tourDao.updateTourAfterSave(scoring, jsonObjectResult.toString(), TourStatus.FINISHED.toString(),
+                playerService.findById(playService.getIdFirstPlace(resultTour)).getId(), tour.getId());}
+            tourController.uploadMultipleFiles(files, tourDao.findById(tour.getId()).get().getId());
         return "redirect:/tour/all";
     }
     private void savePlayersFromTour(Map<String, Scoring> resultTour) {
