@@ -3,38 +3,36 @@ package com.example.tt_nsk.tournament;
 import java.util.Objects;
 
 public class CurrentTournament {
-    private boolean tourStarted = false;
+
     private TournamentData tournament = null;
     private static final CurrentTournament INSTANCE = new CurrentTournament();
-    private int setsToWinGame;
 
-    private CurrentTournament(){
 
+    private CurrentTournament() {
     }
 
-    public static CurrentTournament getInstance(){
+    public static CurrentTournament getInstance() {
         return INSTANCE;
     }
 
-    public int getSetsToWinGame() {
-        return setsToWinGame;
-    }
-
-    public  void startTour(TournamentData _tournament, int _setsToWinGame){
+    public void startTour(TournamentData _tournament, int _setsToWinGame) {
         if (Objects.isNull(tournament)) {
             tournament = _tournament;
-            setsToWinGame = _setsToWinGame;
+            tournament.setPlaySetsToWinGame(_setsToWinGame);
+            tournament.setTourStarted(true);
         }
-        tourStarted = true;
     }
 
-    public boolean hasTourStarted(){
-        return tourStarted;
+    public boolean hasTourStarted() {
+        if (Objects.isNull(tournament)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    public TournamentData tournamentData(){
+    public TournamentData tournamentData() {
         return tournament;
     }
 
 }
-

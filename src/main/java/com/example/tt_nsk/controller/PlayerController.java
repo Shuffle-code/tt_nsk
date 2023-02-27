@@ -60,13 +60,9 @@ public class PlayerController {
         Player player;
         if (id != null) {
             player = playerService.findById(id);
-//            List<String> images = new ArrayList<>(PlayerImageService.uploadMultipleFilesByPlayerId(id));
-//            model.addAttribute("PlayerImages", images);
         } else {
             player = new Player();
         }
-//        model.addAttribute("categoryService", categoryService);
-//        model.addAttribute("manufacturers", manufacturerService.findAll());
         model.addAttribute("player", player);
         return "player/player-form";
     }
@@ -145,24 +141,22 @@ public class PlayerController {
                 .collect(Collectors.toList());
     }
 
-/*
-    public List<Pair<P, P1>> getQueuePlayers(){
-        List<Pair<P, P1>> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
-        for (Pair<P, P1> p : listOrderGames) {
+
+    public List<Pair> getQueuePlayers(){
+        List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
+        for (Pair p : listOrderGames) {
             System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
         }
         return listOrderGames;
     }
 
     public void getQueue(){
-        List<Pair<P, P1>> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
-        for (Pair<P, P1> p : listOrderGames) {
+        List<Pair> listOrderGames = pairService.getListOrderGames((ArrayList<Player>) playerService.findAllActiveSortedByRating());
+        for (Pair p : listOrderGames) {
             System.out.println(p.getPlayer1().getLastname() + ":"  + p.getPlayer2().getLastname());
         }
 
     }
-
- */
 
 
 }

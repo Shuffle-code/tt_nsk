@@ -14,7 +14,7 @@
 <div th:replace="~{common/navbar :: navi(Participate)}"></div>
 
 <div class="d-flex justify-content-center">
-    <form class="row g-3 needs-validation" th:object="${score}" th:action="@{/tour/count}" method="post"
+    <form class="row g-3 needs-validation" th:object="${score}" th:action="@{/tour/count(id=${tour.id})}" method="post"
           enctype="multipart/form-data">
     <span th:if="${countPlaying == 0}">Игроков нет</span>
     <div th:unless="${countPlaying == 0}">
@@ -325,14 +325,48 @@
             </tbody>
         </table>
      </div>
-        <div class="col-md-12">
+        <div class="col-md-12" >
             <div class="input-group">
                 <button  type="submit" class="btn btn-success" id="calculate">Расчитать</button>
-                <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control" placeholder="Перед сохранением обязательно нажмите 'Расчитать'" aria-label="Sizing example input"
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Очередность игр</button>
+                <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control"
+                       placeholder="Введите кол-во столов" aria-label="Sizing example input"
                        aria-describedby="inputGroup-sizing-default" disabled>
                 <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" id="save" th:disabled="${!(score.endTour)}">
-                    <a class="btn btn-primary" th:href="@{${'/tour/save'}}">Сохранить</a>
+                    <a class="btn btn-primary" th:href="@{/tour/save(id=${tour.id})}"  >Сохранить</a>
                 </button>
+            </div>
+        </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasRightLabel">Порядок игр</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+            </div>
+            <div class="offcanvas-body">
+                <table class="table table-striped table-hover">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">№</th>
+                        <th scope="col">Игроки:</th>
+                        <th scope="col">Стол №</th>
+                    </tr>
+                    </thead>
+                    <tbody data-mdb-spy="scroll">
+                    <tr th:each="pair, i : ${pairs}">
+                        <th scope="row" th:text="${i.count}"></th>
+                        <td>
+                            <div class="d-flex">
+                                <div class="ms-3">
+                                    <p th:text="${pair.player1.lastname + ' ' + pair.player2.lastname}"></p>
+                                </div>
+                            </div>
+                        </td>
+                        <th scope="row" th:text="${i.count}"></th>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -37,7 +37,6 @@
             file="db/changelog/createTables/create-table-user_tournament.xml"/>
 
     <!-- =====> наполнение таблиц <===== -->
-
     <include
             file="db/changelog/fillTables/fill-table-account_role.xml"/>
     <include
@@ -65,10 +64,39 @@
     <include
             file="db/changelog/fillTables/fill-table-user_role.xml"/>
 
-    <!-- =====> наполнение таблиц <===== -->
+    <!-- =====> изменение таблиц <===== -->
 
     <include
             file="db/changelog/modifyTable/modify-table-player.xml"/>
+    <include
+            file="db/changelog/modifyTable/modify-table-tournament.xml"/>
+    <include
+            file="db/changelog/modifyTable/modify-table-tournament-add-scoring.xml"/>
+    <include
+            file="db/changelog/modifyTable/modify-table-tournament-change-notnull.xml"/>
+    <!-- =====> Регистрация на турнир <===== -->
+    <include
+            file="db/changelog/createTables/create-table-upcoming-tournament-data.xml"/>
+    <include
+            file="db/changelog/triggers/create-trigger-next-day.xml"/>
+    <include
+            file="db/changelog/createTables/create-table-registered_players.xml"/>
+    <!--
 
+    ToDo - Этот триггер не работает со Spring JPA. Надо переписать или отказаться от его использования
+    <include
+                file="db/changelog/triggers/create-trigger-reg_status.xml"/>
+
+                -->
+    <include
+            file="db/changelog/procedures/create-procedure-update_status.xml"/>
+<!--
+ToDo - не работает со Spring JPA
+    <include
+            file="db/changelog/triggers/create-trigger-reg_expired.xml"/>
+            -->
+
+    <include
+            file="db/changelog/modifyTable/modify-table-upcoming_tournament_data.sql"/>
 
 </databaseChangeLog> 

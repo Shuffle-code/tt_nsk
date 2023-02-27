@@ -12,11 +12,10 @@
 <body>
 
 <div th:replace="~{common/navbar :: navi(PlayerInfo)}"></div>
-
-
-
 <div class="container" style="width: 40%;">
-  <h2 th:text="${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
+  <h2 th:text="${(player.patronymic == null)}?
+      ${player.lastname + ' ' + player.firstname} :
+      ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
   <div class="justify-content-center" style="width: 100%;">
     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -35,11 +34,13 @@
       </button>
     </div>
     <div class="card-body">
-      <h2 th:text="${'ФИО: ' + player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
+      <h2 th:text="${(player.patronymic == null)}?
+      ${player.lastname + ' ' + player.firstname} :
+      ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
       <h4 th:text="${'Рейтинг: ' + player.rating}"></h4>
-      <h5 th:text="${'Рейтинг ttw: ' + player.ratingTtw}"></h5>
-      <h5 th:text="${'Год рождения: ' + player.yearOfBirth}"></h5>
-      <p th:text="${'ID ttw: ' + player.idTtw}"></p>
+      <h5 th:text="${(player.ratingTtw == null)}? 'Рейтинг ttw: ' : ${'Рейтинг ttw: ' + player.ratingTtw}"></h5>
+      <h5 th:text="${(player.yearOfBirth== null)}? 'Год рождения: ' : ${'Год рождения: ' + player.yearOfBirth}"></h5>
+      <p th:text="${(player.idTtw == null)}? 'ID ttw: ' : ${'ID ttw: ' + player.idTtw}"></p>
       <p th:text="${'Статус: ' + player.status.title}"></p>
       <p class="card-text">Небольшой пример текста, который должен основываться на названии карточки и составлять основную часть содержимого карты.</p>
       <a sec:authorize="hasAuthority('player.readOnly')"
@@ -53,9 +54,6 @@
     <br>
   </foot>
 </div>
-<!--"rounded mx-auto d-block"-->
-
-<!--"d-block w-100"-->
 <div th:replace="~{common/footer :: footerBlock}"/>
 </body>
 </html>

@@ -11,13 +11,17 @@ import java.util.Optional;
 
 @Data
 @Getter
-@Builder
+//@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TournamentData {
 
+    private long tuornamentId;
     private static final int SCORE_DIFFERENCE = 2;
     private List<List<String>> legUpTable;
     private List<Game> gamesList;
-    //private int setsToWinGame;
+    private boolean tourStarted = false;
+    private int playSetsToWinGame;
 
     public List<Integer> columns() {
         List<Integer> integers = new ArrayList<>();
@@ -45,17 +49,25 @@ public class TournamentData {
         }
     }
 
-    @RequiredArgsConstructor
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Getter
     @JsonPropertyOrder({"gameStatus", "gameWinner", "playerPair", "playSetList"})
     public static class Game {
 
+
         enum GameStatus {NOT_STARTED_YET, IS_BEING_PLAYED, FINISHED}
+
         private GameStatus gameStatus = GameStatus.NOT_STARTED_YET;
-        private final Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto> playerPair;
-        private final List<PlaySet> playSetList = new ArrayList<>();
+        private PlayerBriefRepresentationDto firstPlayer;
+        private PlayerBriefRepresentationDto secondPlayer;
+        private List<PlaySet> playSetList = new ArrayList<>();
         private PlayerBriefRepresentationDto gameWinner = null;
 
+        public Game(PlayerBriefRepresentationDto first, PlayerBriefRepresentationDto second) {
+            firstPlayer = first;
+            secondPlayer = second;
+        }
 
         public boolean addPlaySet(int firstPlayerResult, int secondPlayerResult) {
             if ((Math.abs(firstPlayerResult - secondPlayerResult) < SCORE_DIFFERENCE)
@@ -80,12 +92,12 @@ public class TournamentData {
                 }
             }
 
-            if (Math.abs(firstPlayerWonSets - secondPlayerWonSets) >= CurrentTournament.getInstance().getSetsToWinGame()) {
+            if (Math.abs(firstPlayerWonSets - secondPlayerWonSets) >= CurrentTournament.getInstance().tournamentData().getPlaySetsToWinGame()) {
                 gameStatus = GameStatus.FINISHED;
                 if (firstPlayerWonSets > secondPlayerWonSets) {
-                    gameWinner = playerPair.getFirst();
+                    gameWinner = firstPlayer;
                 } else {
-                    gameWinner = playerPair.getSecond();
+                    gameWinner = secondPlayer;
                 }
             } else if (!playSetList.isEmpty()) {
                 gameStatus = GameStatus.IS_BEING_PLAYED;
@@ -94,11 +106,11 @@ public class TournamentData {
     }
 
     @AllArgsConstructor
+    @NoArgsConstructor
     @Getter
     public static class PlaySet {
-        private final int firstPlayerResult;
-        private final int secondPlayerResult;
+        private int firstPlayerResult;
+        private int secondPlayerResult;
     }
 
 }
-

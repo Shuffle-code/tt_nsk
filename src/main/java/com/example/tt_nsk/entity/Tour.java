@@ -16,13 +16,16 @@ import java.util.Objects;
 
 @Setter
 @Getter
-//@AllArgsConstructor
 @NoArgsConstructor
-//@Builder
 @Entity
 @Table (name = "tournament")
 @EntityListeners(AuditingEntityListener.class)
 public class Tour extends InfoEntity {
+
+    @Id
+    @Column(name = "id")
+    Long id;
+
     @NotBlank
     @Column(name = "title")
     private String title;
@@ -32,12 +35,6 @@ public class Tour extends InfoEntity {
     private Date date;
     @Column(name = "amount_players")
     private BigDecimal amountPlayers;
-
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinTable(name = "cart_product",
-//    joinColumns = @JoinColumn(name = "product_id"),
-//    inverseJoinColumns = @JoinColumn(name = "cart_id"))
-//    private Set<Cart> carts;
 
     @OneToOne(targetEntity = Address.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "ID")
@@ -61,21 +58,10 @@ public class Tour extends InfoEntity {
     private Player player;
 
     @Column(name = "result_tour")
-//    @Convert(converter = JsonForListPlayersDao.class)
     private String resultTour;
 
-
-//    @Override
-//    public String toString() {
-//        return "tour{" +
-//                "title='" + title + '\'' +
-//                ", date='" + date + '\'' +
-//                ", addressId='" + addressId + '\'' +
-//                ", amountPlayers=" + amountPlayers +
-//                ", winnerId=" + winnerId +
-//                ", images=" + images +
-//                '}';
-//    }
+    @Column(name = "scoring")
+    private String scoring;
 
     @Override
     public boolean equals(Object o) {
@@ -90,19 +76,4 @@ public class Tour extends InfoEntity {
         return Objects.hash(getId(),title, date,
                 amountPlayers);
     }
-
-//    @Builder
-//    public Tour(Long id, String title, Address address, Date date,
-//                Player player, BigDecimal amountPlayers, int version,
-//                String createdBy, LocalDateTime createdDate, String lastModifiedBy,
-//                LocalDateTime lastModifiedDate, List<TourImage> images, Status status) {
-//        super(id, version, createdBy, createdDate, lastModifiedBy, lastModifiedDate);
-//        this.title = title;
-//        this.date = date;
-//        this.address = address;
-//        this.amountPlayers = amountPlayers;
-//        this.player = player;
-//        this.images = images;
-//        this.status = status;
-//    }
 }
