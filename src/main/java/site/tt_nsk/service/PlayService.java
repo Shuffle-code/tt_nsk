@@ -136,16 +136,16 @@ public class PlayService {
         Set<Integer> setWinSet = new HashSet<>(setWin);
         if (duplicates.size() == 0) {
             place.sort(Comparator.comparing(Scoring::getCountWin).reversed());
-            System.out.println("расчет по матчам");
+            log.info("расчет по матчам");
         } else if (setWinSet.size() == setWin.size()) {
             place.sort(Comparator.comparing(Scoring::getSetWin).reversed());
-            System.out.println("расчет по сетам");
+            log.info("расчет по сетам");
         } else if (setWinSet.size() != setWin.size()) {
             place.sort(Comparator.comparing(Scoring::getDeltaWinLoss).reversed());
-            System.out.println("расчет по разнице побед и поражений");
+            log.info("расчет по разнице побед и поражений");
         } else {
             place.sort(Comparator.comparing(Scoring::getSetWin).reversed());
-            System.out.println("расчет по разнице сетам в оставшихся случаях");
+            log.info("расчет по разнице сетам в оставшихся случаях");
         }
 //        добавил в Map значение занятых мест
         List<Integer> arrayPlace = new ArrayList<>();

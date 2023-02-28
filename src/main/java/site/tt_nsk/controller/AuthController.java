@@ -68,7 +68,7 @@ public class AuthController {
     @PostMapping("/confirmation")
     public String handleConfirmationForm(String code, Model model) {
         model.addAttribute("code", code);
-        System.out.println("code: " + code);
+        log.info("code: " + code);
         ConfirmationCode confirmationCodeBy_id = confirmationCodeDao.findConfirmationCodeByAccountUser_Id(thisUser.getId());
         if (confirmationCodeBy_id.equals(code)) {
             System.out.println(confirmationCodeBy_id.equals(code));
