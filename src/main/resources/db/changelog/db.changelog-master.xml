@@ -74,6 +74,9 @@
             file="db/changelog/modifyTable/modify-table-tournament-add-scoring.xml"/>
     <include
             file="db/changelog/modifyTable/modify-table-tournament-change-notnull.xml"/>
+    <include
+            file="db/changelog/modifyTable/modify-table-player-add_info.xml"/>
+
     <!-- =====> Регистрация на турнир <===== -->
     <include
             file="db/changelog/createTables/create-table-upcoming-tournament-data.xml"/>

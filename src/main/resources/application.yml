@@ -29,9 +29,6 @@ spring:
     change-log: 'db/changelog/db.changelog-master.xml'
     enabled: true
 
-  storage:
-    location: '/home/shuffle/java/storage'
-
   datasource:
   url: "jdbc:mysql://localhost:3306/nsk_tt?createDatabaseIfNotExist=true&
   allowPublicKeyRetrieval=true&useSSL=false&
@@ -42,6 +39,8 @@ spring:
   #url: "jdbc:mysql://localhost:3306/tt_Nsk"
 server:
   port: 8091
+storage:
+  location: 'C:\Users\79130\storage'
 
 enrolltournament:
   version: 1
@@ -54,11 +53,12 @@ spring:
     allowPublicKeyRetrieval=true&useSSL=false&
     useUnicode=true&
     characterEncoding=UTF-8&serverTimezone=UTC"
-    username: "root"
-    password: "root"
+    username: "admin"
+    password: "qwertyuiop"
+    #url: "jdbc:mysql://localhost:3306/tt_Nsk"
 
 storage:
-  location: '/home/sergei/IdeaProjects/tt_nsk/storage'
+  location: '/home/shuffle/java/storage'
 
 ---
 

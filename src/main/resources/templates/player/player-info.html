@@ -12,7 +12,7 @@
 <body>
 
 <div th:replace="~{common/navbar :: navi(PlayerInfo)}"></div>
-<div class="container" style="width: 40%;">
+<div class="container" style="background-color: rgba(0, 0, 0, 0.1); width: 40%;">
   <h2 th:text="${(player.patronymic == null)}?
       ${player.lastname + ' ' + player.firstname} :
       ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
@@ -41,10 +41,10 @@
       <h5 th:text="${(player.ratingTtw == null)}? 'Рейтинг ttw: ' : ${'Рейтинг ttw: ' + player.ratingTtw}"></h5>
       <h5 th:text="${(player.yearOfBirth== null)}? 'Год рождения: ' : ${'Год рождения: ' + player.yearOfBirth}"></h5>
       <p th:text="${(player.idTtw == null)}? 'ID ttw: ' : ${'ID ttw: ' + player.idTtw}"></p>
-      <p th:text="${'Статус: ' + player.status.title}"></p>
-      <p class="card-text">Небольшой пример текста, который должен основываться на названии карточки и составлять основную часть содержимого карты.</p>
+<!--      <p th:text="${'Статус: ' + player.status.title}"></p>-->
+      <p th:text="${(player.info == null)}? '' : ${'Жизненное кредо: ' + player.info}"></p>
       <a sec:authorize="hasAuthority('player.readOnly')"
-         th:href="@{/player/all}" class="btn btn-primary">Перейти куда-нибудь</a>
+         th:href="@{/user}" class="btn btn-primary">Личный кабинет</a>
       <a sec:authorize="hasAuthority('player.update')"
          th:href="@{'/player?id=' + ${player.id}}" class="btn btn-primary">Изменить личные данные</a>
     </div>
