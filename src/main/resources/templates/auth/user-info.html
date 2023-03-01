@@ -14,7 +14,9 @@
 <div th:replace="~{common/navbar :: navi(PersonalArea)}"></div>
 
 <div class="container" style="width: 40%;">
-  <h2 th:text="${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
+  <h2 th:text="${(player.patronymic == null)}?
+      ${player.lastname + ' ' + player.firstname} :
+      ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
   <div class="justify-content-center" style="width: 100%;">
     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
       <div class="carousel-inner">
@@ -38,8 +40,8 @@
       <h4 th:text="${'E-mail: ' + accountUser.email}"></h4>
       <h4 th:text="${'Телефон: ' + accountUser.phone}"></h4>
       <h4 th:text="${'Рейтинг: ' + player.rating}"></h4>
-      <h4 th:text="${'Рейтинг ttw: ' + player.ratingTtw}"></h4>
-      <p th:text="${'ID ttw: ' + player.idTtw}"></p>
+      <h4 th:text="${(player.ratingTtw == null)}? 'Рейтинг ttw: ' : ${'Рейтинг ttw: ' + player.ratingTtw}"></h4>
+      <p th:text="${(player.idTtw == null)}? 'ID ttw: ' : ${'ID ttw: ' + player.idTtw}"></p>
       <p class="card-text">Небольшой пример текста, который должен основываться на названии карточки и составлять основную часть содержимого карты.</p>
       <a th:href="@{'/player?id=' + ${player.id}}" class="btn btn-primary">Изменить личные данные</a>
     </div>
