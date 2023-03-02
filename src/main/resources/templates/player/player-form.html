@@ -12,6 +12,7 @@
 <body>
 <div th:replace="~{common/navbar :: navi(PlayerForm)}"></div>
 <div class="container" style="background-color: rgba(0, 0, 0, 0.1); width: 45%;">
+    <br>
     <form class="row g-3 needs-validation" th:object="${player}" th:action="@{/player/add}" method="post"
           enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">
@@ -90,7 +91,10 @@
         </div>
         </div>
         <div class="col-12">
-            <button class="btn btn-primary" type="submit">Сохранить</button>
+            <button class="btn btn-outline-primary btn-rounded" type="submit">Сохранить</button>
+            <button type="button" class="btn btn-outline-danger btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Удаление изображений
+            </button>
         </div>
         <div sec:authorize="hasAuthority('player.read')">
             <input type="hidden" th:field="*{rating}">
@@ -98,11 +102,40 @@
         <div sec:authorize="hasAuthority('player.read')" >
             <input type="hidden" th:field="*{ratingTtw}">
         </div>
-        <div sec:authorize="hasAuthority('player.create')">
+        <div sec:authorize="!isAnonymous()">
             <input type="hidden" th:field="*{status}">
         </div>
     </form>
+    <!-- Модальное окно -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Удаление изображений</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover" id="datatable">
+                        <tbody data-mdb-spy="scroll">
+                        <tr th:each="imageId, i : ${playerImagesId}">
+                            <td th:text="${i.count}" width="80px"></td>
+                            <td>
+                                <div>
+                                    <img th:src="@{'/player/images/' + ${imageId}}" alt="" width="45px" height="45" class="rounded-circle"/>
+                                </div>
+                            </td>
+                            <td sec:authorize="!isAnonymous()">
+                                <a type="button"  th:href="@{${'/player/image_delete/' + imageId}}" class="btn btn-outline-danger btn-rounded">Удалить</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <foot>
+        <br>
         <br>
         <br>
     </foot>

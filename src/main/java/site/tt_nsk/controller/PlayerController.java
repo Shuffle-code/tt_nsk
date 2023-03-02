@@ -1,12 +1,13 @@
 package site.tt_nsk.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import site.tt_nsk.dao.PlayerDao;
 import site.tt_nsk.entity.Pair;
 import site.tt_nsk.entity.Player;
-import site.tt_nsk.service.JsonFromXmlServer;
-import site.tt_nsk.service.PairService;
-import site.tt_nsk.service.PlayerImageService;
-import site.tt_nsk.service.PlayerService;
+import site.tt_nsk.entity.PlayerImage;
+import site.tt_nsk.entity.security.AccountUser;
+import site.tt_nsk.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -19,12 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +41,7 @@ public class PlayerController {
     private final PlayerDao playerDao;
     private final PairService pairService;
     private final PlayerImageService playerImageService;
+    private final UserService userService;
     private final JsonFromXmlServer jsonFromXmlServer;
 
     @GetMapping("/all")
@@ -60,6 +64,8 @@ public class PlayerController {
         } else {
             player = new Player();
         }
+        List<Long> imagesId = new ArrayList<>(playerImageService.uploadMultipleFiles(id));
+        model.addAttribute("playerImagesId", imagesId);
         model.addAttribute("player", player);
         return "player/player-form";
     }
@@ -101,6 +107,21 @@ public class PlayerController {
     public String statusDeleteById(@PathVariable(name = "id") Long id) {
         playerService.statusDelete(id);
         return "redirect:/player/all";
+    }
+
+    @GetMapping("/image_delete/{id}")
+    @PreAuthorize("!isAnonymous()")
+    public String imageDeleteById(@PathVariable(name = "id") Long id, Model model, Principal principal) {
+        Long playerIdByImageId = playerImageService.getPlayerIdByImageId(id);
+        Player player = playerService.findById(playerIdByImageId);
+        model.addAttribute("player", player);
+        log.info(playerImageService.count().toString());
+        playerImageService.deleteImage(id);
+        if (playerImageService.countImagesOfPlayer(id) == 0){
+            playerImageService.addStartImage(player);
+        }
+        model.addAttribute("playerImagesId", playerImageService.uploadMultipleFiles(playerIdByImageId));
+        return "player/player-form";
     }
 
     @GetMapping(value = "/image/{id}", produces = MediaType.IMAGE_PNG_VALUE)

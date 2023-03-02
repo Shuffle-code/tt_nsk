@@ -44,8 +44,6 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
     private final PasswordEncoder passwordEncoder;
     private final ConfirmationCodeDao confirmationCodeDao;
     private final ParticipantMapper participantMapper;
-//    private final PlayerImageService playerImageService;
-//    private final PlayerDao playerDao;
     private final PlayerService playerService;
     private final PlayerImageDao playerImageDao;
 
