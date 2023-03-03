@@ -28,4 +28,6 @@ public interface PlayerDao extends JpaRepository<Player, Long> {
     List<Player> findAllByIdsOrderByRatingDesc(@Param("ids") List<Long> ids);
 
     Optional<Player> findByLastname(String title);
+    @Query(value = "SELECT ID FROM nsk_tt.player where ID_TTWR = :idTtw", nativeQuery = true)
+    Long getPlayerIdByIdTtw(String idTtw);
 }

@@ -1,12 +1,8 @@
 package site.tt_nsk.controller;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import site.tt_nsk.dao.PlayerDao;
 import site.tt_nsk.entity.Pair;
 import site.tt_nsk.entity.Player;
-import site.tt_nsk.entity.PlayerImage;
-import site.tt_nsk.entity.security.AccountUser;
 import site.tt_nsk.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,14 +35,12 @@ public class PlayerController {
     private final PlayerDao playerDao;
     private final PairService pairService;
     private final PlayerImageService playerImageService;
-    private final UserService userService;
-    private final JsonFromXmlServer jsonFromXmlServer;
+    private final UpdateRatingTtw updateRatingTtw;
 
     @GetMapping("/all")
-    public String getPlayerList(Model model, HttpSession httpSession) throws XPathExpressionException, ParserConfigurationException, IOException, SAXException {
-//        log.info(playerService.getIdTtw());
-//        log.info(jsonFromXmlServer.getDataPlayersTtwByIdTtw());
-//        log.info(jsonFromXmlServer.printMap());
+    public String getPlayerList(Model model, HttpSession httpSession) throws XPathExpressionException,
+            ParserConfigurationException, IOException, SAXException {
+//        updateRatingTtw.printMap();
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("players", playerService.addListForMainPage());

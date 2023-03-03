@@ -1,5 +1,10 @@
 package site.tt_nsk;
 
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 import site.tt_nsk.entity.Score;
 import com.jayway.restassured.path.json.JsonPath;
 import org.json.JSONArray;
@@ -7,22 +12,32 @@ import org.json.JSONObject;
 import org.json.XML;
 import org.junit.jupiter.api.Test;
 
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class testStarting {
+
+    private static Path storagePathXml = Path.of("C:\\Users\\79130\\IdeaProjects\\tt_nsk\\storage\\xml");
+
+    //    @Value("${storage.location}/json")
+    private static Path storagePathJson = Path.of("C:\\Users\\79130\\IdeaProjects\\tt_nsk\\storage\\json");;
+    //    @Value("xml\\players.xml")
+    private static String xmlFileName = "players.xml";
+    private static String jsonFileName = "player.json";
 
 
     public testStarting() throws IOException {
     }
 
     //    private JsonFromXml jsonFromXml;
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
 //        Integer a = 2744120;
 //        List<String> players = JsonPath.from(
 //                new String(Files.readAllBytes(storagePathJson.
@@ -30,9 +45,41 @@ public class testStarting {
 //        System.out.println(players);
 //        List<String> listResultTour = getMapPlayersFromJson();
 //        System.out.println(listResultTour);
-        JSONObject inJson = getInJson();
-        JSONArray jsonArray = inJson.getJSONArray("Player");
-        System.out.println(jsonArray);
+//        JSONObject inJson = getInJson();
+//        JSONArray jsonArray = inJson.getJSONArray("Player");
+//        System.out.println(jsonArray);
+        getMapPlayersFromJson();
+        printMap();
+    }
+
+    static public Map<String, String> printMap() throws DOMException, XPathExpressionException, ParserConfigurationException, IOException, SAXException {
+        List<String> listIdTtw = new ArrayList<>();
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document document = documentBuilder.parse("C:\\Users\\79130\\IdeaProjects\\tt_nsk\\storage\\xml\\players.xml");
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        Map<String, String> dataPlayersTtwByIdTtw = new HashMap<>();
+        for (int i = 0; i < listIdTtw.size(); i++) {
+            int finalI = i;
+            xpath.setXPathVariableResolver(new XPathVariableResolver() {
+                @Override
+                public Object resolveVariable(QName variableName) {
+                    if (variableName.getLocalPart().equals("id"))
+                        return listIdTtw.get(finalI);
+                    else
+                        return "";
+                }
+            });
+            XPathExpression expr = xpath.compile("Players/Player[@id=$id]");
+            NodeList nodes = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
+            for (int j = 0; j < nodes.getLength(); j++) {
+                Node n = nodes.item(j);
+                String textContent = n.getTextContent();
+                String[] split = textContent.split("\n");
+                dataPlayersTtwByIdTtw.put(listIdTtw.get(i), split[8]);
+            }
+            dataPlayersTtwByIdTtw.forEach((k, v) -> System.out.println(k + ": " + v));
+        }
+        return dataPlayersTtwByIdTtw;
     }
 
     public static List<String> getMapPlayersFromJson(){
@@ -45,13 +92,7 @@ public class testStarting {
         }
     }
 
-        private static Path storagePathXml = Path.of("C:\\Users\\79130\\IdeaProjects\\tt_nsk\\storage\\xml");
 
-        //    @Value("${storage.location}/json")
-        private static Path storagePathJson = Path.of("C:\\Users\\79130\\IdeaProjects\\tt_nsk\\storage\\json");;
-        //    @Value("xml\\players.xml")
-        private static String xmlFileName = "players.xml";
-        private static String jsonFileName = "player.json";
 
     public static JSONObject getInJson() throws IOException {
         Path pathJson = storagePathJson.resolve(jsonFileName);
@@ -83,49 +124,6 @@ public class testStarting {
         }
 
         List<Map> players = JsonPath.from(new String(Files.readAllBytes(storagePathJson.resolve(jsonFileName)))).get("Players.Player.rating");
-
-
-//        PlayService playService = new PlayService();
-//        Score score = new Score();
-//        score.setX1y2("2.3");
-//        score.setX1y3("2.3");
-//        score.setX1y4("6,2");
-//        score.setX2y3("3-2");
-//
-//        JSONObject jsonObj = new JSONObject(score);
-//        System.out.println(jsonObj);
-//        System.out.println(score);
-//        System.out.println(getListResultTour(score));
-//        System.out.println(getListResultTour(score).size());
-//        System.out.println(getListResultTour(score).get(1));
-//        String $3$1 = "3/2".replaceFirst("(.)(.*)(.)", "$3$2$1");
-////        String $2$1 = "3/2".replace(b);
-//        System.out.println($3$1);
-//        System.out.println(new LegUp());
-//        JsonFromXml jsonFromXml = new JsonFromXml();
-//        get
-//        Path pathXml = storagePathXml.resolve(fileName);
-//        System.out.println(storagePathXml.resolve(fileName));
-//        String content = Files.readString(storagePathXml.resolve("xml\\players.xml"), StandardCharsets.UTF_8);
-//        String data = FileUtils.readFileToString(new File("c:\\student.xml"), "UTF-8");
-//        getJson();
-//        writeJson();
-//        System.out.println(content);
-//    }
-
-
-
-
-
-
-//    public static void writeJson() throws IOException {
-//        JSONObject jsonObj = getJson();
-//        try(FileOutputStream fos = new FileOutputStream(String.valueOf(storagePathJson.resolve("Players.json")))) {
-//            fos.write(jsonObj.toString().getBytes());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
 
    @Test
