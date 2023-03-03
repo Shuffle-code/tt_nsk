@@ -12,7 +12,7 @@
 <body>
 
 <div th:replace="~{common/navbar :: navi(PlayerInfo)}"></div>
-<div class="container" style="background-color: rgba(0, 0, 0, 0.1); width: 40%;">
+<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 40%;">
   <h2 th:text="${(player.patronymic == null)}?
       ${player.lastname + ' ' + player.firstname} :
       ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
@@ -36,13 +36,13 @@
     <div class="card-body">
       <h2 th:text="${(player.patronymic == null)}?
       ${player.lastname + ' ' + player.firstname} :
-      ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>
+      ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}" class="text-decoration-underline"></h2>
       <h4 th:text="${'Рейтинг: ' + player.rating}"></h4>
       <h5 th:text="${(player.ratingTtw == null)}? 'Рейтинг ttw: ' : ${'Рейтинг ttw: ' + player.ratingTtw}"></h5>
       <h5 th:text="${(player.yearOfBirth== null)}? 'Год рождения: ' : ${'Год рождения: ' + player.yearOfBirth}"></h5>
       <p th:text="${(player.idTtw == null)}? 'ID ttw: ' : ${'ID ttw: ' + player.idTtw}"></p>
 <!--      <p th:text="${'Статус: ' + player.status.title}"></p>-->
-      <p th:text="${(player.info == null)}? '' : ${'Жизненное кредо: ' + player.info}"></p>
+      <p th:text="${(player.info == '' || player.info == null)}? '' : ${'Жизненное кредо: ' + player.info}"></p>
       <a sec:authorize="hasAuthority('player.readOnly')"
          th:href="@{/user}" class="btn btn-primary">Личный кабинет</a>
       <a sec:authorize="hasAuthority('player.update')"

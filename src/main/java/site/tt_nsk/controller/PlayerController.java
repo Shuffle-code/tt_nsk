@@ -111,7 +111,7 @@ public class PlayerController {
 
     @GetMapping("/image_delete/{id}")
     @PreAuthorize("!isAnonymous()")
-    public String imageDeleteById(@PathVariable(name = "id") Long id, Model model, Principal principal) {
+    public String imageDeleteById(@PathVariable(name = "id") Long id, Model model) {
         Long playerIdByImageId = playerImageService.getPlayerIdByImageId(id);
         Player player = playerService.findById(playerIdByImageId);
         model.addAttribute("player", player);

@@ -145,4 +145,14 @@ public class TourImageService {
             throw new StorageFileNotFoundException(String.format("Filename cannot be empty: %s", filename));
         }
     }
+
+    public void deleteImageTour(Long idImage) {
+        if (idImage != null){
+            tourImageDao.deleteById(idImage);
+        }
+    }
+
+    public Long getTourIdByImageId(Long id) {
+        return tourImageDao.findTourIdByImageId(id);
+    }
 }

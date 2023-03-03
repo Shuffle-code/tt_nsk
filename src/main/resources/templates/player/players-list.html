@@ -23,7 +23,7 @@
         <div class="form-outline">
             <input type="search" placeholder="Введите данные игрока" class="form-control" id="datatable-search-input">
         </div>
-        <table class="table" id="datatable">
+        <table class="table table-hover" id="datatable">
             <thead class="bg-light">
             <tr>
                 <th scope="col">№</th>
@@ -42,10 +42,11 @@
             <tr th:each="player, i : ${players}"
                 th:classappend="${player.status.name() == 'ACTIVE'} ? 'table-success' : 'table-secondary'"
                 th:attr="play_index=${player.id}">
+                <div th:href="@{/player(id=${player.id})}">
                 <th scope="row" th:text="${i.count}"></th>
                 <td>
-                    <div>
-                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40" class="rounded-circle"/>
+                    <div th:href="@{'/player/' + ${player.id}}">
+                        <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40" class="rounded-circle" />
                     </div>
                 </td>
                 <td th:text="${player.lastname}"></td>
@@ -62,19 +63,20 @@
                 <td sec:authorize="hasAuthority('player.delete')">
                     <a type="button"  th:href="@{${'/player/status_delete/' + player.id}}" class="btn btn-danger btn-rounded">Удалить</a>
                 </td>
+                </div>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <th scope="col">№</th>
-                <th colspan="2" scope="col">Фамилия</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Год рождения</th>
-                <th scope="col">Рейтинг</th>
-                <th scope="col">Рейтинг ttw</th>
-                <th scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
-                <th scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</th>
-                <th scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</th>
+                <td scope="col">№</td>
+                <td colspan="2" scope="col">Фамилия</td>
+                <td scope="col">Имя</td>
+                <td scope="col">Год рождения</td>
+                <td scope="col">Рейтинг</td>
+                <td scope="col">Рейтинг ttw</td>
+                <td scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</td>
+                <td scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</td>
+                <td scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</td>
             </tr>
             </tfoot>
         </table>

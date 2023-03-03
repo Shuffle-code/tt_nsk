@@ -13,7 +13,7 @@
 
 <div th:replace="~{common/navbar :: navi(PersonalArea)}"></div>
 
-<div class="container" style="background-color: rgba(0, 0, 0, 0.1); width: 40%;">
+<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 40%;">
   <h2 th:text="${(player.patronymic == null)}?
       ${player.lastname + ' ' + player.firstname} :
       ${player.lastname + ' ' + player.firstname + ' ' + player.patronymic}"></h2>

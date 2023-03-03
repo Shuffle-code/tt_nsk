@@ -1,4 +1,5 @@
 package site.tt_nsk.controller;
+import lombok.extern.slf4j.Slf4j;
 import site.tt_nsk.dao.TourDao;
 import site.tt_nsk.dao.security.AccountRoleDao;
 import site.tt_nsk.entity.*;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/tour")
 public class TourController {
     private final PlayerService playerService;
@@ -352,7 +354,7 @@ public class TourController {
         return accountUser;
     }
     @GetMapping("/new")
-    @PreAuthorize("hasAnyAuthority('player.create', 'player.update')")
+    @PreAuthorize("hasAnyAuthority('player.create')")
     public String showForm(Model model, @RequestParam(name = "id", required = false) Long id) {
         Tour tour;
         if (id != null) {
@@ -362,6 +364,7 @@ public class TourController {
         } else {
             tour = new Tour();
         }
+        model.addAttribute("tourImagesId", tourImageService.uploadMultipleFiles(id));
         model.addAttribute("players", playerService.findAll());
         model.addAttribute("addressService", addressService);
         model.addAttribute("tour", tour);
@@ -424,6 +427,25 @@ public class TourController {
             e.printStackTrace();
         }
         return new byte[]{};
+    }
+    @DeleteMapping("/image_delete/{id}")
+    @PreAuthorize("hasAnyAuthority('player.create')")
+    public void imageDelete(@PathVariable(name = "id") Long idImage){
+        tourImageService.deleteImageTour(idImage);
+        log.error(idImage.toString());
+    }
+
+    @GetMapping("/image_delete/{id}")
+    @PreAuthorize("!isAnonymous()")
+    public String imageDeleteById(@PathVariable(name = "id") Long idImage, Model model) {
+        Long tourIdByImageId = tourImageService.getTourIdByImageId(idImage);
+        Tour tour  = tourService.findById(tourIdByImageId);
+        model.addAttribute("players", playerService.findAll());
+        model.addAttribute("addressService", addressService);
+        model.addAttribute("tour", tour);
+        tourImageService.deleteImageTour(idImage);
+        model.addAttribute("tourImagesId", tourImageService.uploadMultipleFiles(tourIdByImageId));
+        return "tour/tour-add";
     }
 }
 

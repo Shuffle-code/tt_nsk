@@ -81,7 +81,7 @@
 
         <div sec:authorize="hasAuthority('player.read')" class="form-outline">
             <label class="form-label" for="textAreaExample">Ваше жизненное кредо?</label>
-            <textarea class="form-control" id="textAreaExample" th:field="*{info}" rows="5"></textarea>
+            <textarea class="form-control" id="textAreaExample" th:field="*{info}" rows="4"></textarea>
         </div>
         <div class="form-outline">
         <div class="input-group mb-3">
@@ -91,7 +91,7 @@
         </div>
         </div>
         <div class="col-12">
-            <button class="btn btn-outline-primary btn-rounded" type="submit">Сохранить</button>
+            <button class="btn btn-primary" type="submit">Сохранить</button>
             <button type="button" class="btn btn-outline-danger btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Удаление изображений
             </button>

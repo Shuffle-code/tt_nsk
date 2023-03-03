@@ -63,6 +63,9 @@ public class Tour extends InfoEntity {
     @Column(name = "scoring")
     private String scoring;
 
+    @Column(name = "info")
+    private String info;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
