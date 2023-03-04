@@ -1,5 +1,8 @@
 package site.tt_nsk;
 
+import groovy.util.logging.Slf4j;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -21,7 +24,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class testStarting {
 
     private static Path storagePathXml = Path.of("C:\\Users\\79130\\IdeaProjects\\tt_nsk\\storage\\xml");
@@ -32,9 +37,6 @@ public class testStarting {
     private static String xmlFileName = "players.xml";
     private static String jsonFileName = "player.json";
 
-
-    public testStarting() throws IOException {
-    }
 
     //    private JsonFromXml jsonFromXml;
     public static void main(String[] args) throws IOException, XPathExpressionException, ParserConfigurationException, SAXException {
@@ -123,7 +125,7 @@ public class testStarting {
             }
         }
 
-        List<Map> players = JsonPath.from(new String(Files.readAllBytes(storagePathJson.resolve(jsonFileName)))).get("Players.Player.rating");
+//        List<Map> players = JsonPath.from(new String(Files.readAllBytes(storagePathJson.resolve(jsonFileName)))).get("Players.Player.rating");
 
 
    @Test

@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/tour")
 public class TourController {
     private final PlayerService playerService;
+    private final LegUpService legUpService;
     private final TourDao tourDao;
     private final UserService userService;
     private final AddressService addressService;
@@ -45,11 +46,11 @@ public class TourController {
         if (id != null) {
             tour = tourDao.findById(id).get();
             allByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
-            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allByRating), allByRating));
+            legUp = legUpService.getLegUp(legUpService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allByRating), allByRating));
         } else {
             tour = new Tour();
             allByRating = playerService.findAllActiveSortedByRating();
-            legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
+            legUp = legUpService.getLegUp(legUpService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
         }
         model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
@@ -310,7 +311,7 @@ public class TourController {
         player.setStatus(Status.ACTIVE);
         playerService.save(player);
         List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
-        LegUp legUp = playService.getLegUp(playService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allActiveSortedByRating)));
+        LegUp legUp = legUpService.getLegUp(legUpService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allActiveSortedByRating)));
         model.addAttribute("playersTour", allActiveSortedByRating);
         model.addAttribute("scope", score);
         httpSession.setAttribute("countPlaying", playerService.countPlaying());

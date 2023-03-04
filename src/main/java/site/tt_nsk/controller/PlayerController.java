@@ -38,9 +38,9 @@ public class PlayerController {
     private final UpdateRatingTtw updateRatingTtw;
 
     @GetMapping("/all")
-    public String getPlayerList(Model model, HttpSession httpSession) throws XPathExpressionException,
-            ParserConfigurationException, IOException, SAXException {
-//        updateRatingTtw.printMap();
+    public String getPlayerList(Model model, HttpSession httpSession){
+//        updateRatingTtw.parseRatingWithTTW();
+//        updateRatingTtw.parseRating();
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("players", playerService.addListForMainPage());
