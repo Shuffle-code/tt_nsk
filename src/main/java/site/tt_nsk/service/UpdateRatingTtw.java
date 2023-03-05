@@ -70,17 +70,11 @@ public class UpdateRatingTtw {
                         .timeout(500000)
                         .referrer("https://google.com")
                         .get();
-                Elements ratingTtw = document.getElementsByClass("player-rating-count-cell");
-                int iter = 0;
+                Elements ratingTtw = document.getElementsByClass("header-rating");
                 for (Element el : ratingTtw) {
-                    if(iter == 1){
-                        String text = el.ownText();
-                        String rTtw = text.split(",")[0];
-                        Player playerByRatingTtw = playerService.getPlayerByRatingTtw(listIdTtw.get(i));
-                        playerService.updateRatingTtw(playerByRatingTtw, new BigDecimal(rTtw));
-                        log.info("Это рейтинг TTW: " + rTtw);
-                    }
-                    iter++;
+                    String text = el.ownText();
+                    Player playerByRatingTtw = playerService.getPlayerByRatingTtw(listIdTtw.get(i));
+                    playerService.updateRatingTtw(playerByRatingTtw, new BigDecimal(text));
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

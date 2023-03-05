@@ -42,10 +42,9 @@
             <tr th:each="player, i : ${players}"
                 th:classappend="${player.status.name() == 'ACTIVE'} ? 'table-success' : 'table-secondary'"
                 th:attr="play_index=${player.id}">
-                <div th:href="@{/player(id=${player.id})}">
                 <th scope="row" th:text="${i.count}"></th>
                 <td>
-                    <div th:href="@{'/player/' + ${player.id}}">
+                    <div >
                         <img th:src="@{'/player/image/' + ${player.id}}" alt="" width="40px" height="40" class="rounded-circle" />
                     </div>
                 </td>
@@ -63,7 +62,6 @@
                 <td sec:authorize="hasAuthority('player.delete')">
                     <a type="button"  th:href="@{${'/player/status_delete/' + player.id}}" class="btn btn-danger btn-rounded">Удалить</a>
                 </td>
-                </div>
             </tr>
             </tbody>
             <tfoot>

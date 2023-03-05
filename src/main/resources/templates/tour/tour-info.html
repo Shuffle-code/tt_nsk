@@ -11,7 +11,7 @@
 </head>
 <body>
 <div th:replace="~{common/navbar :: navi(TourInfo)}"></div>
-<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 50%;">
+<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 60%;">
   <h2 th:text="${tour.title + ': ' + tour.date}"></h2>
   <div class="justify-content-center" style="width: 100%;">
     <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -58,7 +58,7 @@
   <h4 th:text="${'Название: ' + tour.title}"></h4>
   <h4 th:text="${'Адрес: ' + tour.address.getStreet}"></h4>
   <h4 th:text="${(tour.amountPlayers == null)}? 'Колличество игроков: 0' : ${'Колличество игроков: ' + tour.amountPlayers}"></h4>
-  <h4 th:text="${(tour.player == null)}? 'Победитель будет изветен: ' + ${tour.date} : ${'Победитель: ' + tour.player.getFirstname + ' ' + tour.player.getLastname}"></h4>
+  <h4 th:text="${(tour.player == null)}? 'Победитель будет известен: ' + ${tour.date} : ${'Победитель: ' + tour.player.getFirstname + ' ' + tour.player.getLastname}"></h4>
 <!--  <p th:text="${'Статус: ' + tour.status.title}"></p>-->
     <p th:text="${(tour.info == null || tour.info == '')}? '' : ${tour.info}"></p>
     <a sec:authorize="hasAuthority('player.readOnly')"

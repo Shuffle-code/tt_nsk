@@ -115,8 +115,8 @@ public class TourService {
         return tourDao.findAllByStatus(Status.ACTIVE, PageRequest.of(page, size, Sort.by("id")));
     }
     @Transactional(readOnly = true)
-    public List<Tour> findAllSortedByRating() {
-        return tourDao.findAll(Sort.by(Sort.Direction.DESC,"data"));
+    public List<Tour> findAllSortedByData() {
+        return tourDao.findAll(Sort.by(Sort.Direction.DESC,"date"));
     }
 
     @Transactional(readOnly = true)

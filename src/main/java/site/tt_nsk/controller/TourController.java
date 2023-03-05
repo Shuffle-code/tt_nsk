@@ -40,16 +40,18 @@ public class TourController {
     @GetMapping
     public String findAllActiveSortedRatingForWebpage(Model model, Score score, HttpSession httpSession,
                                                       @RequestParam(name = "id", required = false) Long id) {
-        LegUp legUp;
+        LegUp legUp = null;
         List<Player> allByRating;
         Tour tour;
         if (id != null) {
             tour = tourDao.findById(id).get();
             allByRating = tourService.getListPlayersForFutureTour(tourService.findAllByTourId(id));
+            if (allByRating.size() != 0)
             legUp = legUpService.getLegUp(legUpService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allByRating), allByRating));
         } else {
             tour = new Tour();
             allByRating = playerService.findAllActiveSortedByRating();
+            if (allByRating.size() != 0)
             legUp = legUpService.getLegUp(legUpService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers()));
         }
         model.addAttribute("legUp", legUp);
@@ -298,7 +300,7 @@ public class TourController {
     }
     @GetMapping("/all")
     public String getTourList(Model model) {
-        model.addAttribute("tours", tourService.findAll());
+        model.addAttribute("tours", tourService.findAllSortedByData());
         return "tour/tour-list";
     }
     @GetMapping("/participate")

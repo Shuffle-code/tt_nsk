@@ -39,8 +39,6 @@ public class PlayerController {
 
     @GetMapping("/all")
     public String getPlayerList(Model model, HttpSession httpSession){
-//        updateRatingTtw.parseRatingWithTTW();
-//        updateRatingTtw.parseRating();
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("players", playerService.addListForMainPage());
@@ -107,9 +105,8 @@ public class PlayerController {
         Long playerIdByImageId = playerImageService.getPlayerIdByImageId(id);
         Player player = playerService.findById(playerIdByImageId);
         model.addAttribute("player", player);
-        log.info(playerImageService.count().toString());
         playerImageService.deleteImage(id);
-        if (playerImageService.countImagesOfPlayer(id) == 0){
+        if (playerImageService.countImagesOfPlayer(playerIdByImageId) == 0){
             playerImageService.addStartImage(player);
         }
         model.addAttribute("playerImagesId", playerImageService.uploadMultipleFiles(playerIdByImageId));
