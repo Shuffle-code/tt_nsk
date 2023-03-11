@@ -44,8 +44,6 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
     private final PasswordEncoder passwordEncoder;
     private final ConfirmationCodeDao confirmationCodeDao;
     private final ParticipantMapper participantMapper;
-//    private final PlayerImageService playerImageService;
-//    private final PlayerDao playerDao;
     private final PlayerService playerService;
     private final PlayerImageDao playerImageDao;
 
@@ -72,7 +70,8 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         }
         AccountUser accountUser = userMapper.toAccountUser(userDto);
         Player player = addNewPlayer(accountUser);
-        player.setRating(BigDecimal.valueOf(500));
+//        player.setRating(BigDecimal.valueOf(500));
+
         playerService.save(player);
         PlayerImage playerImage = addNewImage(imageName, player);
         playerImageDao.save(playerImage);
@@ -83,9 +82,8 @@ public class JpaUserDetailService implements UserDetailsService, UserService {
         if(count == 0){
             accountUser.setRoles(Set.of(roleAdmin));
         } else accountUser.setRoles(Set.of(roleUser));
-        System.out.println("Count: " + count);
-        System.out.println(count == 0);
-        System.out.println(rolePlayer);
+        log.info("Count: " + count);
+        log.info(String.valueOf(count == 0));
         accountUser.setStatus(AccountStatus.ACTIVE);
         accountUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         accountUser.setPlayer(player);

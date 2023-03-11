@@ -39,7 +39,7 @@
                     <th scope="col">Адрес</th>
                     <th scope="col">Кол-во</th>
                     <th sec:authorize="!isAnonymous()" scope="col">Регистрация/снятие</th>
-                    <th sec:authorize="!isAnonymous()" scope="col">Состав</th>
+                    <th scope="col">Состав</th>
                 </tr>
                 </thead>
 
@@ -74,8 +74,7 @@
                            type="button" th:href="@{${'/upcomingTournaments/disenroll/' + playerId + '/' + tour.id}}"
                            class="btn btn-outline-secondary btn-rounded">Сняться с турнира</a>
                     </td>
-                    <td sec:authorize="!isAnonymous()">
-<!--                        <a th:if="${tour.registered == false}"-->
+                    <td>
                         <a
                            type="button" th:href="@{/tour(id=${tour.id})}"
                            class="btn btn-outline-primary btn-rounded">Посмотреть</a>

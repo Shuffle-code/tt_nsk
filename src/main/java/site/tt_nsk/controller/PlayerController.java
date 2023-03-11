@@ -3,10 +3,9 @@ package site.tt_nsk.controller;
 import site.tt_nsk.dao.PlayerDao;
 import site.tt_nsk.entity.Pair;
 import site.tt_nsk.entity.Player;
-import site.tt_nsk.service.JsonFromXmlServer;
-import site.tt_nsk.service.PairService;
-import site.tt_nsk.service.PlayerImageService;
-import site.tt_nsk.service.PlayerService;
+import site.tt_nsk.entity.enums.Status;
+import site.tt_nsk.exception.UsernameAlreadyExistsException;
+import site.tt_nsk.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -25,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,13 +38,10 @@ public class PlayerController {
     private final PlayerDao playerDao;
     private final PairService pairService;
     private final PlayerImageService playerImageService;
-    private final JsonFromXmlServer jsonFromXmlServer;
+    private final UpdateRatingTtw updateRatingTtw;
 
     @GetMapping("/all")
-    public String getPlayerList(Model model, HttpSession httpSession) throws XPathExpressionException, ParserConfigurationException, IOException, SAXException {
-//        log.info(playerService.getIdTtw());
-//        log.info(jsonFromXmlServer.getDataPlayersTtwByIdTtw());
-//        log.info(jsonFromXmlServer.printMap());
+    public String getPlayerList(Model model, HttpSession httpSession){
         httpSession.setAttribute("count", playerService.count().toString());
         httpSession.setAttribute("countPlaying", playerService.countPlaying());
         model.addAttribute("players", playerService.addListForMainPage());
@@ -60,6 +57,8 @@ public class PlayerController {
         } else {
             player = new Player();
         }
+        List<Long> imagesId = new ArrayList<>(playerImageService.uploadMultipleFiles(id));
+        model.addAttribute("playerImagesId", imagesId);
         model.addAttribute("player", player);
         return "player/player-form";
     }
@@ -81,12 +80,25 @@ public class PlayerController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update', 'player.read')")
-    public String savePlayer(@Valid Player player, @RequestParam("files") MultipartFile[] files, BindingResult bindingResult) {
+    public String savePlayer(@Valid Player player, @RequestParam("files") MultipartFile[] files,
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             return "player/player-form";
         }
+        if (playerService.presentIdTtw(player.getIdTtw())) {
+            Player playerIdByIdTtw = playerService.getPlayerIdByIdTtw(player.getIdTtw());
+            if(player.getId() != playerIdByIdTtw.getId()){
+                player.setRating(playerIdByIdTtw.getRating());
+                String playerIdTtw = playerIdByIdTtw.getIdTtw();
+                playerIdByIdTtw.setIdTtw(playerIdTtw + "#");
+                playerIdByIdTtw.setStatus(Status.DELETED);
+            }
+        }
         playerService.save(player);
         uploadMultipleFiles(files, playerDao.findById(player.getId()).get().getId());
+        if (player.getIdTtw() != null){
+            updateRatingTtw.parseRatingByClickingOnClient(player.getIdTtw());
+        }
         return "redirect:/player/all";
     }
     @GetMapping("/delete/{id}")
@@ -101,6 +113,20 @@ public class PlayerController {
     public String statusDeleteById(@PathVariable(name = "id") Long id) {
         playerService.statusDelete(id);
         return "redirect:/player/all";
+    }
+
+    @GetMapping("/image_delete/{id}")
+    @PreAuthorize("!isAnonymous()")
+    public String imageDeleteById(@PathVariable(name = "id") Long id, Model model) {
+        Long playerIdByImageId = playerImageService.getPlayerIdByImageId(id);
+        Player player = playerService.findById(playerIdByImageId);
+        model.addAttribute("player", player);
+        playerImageService.deleteImage(id);
+        if (playerImageService.countImagesOfPlayer(playerIdByImageId) == 0){
+            playerImageService.addStartImage(player);
+        }
+        model.addAttribute("playerImagesId", playerImageService.uploadMultipleFiles(playerIdByImageId));
+        return "player/player-form";
     }
 
     @GetMapping(value = "/image/{id}", produces = MediaType.IMAGE_PNG_VALUE)

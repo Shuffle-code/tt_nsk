@@ -25,14 +25,14 @@
             <button type="button" class="btn btn-primary">Поиск</button>
         </div>
     <div>
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead class="bg-light">
             <tr>
                 <th scope="col">№</th>
                 <th scope="col">Дата</th>
                 <th scope="col">Название</th>
                 <th scope="col">Адрес</th>
-                <th scope="col">Кол-во игроков</th>
+                <th colspan="2" scope="col">Кол-во игроков</th>
                 <th scope="col">Победитель</th>
                 <th scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
                 <th scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</th>
@@ -40,12 +40,18 @@
             </tr>
             </thead>
             <tbody data-mdb-spy="scroll">
-            <tr th:each="tour, i : ${tours}">
+            <tr th:each="tour, i : ${tours}"
+                th:hidden="${tour.status.name() == 'UPCOMING'}">
                 <th scope="row" th:text="${i.count}"></th>
                 <td th:text="${tour.date}"></td>
                 <td th:text="${tour.title}"></td>
-                <td th:text="${tour.address.getStreet}"></td>
-                <td th:text="${(tour.amountPlayers == null)}? '0' : ${tour.amountPlayers}" class="text-center"></td>
+                <td th:text="${tour.address.getStreet + ', ' + #numbers.formatDecimal(tour.address.house, 1, 0)}"></td>
+                <td th:text="${(tour.amountPlayers == null)}? '0' : ${tour.amountPlayers}" class="text-end"></td>
+                <td>
+                    <div >
+                        <img th:src="@{'/tour/image/' + ${tour.id}}" alt="" width="40px" height="40" class="rounded-circle" />
+                    </div>
+                </td>
                 <td th:text="${(tour.player == null)}? '' : ${tour.player.getFirstname + ' ' + tour.player.getLastname}"></td>
                 <td sec:authorize="hasAuthority('player.update')">
                     <a type="button"  th:href="@{/tour/new(id=${tour.id})}" class="btn btn-warning">Редактировать</a>
@@ -60,15 +66,15 @@
             </tbody>
             <tfoot>
             <tr>
-                <th scope="col">№</th>
-                <th scope="col">Дата</th>
-                <th scope="col">Название</th>
-                <th scope="col">Адрес</th>
-                <th scope="col">Кол-во игроков</th>
-                <th scope="col">Победитель</th>
-                <th scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
-                <th scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</th>
-                <th scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</th>
+                <td scope="col">№</td>
+                <td scope="col">Дата</td>
+                <td scope="col">Название</td>
+                <td scope="col">Адрес</td>
+                <td colspan="2" scope="col">Кол-во игроков</td>
+                <td scope="col">Победитель</td>
+                <td scope="col" sec:authorize="hasAuthority('player.update')">Редактировать</th>
+                <td scope="col" sec:authorize="hasAuthority('player.read') || isAnonymous()">Просмотреть</td>
+                <td scope="col" sec:authorize="hasAuthority('player.delete')">Удалить</td>
             </tr>
             </tfoot>
         </table>

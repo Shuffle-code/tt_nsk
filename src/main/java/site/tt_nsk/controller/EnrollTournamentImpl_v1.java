@@ -40,7 +40,6 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
     public List<PlayerTournament> getTournamentsByPlayerId(
             @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable(name = "playerId") Long playerId) {
         return (List<PlayerTournament>) playerTournamentRepo.findAllByPlayerId(playerId);
-
     }
 
     @Override
@@ -69,7 +68,6 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
     public String disenrollTournament(HttpSession httpSession, Model model,
                                       @Parameter(name = "playerId", description = "ID игрока", example = "1") @PathVariable Long playerId,
                                       @Parameter(name = "tournamentId", description = "ID турнира", example = "3") @PathVariable Long tournamentId
-
     ) {
         playerTournamentRepo.disenroll(playerId, tournamentId);
         int size = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(tournamentId).size();
@@ -78,7 +76,6 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
         tourDao.save(tour);
         model = createModel(httpSession, model);
         return "tour/upcoming-tours";
-
     }
 
     private Model createModel(HttpSession httpSession, Model model) {
@@ -104,9 +101,7 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
                 tournamentBriefRepresentationDto.setRegistered(true);
             }
             tournamentBriefRepresentationDtoList.add(tournamentBriefRepresentationDto);
-
         });
-
         return tournamentBriefRepresentationDtoList;
     }
 
@@ -117,14 +112,12 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
         upcomingTours.forEach(tour -> {
             tournamentBriefRepresentationDtoList.add(modelMapper.map(tour, TournamentBriefRepresentationDto.class));
         });
-
         return tournamentBriefRepresentationDtoList;
     }
 
     private List<Long> compileTournamentRegistration(Long playerId) {
         return getTournamentsByPlayerId(playerId).stream()
                 .map(playerTournament -> playerTournament.getTournamentId()).collect(Collectors.toList());
-
     }
 }
 

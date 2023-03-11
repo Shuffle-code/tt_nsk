@@ -1,5 +1,6 @@
 package site.tt_nsk.dao;
 
+import site.tt_nsk.entity.Player;
 import site.tt_nsk.entity.PlayerImage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,5 +34,7 @@ public interface PlayerImageDao extends JpaRepository<PlayerImage, Long> {
 
     @Override
     void deleteById(Long aLong);
+    @Query(value = "SELECT player_image.player_id from player_image WHERE player_image.id = :id", nativeQuery = true)
+    Long findPlayerIdByImageId(Long id);
 
 }

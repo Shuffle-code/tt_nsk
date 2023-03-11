@@ -18,6 +18,7 @@
           enctype="multipart/form-data">
     <span th:if="${countPlaying == 0}">Игроков нет</span>
     <div th:unless="${countPlaying == 0}">
+        <br>
      <div>
         <table class="table table-striped table-bordered table table-sm">
             <thead class="table-secondary">
@@ -42,6 +43,7 @@
                         <img th:src="@{'/player/image/' + ${player1.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
                         <div class="ms-3">
                             <p th:text="${player1.lastname + ' ' + player1.firstname + ' ' + player1.rating}" id = "player1"></p>
+                        </div>
                     </div>
                 </td>
                 <th width="60px" class="table-secondary">TT</th>
@@ -96,11 +98,7 @@
                             th:field="*{x1y4}"
                     />
                 </td>
-                <th id="rating" th:text="${#numbers.formatDecimal(result1.rating, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta"  th:text="${#numbers.formatDecimal(result1.delta, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th  id="set" th:text="${result1.set + '/' + result1.setWin + '/' + result1.countWin}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place" th:text="${result1.placePlayer}"
-                    th:style="${(result1.set < 9)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-first-player.html"/>
             </tr>
             <tr>
                 <th scope="row" id="2">2</th>
@@ -164,11 +162,7 @@
                             th:field="*{x2y4}"
                     />
                 </td>
-                <th id="rating1" th:text="${#numbers.formatDecimal(result2.rating, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta1" th:text="${#numbers.formatDecimal(result2.delta, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th  id="set1" th:text="${result2.set + '/' + result2.setWin + '/' + result2.countWin}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place1" th:text="${result2.placePlayer}"
-                    th:style="${(result2.set < 9)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-second-player.html"/>
             </tr>
             <tr>
                 <th scope="row" id="3">3</th>
@@ -234,17 +228,7 @@
                             th:field="*{x3y4}"
                     />
                 </td>
-                <th id="rating2"
-                    th:text="${#numbers.formatDecimal(result3.rating, 1, 2)}"
-                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta2"
-                    th:text="${#numbers.formatDecimal(result3.delta, 1, 2)}"
-                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="set2"
-                    th:text="${result3.set + '/' + result3.setWin + '/' + result3.countWin}"
-                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place2" th:text="${result3.placePlayer}"
-                    th:style="${(result3.set < 9)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-third-player.html"/>
             </tr>
             <tr>
                 <th scope="row" id="4">4</th>
@@ -310,69 +294,17 @@
                     />
                 </td>
                 <th width="60px" class="table-secondary">TT</th>
-                <th id="rating4"
-                    th:text="${#numbers.formatDecimal(result4.rating, 1, 2)}"
-                    th:style="${(result4.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta4"
-                    th:text="${#numbers.formatDecimal(result4.delta, 1, 2)}"
-                    th:style="${(result4.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="set4"
-                    th:text="${result4.set + '/' + result4.setWin + '/' + result4.countWin}"
-                    th:style="${(result4.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place4" th:text="${result4.placePlayer}"
-                    th:style="${(result4.set < 9)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-fourth-player.html"/>
             </tr>
             </tbody>
         </table>
      </div>
-        <div class="col-md-12" >
-            <div class="input-group">
-                <button  type="submit" class="btn btn-success" id="calculate">Расчитать</button>
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Очередность игр</button>
-                <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control"
-                       placeholder="Введите кол-во столов" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default" disabled>
-                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" id="save" th:disabled="${!(score.endTour)}">
-                    <a class="btn btn-primary" th:href="@{/tour/save(id=${tour.id})}"  >Сохранить</a>
-                </button>
-            </div>
-        </div>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Порядок игр</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
-            </div>
-            <div class="offcanvas-body">
-                <table class="table table-striped table-hover">
-                    <thead class="table-secondary">
-                    <tr>
-                        <th scope="col">№</th>
-                        <th scope="col">Игроки:</th>
-                        <th scope="col">Стол №</th>
-                    </tr>
-                    </thead>
-                    <tbody data-mdb-spy="scroll">
-                    <tr th:each="pair, i : ${pairs}">
-                        <th scope="row" th:text="${i.count}"></th>
-                        <td>
-                            <div class="d-flex">
-                                <div class="ms-3">
-                                    <p th:text="${pair.player1.lastname + ' ' + pair.player2.lastname}"></p>
-                                </div>
-                            </div>
-                        </td>
-                        <th scope="row" th:text="${i.count}"></th>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <div th:insert="fragments/tour-form-score.html"/>
     </div>
     </form>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
 <script src="/script/countServer4.js"></script>
+<script src="/script/count.js"></script>
 </body>
 </html>

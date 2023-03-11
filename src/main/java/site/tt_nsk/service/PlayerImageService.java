@@ -32,11 +32,8 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class PlayerImageService {
-
-
-//    private List<String> paths; // пути внутри storageLocation
-
     private static final String path = "players";
+    private final String startImage = "image104-66.jpg";
 
     @Value("${storage.location}")
     private String storagePath;
@@ -48,6 +45,11 @@ public class PlayerImageService {
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
     public Long count() {
         return playerImageDao.count();
+    }
+
+    @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
+    public Long countImagesOfPlayer(Long id) {
+        return playerImageDao.count(id);
     }
 
     @PostConstruct
@@ -108,9 +110,7 @@ public class PlayerImageService {
             Player savePlayer = playerDao.save(player);
             deleteStartImage(playerImage);
             return savePlayer;
-
         }
-
         return null;
     }
 
@@ -118,9 +118,12 @@ public class PlayerImageService {
         Long idPlayer = playerImage.getPlayer().getId();
         PlayerImage image = playerImageDao.findFirstByPlayerId(idPlayer);
         if (playerImageDao.count(playerImage.getPlayer().getId()) > 1 && image.getPath().equals("image104-66.jpg")){
-//            System.out.println(image.getPath());
+//            log.info(image.getPath());
             playerImageDao.delete(image);
         }
+    }
+    public void deleteImage(Long id){
+        playerImageDao.deleteById(id);
     }
     public BufferedImage loadFileAsImage(Long id) throws IOException {
         String imageName = uploadMultipleFilesByPlayerId(id);
@@ -144,6 +147,10 @@ public class PlayerImageService {
         return playerImageDao.findAllIdImagesByPlayerId(id);
     }
 
+    public Long getPlayerIdByImageId(Long id){
+        return playerImageDao.findPlayerIdByImageId(id);
+    }
+
     public Resource loadAsResource(String filename) {
         if (StringUtils.hasText(filename)) {
             try {
@@ -163,5 +170,12 @@ public class PlayerImageService {
         } else {
             throw new StorageFileNotFoundException(String.format("Filename cannot be empty: %s", filename));
         }
+    }
+
+    public void addStartImage(Player player){
+        PlayerImage playerImage = new PlayerImage();
+        playerImage.setPath(startImage);
+        playerImage.setPlayer(player);
+        playerImageDao.save(playerImage);
     }
 }

@@ -13,10 +13,59 @@
 
 <div th:replace="~{common/navbar :: navi(Video)}"></div>
 
-<div class="container">
+<div class="container text-center">
 
-    <h1>На этой странице планируется трансляция видео!</h1>
-</div>
+    <h1>На этой странице планируется трансляция видео турнира!</h1>
+    <div class="d-flex align-items-center justify-content-evenly">
+    <div>
+        <iframe width="640" height="480" src="https://rtsp.me/embed/HdaN53Fz/" frameborder="0" allowfullscreen></iframe>
+    </div>
+    <div >
+        <iframe width="640" height="480" src="https://rtsp.me/embed/y8AkG4h6/" frameborder="0" allowfullscreen></iframe>
+    </div>
+    </div>
+    <!-- Кнопка-триггер модального окна -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Посмотреть текущий счет
+    </button>
+    <!-- Модальное окно -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Таблица для вывода текущего результата - в работе</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="d-flex container">
+<!--                        <table class="table table-striped table-bordered table table-sm">-->
+<!--                            <th scope="col" width="40px">№</th>-->
+<!--                            <th scope="col" width="400px">Фамилия Имя/Рейтинг</th>-->
+<!--                            <th th:each="colName : ${score.columns}" scope="colgroup" width="40px" height="40px" th:text="${colName}"></th>-->
+<!--                            <th scope="col" width="100px">Рейтинг</th>-->
+<!--                            <th scope="col" width="100px">Дельта</th>-->
+<!--                            <th scope="col" width="100px">Сеты</th>-->
+<!--                            <th scope="col" width="40px">Место</th>-->
+<!--                            <tbody data-mdb-spy="scroll">-->
+<!--                            <tr th:each="raw, iter : ${score.getResultTable}">-->
+<!--                                <th scope="col" th:text="${iter.count}"></th>-->
+<!--                                <th scope="col" th:text="${score.players.get(iter.count - 1).firstname + ' ' + score.players.get(iter.count - 1).lastname}"></th>-->
+<!--                                <th th:each="colName : ${score.getResultTable.get(iter.count - 1)}" scope="colgroup" width="40px" height="40px" th:text="${colName}"></th>-->
+<!--                                &lt;!&ndash;        <th scope="col" th:text="${raw}"></th>&ndash;&gt;-->
+<!--                                <th scope="col" th:text="${score.players.get(iter.count - 1).rating}"></th>-->
+<!--                                <th scope="col" th:text="${score.players.get(iter.count - 1).delta}"></th>-->
+<!--                                <th scope="col" th:text="${score.players.get(iter.count - 1).sets}"></th>-->
+<!--                                <th scope="col" th:text="${score.players.get(iter.count - 1).place}"></th>-->
+<!--                                <br>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
 <foot>
     <br>
     <br>
