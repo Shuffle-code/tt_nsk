@@ -1,0 +1,8 @@
+<th id="rating1" th:text="${#numbers.formatDecimal(result2.rating, 1, 2)}"
+    th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th id="delta1" th:text="${#numbers.formatDecimal(result2.delta, 1, 2)}"
+    th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th  id="set1" th:text="${result2.set + '/' + result2.setWin + '/' + result2.countWin}"
+     th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th id="place1" th:text="${result2.placePlayer}"
+    th:style="${(result2.set < 6)}? 'color: transparent;' : 'font-weight: bold;'"></th>

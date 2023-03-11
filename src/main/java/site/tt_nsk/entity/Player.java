@@ -39,6 +39,10 @@ public class Player extends InfoEntity {
 
     @Column(name = "id_ttwr")
     private String idTtw;
+
+    @Column(name = "info")
+    private String info;
+
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "player")
     private List<PlayerImage> images;
 

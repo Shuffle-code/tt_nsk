@@ -1,0 +1,183 @@
+<th scope="row" id="11">11</th>
+<td colspan="2">
+    <div class="d-flex align-items-center">
+        <img th:src="@{'/player/image/' + ${player11.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
+        <div class="ms-3">
+            <p th:text="${player11.lastname + ' ' + player11.firstname + ' ' + player11.rating}" id = "player11" ></p>
+        </div>
+    </div>
+</td>
+<td width="60px">
+    <div>
+        <input
+                type="text" id = "x11y1"
+                class="form-control"
+                th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y1)}"
+                value=""
+                th:style="${(score.x11y1 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y1 == '1/3'
+                                || score.x11y1 == '0/3' || score.x11y1 == '2/3' || score.x11y1 == '0.3' || score.x11y1 == '1.3'
+                                || score.x11y1 == '2,3' || score.x11y1 == '0,3' || score.x11y1 == '1,3'
+                                || score.x11y1 == '2.3')}? 'color: red;' : (${(score.x11y1 == '1/2'
+                                || score.x11y1 == '0/2' || score.x11y1 == '0.2' || score.x11y1 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y1 == '1/4'|| score.x11y1 == '2/4' || score.x11y1 == '2.4' || score.x11y1 == '3.4'
+                                || score.x11y1 == '0/4' || score.x11y1 == '0.4' || score.x11y1 == '1.4' || score.x11y1 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+                th:field="*{x11y1}"
+        />
+    </div>
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y2"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y2)}"
+            value=""
+            th:style="${(score.x11y2 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y2 == '1/3'
+                                || score.x11y2 == '0/3' || score.x11y2 == '2/3' || score.x11y2 == '0.3' || score.x11y2 == '1.3'
+                                || score.x11y2 == '2,3' || score.x11y2 == '0,3' || score.x11y2 == '1,3'
+                                || score.x11y2 == '2.3')}? 'color: red;' : (${(score.x11y2 == '1/2'
+                                || score.x11y2 == '0/2' || score.x11y2 == '0.2' || score.x11y2 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y2 == '1/4'|| score.x11y2 == '2/4' || score.x11y2 == '2.4' || score.x11y2 == '3.4'
+                                || score.x11y2 == '0/4' || score.x11y2 == '0.4' || score.x11y2 == '1.4' || score.x11y2 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y2}"
+    />
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y3"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y3)}"
+            value=""
+            th:style="${(score.x11y3 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y3 == '1/3'
+                                || score.x11y3 == '0/3' || score.x11y3 == '2/3' || score.x11y3 == '0.3' || score.x11y3 == '1.3'
+                                || score.x11y3 == '2,3' || score.x11y3 == '0,3' || score.x11y3 == '1,3'
+                                || score.x11y3 == '2.3')}? 'color: red;' : (${(score.x11y3 == '1/2'
+                                || score.x11y3 == '0/2' || score.x11y3 == '0.2' || score.x11y3 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y3 == '1/4'|| score.x11y3 == '2/4' || score.x11y3 == '2.4' || score.x11y3 == '3.4'
+                                || score.x11y3 == '0/4' || score.x11y3 == '0.4' || score.x11y3 == '1.4' || score.x11y3 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y3}"
+    />
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y4"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y3)}"
+            value=""
+            th:style="${(score.x11y4 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y4 == '1/3'
+                                || score.x11y4 == '0/3' || score.x11y4 == '2/3' || score.x11y4 == '0.3' || score.x11y4 == '1.3'
+                                || score.x11y4 == '2,3' || score.x11y4 == '0,3' || score.x11y4 == '1,3'
+                                || score.x11y4 == '2.3')}? 'color: red;' : (${(score.x11y4 == '1/2'
+                                || score.x11y4 == '0/2' || score.x11y4 == '0.2' || score.x11y4 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y4 == '1/4'|| score.x11y4 == '2/4' || score.x11y4 == '2.4' || score.x11y4 == '3.4'
+                                || score.x11y4 == '0/4' || score.x11y4 == '0.4' || score.x11y4 == '1.4' || score.x11y4 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y4}"
+    />
+</td>
+
+<td width="60px">
+    <input
+            type="text" id = "x11y5"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y5)}"
+            value=""
+            th:style="${(score.x11y5 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y5 == '1/3'
+                                || score.x11y5 == '0/3' || score.x11y5 == '2/3' || score.x11y5 == '0.3' || score.x11y5 == '1.3'
+                                || score.x11y5 == '2,3' || score.x11y5 == '0,3' || score.x11y5 == '1,3'
+                                || score.x11y5 == '2.3')}? 'color: red;' : (${(score.x11y5 == '1/2'
+                                || score.x11y5 == '0/2' || score.x11y5 == '0.2' || score.x11y5 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y5 == '1/4'|| score.x11y5 == '2/4' || score.x11y5 == '2.4' || score.x11y5 == '3.4'
+                                || score.x11y5 == '0/4' || score.x11y5 == '0.4' || score.x11y5 == '1.4' || score.x11y5 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y5}"
+    />
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y6"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y6)}"
+            value=""
+            th:style="${(score.x11y6 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y6 == '1/3'
+                                || score.x11y6 == '0/3' || score.x11y6 == '2/3' || score.x11y6 == '0.3' || score.x11y6 == '1.3'
+                                || score.x11y6 == '2,3' || score.x11y6 == '0,3' || score.x11y6 == '1,3'
+                                || score.x11y6 == '2.3')}? 'color: red;' : (${(score.x11y6 == '1/2'
+                                || score.x11y6 == '0/2' || score.x11y6 == '0.2' || score.x11y6 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y6 == '1/4'|| score.x11y6 == '2/4' || score.x11y6 == '2.4' || score.x11y6 == '3.4'
+                                || score.x11y6 == '0/4' || score.x11y6 == '0.4' || score.x11y6 == '1.4' || score.x11y6 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y6}"
+    />
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y7"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y7)}"
+            value=""
+            th:style="${(score.x11y7 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y7 == '1/3'
+                                || score.x11y7 == '0/3' || score.x11y7 == '2/3' || score.x11y7 == '0.3' || score.x11y7 == '1.3'
+                                || score.x11y7 == '2,3' || score.x11y7 == '0,3' || score.x11y7 == '1,3'
+                                || score.x11y7 == '2.3')}? 'color: red;' : (${(score.x11y7 == '1/2'
+                                || score.x11y7 == '0/2' || score.x11y7 == '0.2' || score.x11y7 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y7 == '1/4'|| score.x11y7 == '2/4' || score.x11y7 == '2.4' || score.x11y7 == '3.4'
+                                || score.x11y7 == '0/4' || score.x11y7 == '0.4' || score.x11y7 == '1.4' || score.x11y7 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y7}"
+    />
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y8"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y8)}"
+            value=""
+            th:style="${(score.x11y8 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y8 == '1/3'
+                                || score.x11y8 == '0/3' || score.x11y8 == '2/3' || score.x11y8 == '0.3' || score.x11y8 == '1.3'
+                                || score.x11y8 == '2,3' || score.x11y8 == '0,3' || score.x11y8 == '1,3'
+                                || score.x11y8 == '2.3')}? 'color: red;' : (${(score.x11y8 == '1/2'
+                                || score.x11y8 == '0/2' || score.x11y8 == '0.2' || score.x11y8 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y8 == '1/4'|| score.x11y8 == '2/4' || score.x11y8 == '2.4' || score.x11y8 == '3.4'
+                                || score.x11y8 == '0/4' || score.x11y8 == '0.4' || score.x11y8 == '1.4' || score.x11y8 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y8}"
+    />
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y9"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y9)}"
+            value=""
+            th:style="${(score.x11y9 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y9 == '1/3'
+                                || score.x11y9 == '0/3' || score.x11y9 == '2/3' || score.x11y9 == '0.3' || score.x11y9 == '1.3'
+                                || score.x11y9 == '2,3' || score.x11y9 == '0,3' || score.x11y9 == '1,3'
+                                || score.x11y9 == '2.3')}? 'color: red;' : (${(score.x11y9 == '1/2'
+                                || score.x11y9 == '0/2' || score.x11y9 == '0.2' || score.x11y9 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y9 == '1/4'|| score.x11y9 == '2/4' || score.x11y9 == '2.4' || score.x11y9 == '3.4'
+                                || score.x11y9 == '0/4' || score.x11y9 == '0.4' || score.x11y9 == '1.4' || score.x11y9 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y9}"
+    />
+</td>
+<td width="60px">
+    <input
+            type="text" id = "x11y10"
+            class="form-control"
+            th:placeholder="${(player11.rating == 500)}? '0/0' : ${(legUp.fx11y10)}"
+            value=""
+            th:style="${(score.x11y10 == '')}? 'background-color: #F5F5F5;' : (${(score.x11y10 == '1/3'
+                                || score.x11y10 == '0/3' || score.x11y10 == '2/3' || score.x11y10 == '0.3' || score.x11y10 == '1.3'
+                                || score.x11y10 == '2,3' || score.x11y10 == '0,3' || score.x11y10 == '1,3'
+                                || score.x11y10 == '2.3')}? 'color: red;' : (${(score.x11y10 == '1/2'
+                                || score.x11y10 == '0/2' || score.x11y10 == '0.2' || score.x11y10 == '1.2'
+                                )}? 'color: green;' : (${(score.x11y10 == '1/4'|| score.x11y10 == '2/4' || score.x11y10 == '2.4' || score.x11y10 == '3.4'
+                                || score.x11y10 == '0/4' || score.x11y10 == '0.4' || score.x11y10 == '1.4' || score.x11y10 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+            th:field="*{x11y10}"
+    />
+</td>
+<th width="60px" class="table-secondary">TT</th>

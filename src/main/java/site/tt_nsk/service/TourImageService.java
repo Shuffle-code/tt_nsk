@@ -133,7 +133,6 @@ public class TourImageService {
 //                8e6d4478-ee77-4d43-96ef-0d6df9fb1589_i.jpg
 //                products/8e6d4478-ee77-4d43-96ef-0d6df9fb1589_i.jpg
                 Resource resource = new UrlResource(file.toUri());
-//                System.out.println(resource);
                 if (resource.exists() || resource.isReadable()) {
                     return resource;
                 } else {
@@ -145,5 +144,15 @@ public class TourImageService {
         } else {
             throw new StorageFileNotFoundException(String.format("Filename cannot be empty: %s", filename));
         }
+    }
+
+    public void deleteImageTour(Long idImage) {
+        if (idImage != null){
+            tourImageDao.deleteById(idImage);
+        }
+    }
+
+    public Long getTourIdByImageId(Long id) {
+        return tourImageDao.findTourIdByImageId(id);
     }
 }

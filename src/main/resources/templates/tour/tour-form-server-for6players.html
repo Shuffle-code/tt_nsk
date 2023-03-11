@@ -18,6 +18,7 @@
           enctype="multipart/form-data">
     <span th:if="${countPlaying == 0}">Игроков нет</span>
     <div th:unless="${countPlaying == 0}">
+        <br>
      <div>
         <table class="table table-striped table-bordered table table-sm">
             <thead class="table-secondary">
@@ -38,506 +39,123 @@
             </thead>
             <tbody data-mdb-spy="scroll">
             <tr>
-                <th scope="row" id="1">1</th>
-                <td colspan="2">
-                    <div class="d-flex align-items-center">
-                        <img th:src="@{'/player/image/' + ${player1.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
-                        <div class="ms-3">
-                            <p th:text="${player1.lastname + ' ' + player1.firstname + ' ' + player1.rating}" id = "player1"></p>
-                    </div>
-                </td>
-                <th width="60px" class="table-secondary">TT</th>
-                <td width="60px">
-                    <input
-                            type="text" id = "x1y2"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x1y2 == '')}? 'font-weight: normal;' :
-                            (${(score.x1y2 == '1/3' || score.x1y2 == '0/3' || score.x1y2 == '2/3' || score.x1y2 == '0.3' || score.x1y2 == '1.3' || score.x1y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x1y2}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x1y3"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x1y3 == '')}? 'font-weight: normal;' :
-                            (${(score.x1y3 == '1/3' || score.x1y3 == '0/3' || score.x1y3 == '2/3' || score.x1y3 == '0.3' || score.x1y3 == '1.3' || score.x1y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x1y3}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x1y4"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x1y4 == '')}? 'font-weight: normal;' :
-                            (${(score.x1y4 == '1/3' || score.x1y4 == '0/3' || score.x1y4 == '2/3' || score.x1y4 == '0.3' || score.x1y4 == '1.3' || score.x1y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x1y4}"
-                    />
-                </td>
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x1y5"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x1y5 == '')}? 'font-weight: normal;' :
-                            (${(score.x1y5 == '1/3' || score.x1y5 == '0/3' || score.x1y5 == '2/3' || score.x1y5 == '0.3' || score.x1y5 == '1.3' || score.x1y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x1y5}"
-                    />
-                </td>
+                <div th:insert="fragments/first-five.html"/>
                 <td width="60px">
                     <input
                             type="text" id = "x1y6"
                             class="form-control"
-                            placeholder="0/0"
+                            th:placeholder="${(player6.rating == 500)}? '0/0' : ${(legUp.fx1y6)}"
                             value=""
-                            th:style="${(score.x1y6 == '')}? 'font-weight: normal;' :
-                            (${(score.x1y6 == '1/3' || score.x1y6 == '0/3' || score.x1y6 == '2/3' || score.x1y6 == '0.3' || score.x1y6 == '1.3' || score.x1y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
+                            th:style="${(score.x1y6 == '')}? 'background-color: #F5F5F5;' : (${(score.x1y6 == '1/3'
+                                || score.x1y6 == '0/3' || score.x1y6 == '2/3' || score.x1y6 == '0.3' || score.x1y6 == '1.3'
+                                || score.x1y6 == '2,3' || score.x1y6 == '0,3' || score.x1y6 == '1,3'
+                                || score.x1y6 == '2.3')}? 'color: red;' : (${(score.x1y6 == '1/2'
+                                || score.x1y6 == '0/2' || score.x1y6 == '0.2' || score.x1y6 == '1.2'
+                                )}? 'color: green;' : (${(score.x1y6 == '1/4'|| score.x1y6 == '2/4' || score.x1y6 == '2.4' || score.x1y6 == '3.4'
+                                || score.x1y6 == '0/4' || score.x1y6 == '0.4' || score.x1y6 == '1.4' || score.x1y6 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
                             th:field="*{x1y6}"
                     />
                 </td>
-                <th id="rating" th:text="${#numbers.formatDecimal(result1.rating, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta"  th:text="${#numbers.formatDecimal(result1.delta, 1, 2)}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th  id="set" th:text="${result1.set + '/' + result1.setWin + '/' + result1.countWin}" th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place" th:text="${result1.placePlayer}"
-                    th:style="${(result1.set < 12)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-first-player.html"/>
             </tr>
             <tr>
-                <th scope="row" id="2">2</th>
-                <td colspan="2">
-                    <div class="d-flex align-items-center">
-                        <img th:src="@{'/player/image/' + ${player2.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
-                        <div class="ms-3">
-                            <p  th:text="${player2.lastname + ' ' + player2.firstname + ' ' + player2.rating}" id = "player2"></p>
-                        </div>
-                    </div>
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x2y1"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x2y1 == '')}? 'font-weight: normal;' : (${(score.x2y1 == '1/3' || score.x2y1 == '0/3' || score.x2y1 == '2/3' || score.x2y1 == '0.3' || score.x2y1 == '1.3' || score.x2y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x2y1}"
-                    />
-                </td>
-                <th width="60px" class="table-secondary">TT</th>
-                <td width="60px">
-                    <input
-                            type="text" id = "x2y3"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x2y3 == '')}? 'font-weight: normal;' : (${(score.x2y3 == '1/3' || score.x2y3 == '0/3' || score.x2y3 == '2/3' || score.x2y3 == '0.3' || score.x2y3 == '1.3' || score.x2y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x2y3}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x2y4"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x2y4 == '')}? 'font-weight: normal;' : (${(score.x2y4 == '1/3' || score.x2y4 == '0/3' || score.x2y4 == '2/3' || score.x2y4 == '0.3' || score.x2y4 == '1.3' || score.x2y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x2y4}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x2y5"
-                            class="form-control"
-                            placeholder="0/0"
-                            value=""
-                            th:style="${(score.x2y5 == '')}? 'font-weight: normal;' : (${(score.x2y5 == '1/3' || score.x2y5 == '0/3' || score.x2y5 == '2/3' || score.x2y5 == '0.3' || score.x2y5 == '1.3' || score.x2y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            th:field="*{x2y5}"
-                    />
-                </td>
+                <div th:insert="fragments/second-five.html"/>
                 <td width="60px">
                     <input
                             type="text" id = "x2y6"
                             class="form-control"
-                            placeholder="0/0"
+                            th:placeholder="${(player6.rating == 500)}? '0/0' : ${(legUp.fx2y6)}"
                             value=""
-                            th:style="${(score.x2y6 == '')}? 'font-weight: normal;' : (${(score.x2y6 == '1/3' || score.x2y6 == '0/3' || score.x2y6 == '2/3' || score.x2y6 == '0.3' || score.x2y6 == '1.3' || score.x2y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
+                            th:style="${(score.x2y6 == '')}? 'background-color: #F5F5F5;' : (${(score.x2y6 == '1/3'
+                                || score.x2y6 == '0/3' || score.x2y6 == '2/3' || score.x2y6 == '0.3' || score.x2y6 == '1.3'
+                                || score.x2y6 == '2,3' || score.x2y6 == '0,3' || score.x2y6 == '1,3'
+                                || score.x2y6 == '2.3')}? 'color: red;' : (${(score.x2y6 == '1/2'
+                                || score.x2y6 == '0/2' || score.x2y6 == '0.2' || score.x2y6 == '1.2'
+                                )}? 'color: green;' : (${(score.x2y6 == '1/4'|| score.x2y6 == '2/4' || score.x2y6 == '2.4' || score.x2y6 == '3.4'
+                                || score.x2y6 == '0/4' || score.x2y6 == '0.4' || score.x2y6 == '1.4' || score.x2y6 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
                             th:field="*{x2y6}"
                     />
                 </td>
-                <th id="rating1" th:text="${#numbers.formatDecimal(result2.rating, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta1" th:text="${#numbers.formatDecimal(result2.delta, 1, 2)}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th  id="set1" th:text="${result2.set + '/' + result2.setWin + '/' + result2.countWin}" th:style="${(result2.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place1" th:text="${result2.placePlayer}"
-                    th:style="${(result2.set < 12)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-second-player.html"/>
             </tr>
             <tr>
-                <th scope="row" id="3">3</th>
-                <td colspan="2">
-                    <div class="d-flex align-items-center">
-                        <img th:src="@{'/player/image/' + ${player3.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
-                        <div class="ms-3">
-                            <p th:text="${player3.lastname + ' ' + player3.firstname + ' ' + player3.rating}" id = "player3" ></p>
-                        </div>
-                    </div>
-                </td>
-                <td width="60px">
-                    <div>
-                        <input
-                                type="text" id = "x3y1"
-                                value=""
-                                class="form-control"
-                                placeholder="0/0"
-                                th:style="${(score.x3y1 == '')}? 'font-weight: normal;' : (${(score.x3y1 == '1/3' || score.x3y1 == '0/3' || score.x3y1 == '2/3' || score.x3y1 == '0.3' || score.x3y1 == '1.3' || score.x3y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                                th:field="*{x3y1}"
-                        />
-                    </div>
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x3y2"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x3y2 == '')}? 'font-weight: normal;' : (${(score.x3y2 == '1/3' || score.x3y2 == '0/3' || score.x3y2 == '2/3' || score.x3y2 == '0.3' || score.x3y2 == '1.3' || score.x3y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x3y2}"
-                    />
-                </td>
-                <th width="60px" class="table-secondary">TT</th>
-                <td width="60px">
-                    <input
-                            type="text" id = "x3y4"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x3y4 == '')}? 'font-weight: normal;' : (${(score.x3y4 == '1/3' || score.x3y4 == '0/3' || score.x3y4 == '2/3' || score.x3y4 == '0.3' || score.x3y4 == '1.3' || score.x3y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x3y4}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x3y5"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x3y5 == '')}? 'font-weight: normal;' : (${(score.x3y5 == '1/3' || score.x3y5 == '0/3' || score.x3y5 == '2/3' || score.x3y5 == '0.3' || score.x3y5 == '1.3' || score.x3y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x3y5}"
-                    />
-                </td>
+                <div th:insert="fragments/third-five.html"/>
                 <td width="60px">
                     <input
                             type="text" id = "x3y6"
                             class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x3y6 == '')}? 'font-weight: normal;' : (${(score.x3y6 == '1/3' || score.x3y6 == '0/3' || score.x3y6 == '2/3' || score.x3y6 == '0.3' || score.x3y6 == '1.3' || score.x3y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
+                            th:placeholder="${(player6.rating == 500)}? '0/0' : ${(legUp.fx3y6)}"
                             value=""
+                            th:style="${(score.x3y6 == '')}? 'background-color: #F5F5F5;' : (${(score.x3y6 == '1/3'
+                                || score.x3y6 == '0/3' || score.x3y6 == '2/3' || score.x3y6 == '0.3' || score.x3y6 == '1.3'
+                                || score.x3y6 == '2,3' || score.x3y6 == '0,3' || score.x3y6 == '1,3'
+                                || score.x3y6 == '2.3')}? 'color: red;' : (${(score.x3y6 == '1/2'
+                                || score.x3y6 == '0/2' || score.x3y6 == '0.2' || score.x3y6 == '1.2'
+                                )}? 'color: green;' : (${(score.x3y6 == '1/4'|| score.x3y6 == '2/4' || score.x3y6 == '2.4' || score.x3y6 == '3.4'
+                                || score.x3y6 == '0/4' || score.x3y6 == '0.4' || score.x3y6 == '1.4' || score.x3y6 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
                             th:field="*{x3y6}"
                     />
                 </td>
-                <th id="rating2"
-                    th:text="${#numbers.formatDecimal(result3.rating, 1, 2)}"
-                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta2"
-                    th:text="${#numbers.formatDecimal(result3.delta, 1, 2)}"
-                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="set2"
-                    th:text="${result3.set + '/' + result3.setWin + '/' + result3.countWin}"
-                    th:style="${(result3.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place2" th:text="${result3.placePlayer}"
-                    th:style="${(result3.set < 12)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-third-player.html"/>
             </tr>
             <tr>
-                <th scope="row" id="4">4</th>
-                <td colspan="2">
-                    <div class="d-flex align-items-center">
-                        <img th:src="@{'/player/image/' + ${player4.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
-                        <div class="ms-3">
-                            <p th:text="${player4.lastname + ' ' + player4.firstname + ' ' + player4.rating}" id = "player4" ></p>
-                        </div>
-                    </div>
-                </td>
-                <td width="60px">
-                    <div>
-                        <input
-                                type="text" id = "x4y1"
-                                value=""
-                                class="form-control"
-                                placeholder="0/0"
-                                th:style="${(score.x4y1 == '')}? 'font-weight: normal;' : (${(score.x4y1 == '1/3' || score.x4y1 == '0/3' || score.x4y1 == '2/3' || score.x4y1 == '0.3' || score.x4y1 == '1.3' || score.x4y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                                th:field="*{x4y1}"
-                        />
-                    </div>
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x4y2"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x4y2 == '')}? 'font-weight: normal;' : (${(score.x4y2 == '1/3' || score.x4y2 == '0/3' || score.x4y2 == '2/3' || score.x4y2 == '0.3' || score.x4y2 == '1.3' || score.x4y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x4y2}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x4y3"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x4y3 == '')}? 'font-weight: normal;' : (${(score.x4y3 == '1/3' || score.x4y3 == '0/3' || score.x4y3 == '2/3' || score.x4y3 == '0.3' || score.x4y3 == '1.3' || score.x4y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x4y3}"
-                    />
-                </td>
-                <th width="60px" class="table-secondary">TT</th>
-                <td width="60px">
-                    <input
-                            type="text" id = "x4y5"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x4y5 == '')}? 'font-weight: normal;' : (${(score.x4y5 == '1/3' || score.x4y5 == '0/3' || score.x4y5 == '2/3' || score.x4y5 == '0.3' || score.x4y5 == '1.3' || score.x4y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x4y5}"
-                    />
-                </td>
+                <div th:insert="fragments/fourth-five.html"/>
                 <td width="60px">
                     <input
                             type="text" id = "x4y6"
                             class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x4y6 == '')}? 'font-weight: normal;' : (${(score.x4y6 == '1/3' || score.x4y6 == '0/3' || score.x4y6 == '2/3' || score.x4y6 == '0.3' || score.x4y6 == '1.3' || score.x4y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
+                            th:placeholder="${(player6.rating == 500)}? '0/0' : ${(legUp.fx4y6)}"
                             value=""
+                            th:style="${(score.x4y6 == '')}? 'background-color: #F5F5F5;' : (${(score.x4y6 == '1/3'
+                                || score.x4y6 == '0/3' || score.x4y6 == '2/3' || score.x4y6 == '0.3' || score.x4y6 == '1.3'
+                                || score.x4y6 == '2,3' || score.x4y6 == '0,3' || score.x4y6 == '1,3'
+                                || score.x4y6 == '2.3')}? 'color: red;' : (${(score.x4y6 == '1/2'
+                                || score.x4y6 == '0/2' || score.x4y6 == '0.2' || score.x4y6 == '1.2'
+                                )}? 'color: green;' : (${(score.x4y6 == '1/4'|| score.x4y6 == '2/4' || score.x4y6 == '2.4' || score.x4y6 == '3.4'
+                                || score.x4y6 == '0/4' || score.x4y6 == '0.4' || score.x4y6 == '1.4' || score.x4y6 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
                             th:field="*{x4y6}"
                     />
                 </td>
-                <th id="rating4"
-                    th:text="${#numbers.formatDecimal(result4.rating, 1, 2)}"
-                    th:style="${(result4.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta4"
-                    th:text="${#numbers.formatDecimal(result4.delta, 1, 2)}"
-                    th:style="${(result4.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="set4"
-                    th:text="${result4.set + '/' + result4.setWin + '/' + result4.countWin}"
-                    th:style="${(result4.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place4" th:text="${result4.placePlayer}"
-                    th:style="${(result4.set < 12)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-fourth-player.html"/>
             </tr>
             <tr>
-                <th scope="row" id="5">5</th>
-                <td colspan="2">
-                    <div class="d-flex align-items-center">
-                        <img th:src="@{'/player/image/' + ${player5.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
-                        <div class="ms-3">
-                            <p th:text="${player5.lastname + ' ' + player5.firstname + ' ' + player5.rating}" id = "player5" ></p>
-                        </div>
-                    </div>
-                </td>
-                <td width="60px">
-                    <div>
-                        <input
-                                type="text" id = "x5y1"
-                                value=""
-                                class="form-control"
-                                placeholder="0/0"
-                                th:style="${(score.x5y1 == '')}? 'font-weight: normal;' :
-                                (${(score.x5y1 == '1/3' || score.x5y1 == '0/3' || score.x5y1 == '2/3' || score.x5y1 == '0.3' || score.x5y1 == '1.3' || score.x5y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                                th:field="*{x5y1}"
-                        />
-                    </div>
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x5y2"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x5y2 == '')}? 'font-weight: normal;' :
-                            (${(score.x5y2 == '1/3' || score.x5y2 == '0/3' || score.x5y2 == '2/3' || score.x5y2 == '0.3' || score.x5y2 == '1.3' || score.x5y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x5y2}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x5y3"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x5y3 == '')}? 'font-weight: normal;' :
-                            (${(score.x5y3 == '1/3' || score.x5y3 == '0/3' || score.x5y3 == '2/3' || score.x5y3 == '0.3' || score.x5y3 == '1.3' || score.x5y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x5y3}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x5y4"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x5y4 == '')}? 'font-weight: normal;' :
-                            (${(score.x5y4 == '1/3' || score.x5y4 == '0/3' || score.x5y4 == '2/3' || score.x5y4 == '0.3' || score.x5y4 == '1.3' || score.x5y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x5y4}"
-                    />
-                </td>
-                <th width="60px" class="table-secondary">TT</th>
+                <div th:insert="fragments/fifth-five.html"/>
                 <td width="60px">
                     <input
                             type="text" id = "x5y6"
                             class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x5y6 == '')}? 'font-weight: normal;' :
-                            (${(score.x5y6 == '1/3' || score.x5y6 == '0/3' || score.x5y6 == '2/3' || score.x5y6 == '0.3' || score.x5y6 == '1.3' || score.x5y6 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
+                            th:placeholder="${(player6.rating == 500)}? '0/0' : ${(legUp.fx5y6)}"
                             value=""
+                            th:style="${(score.x5y6 == '')}? 'background-color: #F5F5F5;' : (${(score.x5y6 == '1/3'
+                                || score.x5y6 == '0/3' || score.x5y6 == '2/3' || score.x5y6 == '0.3' || score.x5y6 == '1.3'
+                                || score.x5y6 == '2,3' || score.x5y6 == '0,3' || score.x5y6 == '1,3'
+                                || score.x5y6 == '2.3')}? 'color: red;' : (${(score.x5y6 == '1/2'
+                                || score.x5y6 == '0/2' || score.x5y6 == '0.2' || score.x5y6 == '1.2'
+                                )}? 'color: green;' : (${(score.x5y6 == '1/4'|| score.x5y6 == '2/4' || score.x5y6 == '2.4' || score.x5y6 == '3.4'
+                                || score.x5y6 == '0/4' || score.x5y6 == '0.4' || score.x5y6 == '1.4' || score.x5y6 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
                             th:field="*{x5y6}"
                     />
                 </td>
-                <th id="rating5"
-                    th:text="${#numbers.formatDecimal(result5.rating, 1, 2)}"
-                    th:style="${(result5.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta5"
-                    th:text="${#numbers.formatDecimal(result5.delta, 1, 2)}"
-                    th:style="${(result5.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="set5"
-                    th:text="${result5.set + '/' + result5.setWin + '/' + result5.countWin}"
-                    th:style="${(result5.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place5" th:text="${result5.placePlayer}"
-                    th:style="${(result5.set < 12)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/scoring-fifth-player.html"/>
             </tr>
             <tr>
-                <th scope="row" id="6">6</th>
-                <td colspan="2">
-                    <div class="d-flex align-items-center">
-                        <img th:src="@{'/player/image/' + ${player6.id}}" alt="" width="40px" height="40px" class="rounded-circle" />
-                        <div class="ms-3">
-                            <p th:text="${player6.lastname + ' ' + player6.firstname + ' ' + player6.rating}" id = "player6" ></p>
-                        </div>
-                    </div>
-                </td>
-                <td width="60px">
-                    <div>
-                        <input
-                                type="text" id = "x6y1"
-                                value=""
-                                class="form-control"
-                                placeholder="0/0"
-                                th:style="${(score.x6y1 == '')}? 'font-weight: normal;' :
-                                (${(score.x6y1 == '1/3' || score.x6y1 == '0/3' || score.x6y1 == '2/3' || score.x6y1 == '0.3' || score.x6y1 == '1.3' || score.x6y1 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                                th:field="*{x6y1}"
-                        />
-                    </div>
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x6y2"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x6y2 == '')}? 'font-weight: normal;' :
-                                (${(score.x6y2 == '1/3' || score.x6y2 == '0/3' || score.x6y2 == '2/3' || score.x6y2 == '0.3' || score.x6y2 == '1.3' || score.x6y2 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x6y2}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x6y3"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x6y3 == '')}? 'font-weight: normal;' :
-                                (${(score.x6y3 == '1/3' || score.x6y3 == '0/3' || score.x6y3 == '2/3' || score.x6y3 == '0.3' || score.x6y3 == '1.3' || score.x6y3 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x6y3}"
-                    />
-                </td>
-                <td width="60px">
-                    <input
-                            type="text" id = "x6y4"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x6y4 == '')}? 'font-weight: normal;' :
-                                (${(score.x6y4 == '1/3' || score.x6y4 == '0/3' || score.x6y4 == '2/3' || score.x6y4 == '0.3' || score.x6y4 == '1.3' || score.x6y4 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x6y4}"
-                    />
-                </td>
-
-                <td width="60px">
-                    <input
-                            type="text" id = "x6y5"
-                            class="form-control"
-                            placeholder="0/0"
-                            th:style="${(score.x6y5 == '')}? 'font-weight: normal;' :
-                                (${(score.x6y5 == '1/3' || score.x6y5 == '0/3' || score.x6y5 == '2/3' || score.x6y5 == '0.3' || score.x6y5 == '1.3' || score.x6y5 == '2.3')}? 'color: red;' : 'font-weight: bold;')"
-                            value=""
-                            th:field="*{x6y5}"
-                    />
-                </td>
-                <th width="60px" class="table-secondary">TT</th>
-                <th id="rating6"
-                    th:text="${#numbers.formatDecimal(result6.rating, 1, 2)}"
-                    th:style="${(result6.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="delta6"
-                    th:text="${#numbers.formatDecimal(result6.delta, 1, 2)}"
-                    th:style="${(result6.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="set6"
-                    th:text="${result6.set + '/' + result6.setWin + '/' + result6.countWin}"
-                    th:style="${(result6.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
-                <th id="place6" th:text="${result6.placePlayer}"
-                    th:style="${(result6.set < 15)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+                <div th:insert="fragments/sixth-six.html"/>
+                <div th:insert="fragments/scoring-sixth-player.html"/>
             </tr>
             </tbody>
         </table>
      </div>
-        <div class="col-md-12" >
-            <div class="input-group">
-                <button  type="submit" class="btn btn-success" id="calculate">Расчитать</button>
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Очередность игр</button>
-                <input sec:authorize="hasAuthority('player.create')" type="text" class="form-control"
-                       placeholder="Введите кол-во столов" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default" disabled>
-                <button sec:authorize="hasAuthority('player.create')" class="btn btn-primary" id="save" th:disabled="${!(score.endTour)}">
-                    <a class="btn btn-primary" th:href="@{${'/tour/save'}}" >Сохранить</a>
-                </button>
-            </div>
-        </div>
-
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-            <div class="offcanvas-header">
-                <h5 id="offcanvasRightLabel">Порядок игр</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
-            </div>
-            <div class="offcanvas-body">
-                <table class="table table-striped table-hover">
-                    <thead class="table-secondary">
-                    <tr>
-                        <th scope="col">№</th>
-                        <th scope="col">Игроки:</th>
-                        <th scope="col">Стол №</th>
-                    </tr>
-                    </thead>
-                    <tbody data-mdb-spy="scroll">
-                    <tr th:each="pair, i : ${pairs}">
-                        <th scope="row" th:text="${i.count}"></th>
-                        <td>
-                            <div class="d-flex">
-                                <div class="ms-3">
-                                    <p th:text="${pair.player1.lastname + ' ' + pair.player2.lastname}"></p>
-                                </div>
-                            </div>
-                        </td>
-                        <th scope="row" th:text="${i.count}"></th>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <div th:insert="fragments/tour-form-score.html"/>
     </div>
     </form>
 </div>
 <div th:replace="~{common/footer :: footerBlock}"/>
 <script src="/script/countServer6.js"></script>
+<script src="/script/count.js"></script>
 </body>
 </html>

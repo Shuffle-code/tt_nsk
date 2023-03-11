@@ -1,5 +1,6 @@
 package site.tt_nsk.service;
 
+import liquibase.pro.packaged.S;
 import site.tt_nsk.dao.PlayerDao;
 import site.tt_nsk.dto.PlayerBriefRepresentationDto;
 import site.tt_nsk.entity.Player;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -54,6 +56,16 @@ public class PlayerService {
                 playerFromDB.setStatus(player.getStatus());
                 return playerDao.save(playerFromDB);
             }
+        }
+        return playerDao.save(player);
+    }
+
+    public Player updateRatingTtw(Player player, BigDecimal bigDecimal) {
+        Optional<Player> playerFromDBOptional = playerDao.findById(player.getId());
+        if (playerFromDBOptional.isPresent()) {
+            Player playerFromDB = playerFromDBOptional.get();
+            playerFromDB.setRatingTtw(bigDecimal);
+            return playerDao.save(playerFromDB);
         }
         return playerDao.save(player);
     }
@@ -167,6 +179,10 @@ public class PlayerService {
         return player;
     }
 
+    public Player getPlayerIdByIdTtw(String ratingTtw){
+        return findById(playerDao.getPlayerIdByIdTtw(ratingTtw));
+    }
+
     public String stringPlayer(Player player){
         String str = player.getFirstname() + player.getLastname() + player.getRating();
         return str;
@@ -180,7 +196,6 @@ public class PlayerService {
         List<Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto>> pairList = new ArrayList<>();
         PlayerBriefRepresentationDto[] pbrDto = playerBriefRepresentationDtoListSortedByRatingDesc.toArray(new PlayerBriefRepresentationDto[]{});
         //new PlayerBriefRepresentationDto[playerBriefRepresentationDtoListSortedByRatingDesc.size()];
-
         for (int i = 0; i < playerBriefRepresentationDtoListSortedByRatingDesc.size() - 1; i++) {
             for (int j = i + 1; j < playerBriefRepresentationDtoListSortedByRatingDesc.size(); j++) {
                 Pair<PlayerBriefRepresentationDto, PlayerBriefRepresentationDto> pair = Pair.of(
@@ -192,5 +207,15 @@ public class PlayerService {
             }
         }
         return pairList;
+    }
+
+    public boolean presentIdTtw(String idTtw) {
+        List<String> listIdTtw = getIdTtw();
+        for (String st : listIdTtw) {
+            if (st.equals(idTtw)){
+                return true;
+            }
+        }
+        return false;
     }
 }

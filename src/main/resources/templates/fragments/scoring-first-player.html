@@ -1,0 +1,9 @@
+
+<th id="rating" th:text="${#numbers.formatDecimal(result1.rating, 1, 2)}"
+    th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th id="delta"  th:text="${#numbers.formatDecimal(result1.delta, 1, 2)}"
+    th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th  id="set" th:text="${result1.set + '/' + result1.setWin + '/' + result1.countWin}"
+     th:style="${(result1.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th id="place" th:text="${result1.placePlayer}"
+    th:style="${(result1.set < 6)}? 'color: transparent;' : 'font-weight: bold;'"></th>

@@ -11,11 +11,10 @@
 </head>
 <body>
 <div th:replace="~{common/navbar :: navi(TourInfo)}"></div>
-<div class="container" style="width: 80%;">
-  <h2 th:text="${tour.date}"></h2>
-<!--<div class="container">-->
+<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 70%;">
+  <h2 th:text="${tour.title + ': ' + tour.date}"></h2>
   <div class="justify-content-center" style="width: 100%;">
-    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="60000">
       <div class="carousel-inner">
         <div th:each="imageId, i : ${tourImagesId}" class="carousel-item"
              th:classappend="${i.index==0 ? 'active' : ''}">
@@ -33,12 +32,35 @@
     </div>
   </div>
   <div class="card-body">
-  <h2 th:text="${'Дата: ' + tour.date}"></h2>
+
+
+<!--    <table class="table">-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th scope="col" class="text-center">Дата</th>-->
+<!--        <th scope="col" class="text-center">Название</th>-->
+<!--        <th scope="col" class="text-center">Адрес</th>-->
+<!--        <th scope="col" class="text-center">Кол-во игроков</th>-->
+<!--        <th scope="col" class="text-center">Победитель</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr>-->
+<!--        <td th:text="${tour.date}" class="text-center"></td>-->
+<!--        <td th:text="${tour.title}" class="text-center"></td>-->
+<!--        <td th:text="${tour.address.getStreet}" class="text-center"></td>-->
+<!--        <td th:text="${(tour.amountPlayers == null)}? '0' : ${tour.amountPlayers}" class="text-center"></td>-->
+<!--        <td th:text="${(tour.player == null)}? '' : ${tour.player.getFirstname + ' ' + tour.player.getLastname}" class="text-center"></td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+  <h3 th:text="${'Дата: ' + tour.date}"></h3>
   <h4 th:text="${'Название: ' + tour.title}"></h4>
   <h4 th:text="${'Адрес: ' + tour.address.getStreet}"></h4>
   <h4 th:text="${(tour.amountPlayers == null)}? 'Колличество игроков: 0' : ${'Колличество игроков: ' + tour.amountPlayers}"></h4>
-  <h4 th:text="${(tour.player == null)}? 'Победитель будет изветен: ' + ${tour.date} : ${'Победитель: ' + tour.player.getFirstname + ' ' + tour.player.getLastname}"></h4>
-  <p th:text="${'Статус: ' + tour.status.title}"></p>
+  <h4 th:text="${(tour.player == null)}? 'Победитель будет известен: ' + ${tour.date} : ${'Победитель: ' + tour.player.getFirstname + ' ' + tour.player.getLastname}"></h4>
+<!--  <p th:text="${'Статус: ' + tour.status.title}"></p>-->
+    <p th:text="${(tour.info == null || tour.info == '')}? '' : ${tour.info}"></p>
     <a sec:authorize="hasAuthority('player.readOnly')"
        th:href="@{/player/all}" class="btn btn-primary">Перейти куда-нибудь</a>
     <a sec:authorize="hasAuthority('player.update')"
