@@ -49,8 +49,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.jsoup/jsoup
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.4'
 
-
-
 	//		<=========== Swagger ===========>
 	implementation 'org.springdoc:springdoc-openapi-common:1.6.14'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'

@@ -41,7 +41,7 @@
             </thead>
             <tbody data-mdb-spy="scroll">
             <tr th:each="tour, i : ${tours}"
-                th:classappend="${tour.status.name() == 'UPCOMING'} ? 'table-secondary'">
+                th:hidden="${tour.status.name() == 'UPCOMING'}">
                 <th scope="row" th:text="${i.count}"></th>
                 <td th:text="${tour.date}"></td>
                 <td th:text="${tour.title}"></td>

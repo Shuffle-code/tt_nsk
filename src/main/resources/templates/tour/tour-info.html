@@ -11,10 +11,10 @@
 </head>
 <body>
 <div th:replace="~{common/navbar :: navi(TourInfo)}"></div>
-<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 60%;">
+<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 70%;">
   <h2 th:text="${tour.title + ': ' + tour.date}"></h2>
   <div class="justify-content-center" style="width: 100%;">
-    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="60000">
       <div class="carousel-inner">
         <div th:each="imageId, i : ${tourImagesId}" class="carousel-item"
              th:classappend="${i.index==0 ? 'active' : ''}">

@@ -179,7 +179,7 @@ public class PlayerService {
         return player;
     }
 
-    public Player getPlayerByRatingTtw(String ratingTtw){
+    public Player getPlayerIdByIdTtw(String ratingTtw){
         return findById(playerDao.getPlayerIdByIdTtw(ratingTtw));
     }
 
@@ -207,5 +207,15 @@ public class PlayerService {
             }
         }
         return pairList;
+    }
+
+    public boolean presentIdTtw(String idTtw) {
+        List<String> listIdTtw = getIdTtw();
+        for (String st : listIdTtw) {
+            if (st.equals(idTtw)){
+                return true;
+            }
+        }
+        return false;
     }
 }

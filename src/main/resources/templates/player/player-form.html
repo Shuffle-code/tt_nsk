@@ -11,7 +11,7 @@
 </head>
 <body>
 <div th:replace="~{common/navbar :: navi(PlayerForm)}"></div>
-<div class="container" style="background-color: rgba(0, 0, 0, 0.1); width: 45%;">
+<div class="container" style="background-color: rgba(0, 0, 0, 0.1); width: 70%;">
     <br>
     <form class="row g-3 needs-validation" th:object="${player}" th:action="@{/player/add}" method="post"
           enctype="multipart/form-data">

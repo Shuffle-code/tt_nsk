@@ -53,7 +53,7 @@ public class UpdateRatingTtw {
                 Node n = nodes.item(j);
                 String textContent = n.getTextContent();
                 String[] split = textContent.split("\n");
-                Player playerByRatingTtw = playerService.getPlayerByRatingTtw(listIdTtw.get(i));
+                Player playerByRatingTtw = playerService.getPlayerIdByIdTtw(listIdTtw.get(i));
                 playerService.updateRatingTtw(playerByRatingTtw, new BigDecimal(split[8].replaceAll("\\s", "")));
             }
         }
@@ -73,7 +73,7 @@ public class UpdateRatingTtw {
                 Elements ratingTtw = document.getElementsByClass("header-rating");
                 for (Element el : ratingTtw) {
                     String text = el.ownText();
-                    Player playerByRatingTtw = playerService.getPlayerByRatingTtw(listIdTtw.get(i));
+                    Player playerByRatingTtw = playerService.getPlayerIdByIdTtw(listIdTtw.get(i));
                     playerService.updateRatingTtw(playerByRatingTtw, new BigDecimal(text));
                 }
             } catch (IOException e) {
@@ -81,28 +81,22 @@ public class UpdateRatingTtw {
             }
         }
     }
-    public void parseRatingByClickingOnClient(String idTtw){
-            String url = "http://r.ttw.ru/players/?id=" + idTtw;
-            try {
-                org.jsoup.nodes.Document document = Jsoup.connect(url)
-                        .userAgent("Chrome")
-                        .timeout(500000)
-                        .referrer("https://google.com")
-                        .get();
-                Elements ratingTtw = document.getElementsByClass("player-rating-count-cell");
-                int iter = 0;
-                for (Element el : ratingTtw) {
-                    if(iter == 1){
-                        String text = el.ownText();
-                        String rTtw = text.split(",")[0];
-                        Player playerByRatingTtw = playerService.getPlayerByRatingTtw(idTtw);
-                        playerService.updateRatingTtw(playerByRatingTtw, new BigDecimal(rTtw));
-                    }
-                    iter++;
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+    public void parseRatingByClickingOnClient(String idTtw) {
+        String url = "http://r.ttw.ru/players/?id=" + idTtw;
+        try {
+            org.jsoup.nodes.Document document = Jsoup.connect(url)
+                    .userAgent("Chrome")
+                    .timeout(100000)
+                    .referrer("https://google.com")
+                    .get();
+            Elements ratingTtw = document.getElementsByClass("header-rating");
+            for (Element el : ratingTtw) {
+                String text = el.ownText();
+                Player playerByRatingTtw = playerService.getPlayerIdByIdTtw(idTtw);
+                playerService.updateRatingTtw(playerByRatingTtw, new BigDecimal(text));
             }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
-
 }

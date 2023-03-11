@@ -1,0 +1,11 @@
+<th id="rating7"
+    th:text="${#numbers.formatDecimal(result7.rating, 1, 2)}"
+    th:style="${(result7.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th id="delta7"
+    th:text="${#numbers.formatDecimal(result7.delta, 1, 2)}"
+    th:style="${(result7.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th id="set7"
+    th:text="${result7.set + '/' + result7.setWin + '/' + result7.countWin}"
+    th:style="${(result7.set == 0.0)}? 'color: transparent;' : 'font-weight: bold;'"></th>
+<th id="place7" th:text="${result7.placePlayer}"
+    th:style="${(result7.set < 15)}? 'color: transparent;' : 'font-weight: bold;'"></th>

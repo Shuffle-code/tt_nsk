@@ -70,8 +70,8 @@ spring:
     allowPublicKeyRetrieval=true&useSSL=false&
     useUnicode=true&
     characterEncoding=UTF-8&serverTimezone=UTC"
-    username: "shuffle"
-    password: "shuffle"
+    username: "root"
+    password: "root"
 
 storage:
   location: 'C:\Users\79130\storage'

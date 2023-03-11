@@ -3,6 +3,8 @@ package site.tt_nsk.controller;
 import site.tt_nsk.dao.PlayerDao;
 import site.tt_nsk.entity.Pair;
 import site.tt_nsk.entity.Player;
+import site.tt_nsk.entity.enums.Status;
+import site.tt_nsk.exception.UsernameAlreadyExistsException;
 import site.tt_nsk.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,12 +80,23 @@ public class PlayerController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAnyAuthority('player.create', 'player.update', 'player.read')")
-    public String savePlayer(@Valid Player player, @RequestParam("files") MultipartFile[] files, BindingResult bindingResult) {
+    public String savePlayer(@Valid Player player, @RequestParam("files") MultipartFile[] files,
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             return "player/player-form";
         }
+        if (playerService.presentIdTtw(player.getIdTtw())) {
+            Player playerIdByIdTtw = playerService.getPlayerIdByIdTtw(player.getIdTtw());
+            player.setRating(playerIdByIdTtw.getRating());
+            String playerIdTtw = playerIdByIdTtw.getIdTtw();
+            playerIdByIdTtw.setIdTtw(playerIdTtw + "#");
+            playerIdByIdTtw.setStatus(Status.DELETED);
+        }
         playerService.save(player);
         uploadMultipleFiles(files, playerDao.findById(player.getId()).get().getId());
+        if (player.getIdTtw() != null){
+            updateRatingTtw.parseRatingByClickingOnClient(player.getIdTtw());
+        }
         return "redirect:/player/all";
     }
     @GetMapping("/delete/{id}")
