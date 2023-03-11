@@ -87,10 +87,12 @@ public class PlayerController {
         }
         if (playerService.presentIdTtw(player.getIdTtw())) {
             Player playerIdByIdTtw = playerService.getPlayerIdByIdTtw(player.getIdTtw());
-            player.setRating(playerIdByIdTtw.getRating());
-            String playerIdTtw = playerIdByIdTtw.getIdTtw();
-            playerIdByIdTtw.setIdTtw(playerIdTtw + "#");
-            playerIdByIdTtw.setStatus(Status.DELETED);
+            if(player.getId() != playerIdByIdTtw.getId()){
+                player.setRating(playerIdByIdTtw.getRating());
+                String playerIdTtw = playerIdByIdTtw.getIdTtw();
+                playerIdByIdTtw.setIdTtw(playerIdTtw + "#");
+                playerIdByIdTtw.setStatus(Status.DELETED);
+            }
         }
         playerService.save(player);
         uploadMultipleFiles(files, playerDao.findById(player.getId()).get().getId());

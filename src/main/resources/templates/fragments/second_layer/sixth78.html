@@ -1,0 +1,34 @@
+<td width="60px">
+  <input
+          type="text" id = "x6y7"
+          class="form-control"
+          th:placeholder="${(player7.rating == 500)}? '0/0' : ${(legUp.fx6y7)}"
+          value=""
+          th:style="${(score.x6y7 == '')}? 'background-color: #F5F5F5;' : (${(score.x6y7 == '1/3'
+                                || score.x6y7 == '0/3' || score.x6y7 == '2/3' || score.x6y7 == '0.3' || score.x6y7 == '1.3'
+                                || score.x6y7 == '2,3' || score.x6y7 == '0,3' || score.x6y7 == '1,3'
+                                || score.x6y7 == '2.3')}? 'color: red;' : (${(score.x6y7 == '1/2'
+                                || score.x6y7 == '0/2' || score.x6y7 == '0.2' || score.x6y7 == '1.2'
+                                )}? 'color: green;' : (${(score.x6y7 == '1/4'|| score.x6y7 == '2/4' || score.x6y7 == '2.4' || score.x6y7 == '3.4'
+                                || score.x6y7 == '0/4' || score.x6y7 == '0.4' || score.x6y7 == '1.4' || score.x6y7 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+          th:field="*{x6y7}"
+  />
+</td>
+<td width="60px">
+  <input
+          type="text" id = "x6y8"
+          class="form-control"
+          th:placeholder="${(player8.rating == 500)}? '0/0' : ${(legUp.fx6y8)}"
+          value=""
+          th:style="${(score.x6y8 == '')}? 'background-color: #F5F5F5;' : (${(score.x6y8 == '1/3'
+                                || score.x6y8 == '0/3' || score.x6y8 == '2/3' || score.x6y8 == '0.3' || score.x6y8 == '1.3'
+                                || score.x6y8 == '2,3' || score.x6y8 == '0,3' || score.x6y8 == '1,3'
+                                || score.x6y8 == '2.3')}? 'color: red;' : (${(score.x6y8 == '1/2'
+                                || score.x6y8 == '0/2' || score.x6y8 == '0.2' || score.x6y8 == '1.2'
+                                )}? 'color: green;' : (${(score.x6y8 == '1/4'|| score.x6y8 == '2/4' || score.x6y8 == '2.4' || score.x6y8 == '3.4'
+                                || score.x6y8 == '0/4' || score.x6y8 == '0.4' || score.x6y8 == '1.4' || score.x6y8 == '3/4'
+                                )}? 'color: #FFAB00;' :'font-weight: bold;')))"
+          th:field="*{x6y8}"
+  />
+</td>
