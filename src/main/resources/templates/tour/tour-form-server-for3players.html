@@ -47,7 +47,7 @@
                 <th width="60px" class="table-secondary">TT</th>
                 <td width="60px">
                     <input
-                            type="text" id = "x1y2"
+                            type="text" maxlength="3" id = "x1y2"
                             class="form-control"
                             th:placeholder="${(player2.rating == 500)}? '0/0' : ${(legUp.fx1y2)}"
                             value=""
@@ -64,7 +64,7 @@
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "x1y3"
+                            type="text" maxlength="3" id = "x1y3"
                             class="form-control"
                             th:placeholder="${(player3.rating == 500)}? '0/0' : ${(legUp.fx1y3)}"
                             value=""
@@ -93,7 +93,7 @@
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "x2y1"
+                            type="text" maxlength="3" id = "x2y1"
                             class="form-control"
                             th:placeholder="${(player2.rating == 500)}? '0/0' : ${(legUp.fx2y1)}"
                             value=""
@@ -111,7 +111,7 @@
                 <th width="60px" class="table-secondary">TT</th>
                 <td width="60px">
                     <input
-                            type="text" id = "x2y3"
+                            type="text" maxlength="3" id = "x2y3"
                             class="form-control"
                             th:placeholder="${(player3.rating == 500)}? '0/0' : ${(legUp.fx2y3)}"
                             value=""
@@ -141,7 +141,7 @@
                 <td width="60px">
                     <div>
                         <input
-                                type="text" id = "x3y1"
+                                type="text" maxlength="3" id = "x3y1"
                                 value=""
                                 class="form-control"
                                 th:placeholder="${(player3.rating == 500)}? '0/0' : ${(legUp.fx3y1)}"
@@ -159,7 +159,7 @@
                 </td>
                 <td width="60px">
                     <input
-                            type="text" id = "x3y2"
+                            type="text" maxlength="3" id = "x3y2"
                             class="form-control"
                             th:placeholder="${(player3.rating == 500)}? '0/0' : ${(legUp.fx3y2)}"
                             th:style="${(score.x3y2 == '')}? 'background-color: #F5F5F5;' : (${(score.x3y2 == '1/3'

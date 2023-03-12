@@ -10,7 +10,7 @@
 <td width="60px">
   <div>
     <input
-            type="text" id = "x4y1"
+            type="text" maxlength="3" id = "x4y1"
             value=""
             class="form-control"
             th:placeholder="${(player4.rating == 500)}? '0/0' : ${(legUp.fx4y1)}"
@@ -28,7 +28,7 @@
 </td>
 <td width="60px">
   <input
-          type="text" id = "x4y2"
+          type="text" maxlength="3" id = "x4y2"
           class="form-control"
           th:placeholder="${(player4.rating == 500)}? '0/0' : ${(legUp.fx4y2)}"
           th:style="${(score.x4y2 == '')}? 'background-color: #F5F5F5;' : (${(score.x4y2 == '1/3'
@@ -45,7 +45,7 @@
 </td>
 <td width="60px">
   <input
-          type="text" id = "x4y3"
+          type="text" maxlength="3" id = "x4y3"
           class="form-control"
           th:placeholder="${(player4.rating == 500)}? '0/0' : ${(legUp.fx4y3)}"
           th:style="${(score.x4y3 == '')}? 'background-color: #F5F5F5;' : (${(score.x4y3 == '1/3'
@@ -63,7 +63,7 @@
 <th width="60px" class="table-secondary">TT</th>
 <td width="60px">
   <input
-          type="text" id = "x4y5"
+          type="text" maxlength="3" id = "x4y5"
           class="form-control"
           th:placeholder="${(player5.rating == 500)}? '0/0' : ${(legUp.fx4y5)}"
           th:style="${(score.x4y5 == '')}? 'background-color: #F5F5F5;' : (${(score.x4y5 == '1/3'
