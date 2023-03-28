@@ -243,50 +243,13 @@ public class PlayService {
         Map<String, Scoring> scoringMap = writeMapWithNullScore();
         for (int i = 0; i < listResultTour.size(); i++) {
             String[] split = listResultTour.get(i).split("[xy='.,/ ;:*-]+");
-            switch (split[1]) {
-                case ("1"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("2"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("3"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("4"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("5"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("6"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("7"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("8"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("9"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("10"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("11"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("12"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                case ("13"):
-                    writeScoreInMap(split, scoringMap, coefficientTour);
-                    break;
-                default:
-                    writeMapWithNullScore();
-                    break;
-            }
+            if(split[1].equals("1") || split[1].equals("2") || split[1].equals("3")
+                    || split[1].equals("4") || split[1].equals("5") || split[1].equals("6")
+                    || split[1].equals("7") || split[1].equals("8") || split[1].equals("9")
+                    || split[1].equals("10") || split[1].equals("11") || split[1].equals("12")
+                    || split[1].equals("13")){
+                writeScoreInMap(split, scoringMap, coefficientTour);
+            } else writeMapWithNullScore();
         }
         return scoringMap;
     }
@@ -334,49 +297,13 @@ public class PlayService {
         Map<String, Scoring> scoringMap = writeMapWithNullScore(allActiveSortedByRating);
         for (int i = 0; i < listResultTour.size(); i++) {
             String[] split = listResultTour.get(i).split("[xy='.,/ ;:*-]+");
-            switch (split[1]){
-                case ("1"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("2"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("3"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("4"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("5"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("6"):
-                    writeScoreInMap(split, scoringMap, coefficientTour,allActiveSortedByRating);
-                    break;
-                case ("7"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("8"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("9"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("10"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("11"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("12"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                case ("13"):
-                    writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
-                    break;
-                default:writeMapWithNullScore(allActiveSortedByRating);
-                    break;
-            }
+            if(split[1].equals("1") || split[1].equals("2") || split[1].equals("3")
+            || split[1].equals("4") || split[1].equals("5") || split[1].equals("6")
+            || split[1].equals("7") || split[1].equals("8") || split[1].equals("9")
+            || split[1].equals("10") || split[1].equals("11") || split[1].equals("12")
+            || split[1].equals("13")){
+                writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
+            } else writeMapWithNullScore(allActiveSortedByRating);
         }return scoringMap;
     }
 

@@ -84,6 +84,7 @@ public class PlayController {
         model.addAttribute("score", ct);
         return "tour/currentScore";
     }
+
     @PostMapping("/count")
     public String scoringTour(Score score, Model model, HttpSession httpSession,
                               @RequestParam(name = "id", required = false) Long id) {
