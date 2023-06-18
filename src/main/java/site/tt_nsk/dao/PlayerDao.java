@@ -23,7 +23,7 @@ public interface PlayerDao extends JpaRepository<Player, Long> {
 
     @Query(nativeQuery = true, value = "SELECT id, firstname, patronymic, lastname, " +
             "rating, rating_ttw, year_of_birth, VERSION, CREATED_BY, CREATED_DATE, " +
-            "LAST_MODIFIED_BY, LAST_MODIFIED_DATE, STATUS, TOUR_ID, ID_TTWR " +
+            "LAST_MODIFIED_BY, LAST_MODIFIED_DATE, STATUS, TOUR_ID, ID_TTWR, info " +
             "FROM player WHERE id IN :ids ORDER BY rating DESC")
     List<Player> findAllByIdsOrderByRatingDesc(@Param("ids") List<Long> ids);
 

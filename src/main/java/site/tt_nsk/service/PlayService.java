@@ -28,7 +28,6 @@ public class PlayService {
     private final Base64.Decoder decoder = Base64.getDecoder();
     private final LegUpService legUpService;
     public List<Double> getCurrentRatingAllPlayersForSelectTour(List<Player> allActiveSortedByRating) {
-//        List<Player> allActiveSortedByRating = getAllActiveSortedByRating();
         List<Double> ratingList = new ArrayList<>();
         for (Player player : allActiveSortedByRating) {
             ratingList.add(player.getRating().doubleValue());
@@ -208,18 +207,7 @@ public class PlayService {
 
     }
 
-    public void writeScoreInMap(String[] split, Map<String, Scoring> scoringMap, double coefficientTour) {
-        int i = Integer.parseInt(split[1]);
-        Scoring scoringCurrent = scoringMap.get(String.valueOf(i - 1));
-        Double deltaSet = scoringDeltaSet(split, coefficientTour);
-        scoringCurrent.setRating(scoringCurrent.getRating() + deltaSet);
-        scoringCurrent.setDelta(scoringCurrent.getDelta() + deltaSet);
-        scoringCurrent.setSet(scoringCurrent.getSet() + sumSet(getNumbersFromScoreForArray(split)));
-        scoringCurrent.setSetWin(scoringCurrent.getSetWin() + sumWinSet(getNumbersFromScoreForArray(split)));
-        scoringCurrent.setCountWin(scoringCurrent.getCountWin() + sumWin(getNumbersFromScoreForArray(split)));
-        scoringCurrent.setIndexPlayer(Integer.parseInt(split[1]));
-        scoringMap.put(String.valueOf(i - 1), scoringCurrent);
-    }
+
 
     public List<Player> getAllActiveSortedByRating() {
         return playerService.findAllActiveSortedByRating();
@@ -242,22 +230,17 @@ public class PlayService {
         double coefficientTour = getCoefficientTour();
         Map<String, Scoring> scoringMap = writeMapWithNullScore();
         for (int i = 0; i < listResultTour.size(); i++) {
-            String[] split = listResultTour.get(i).split("[xy='.,/ ;:*-]+");
-            if(split[1].equals("1") || split[1].equals("2") || split[1].equals("3")
-                    || split[1].equals("4") || split[1].equals("5") || split[1].equals("6")
-                    || split[1].equals("7") || split[1].equals("8") || split[1].equals("9")
-                    || split[1].equals("10") || split[1].equals("11") || split[1].equals("12")
-                    || split[1].equals("13")){
+            String[] split = listResultTour.get(i).split("[xy='/]+");
+            if(split[1].matches("[1234567891011213]+")){
                 writeScoreInMap(split, scoringMap, coefficientTour);
             } else writeMapWithNullScore();
         }
         return scoringMap;
     }
 
-    public Double scoringDeltaSet(String[] split, double coefficientTour) {
+    public Double scoringDeltaSetCommon(String[] split, double coefficientTour, double ratingPlayerHighRating,
+                                        double ratingPlayerLowRating) {
         Double delta;
-        double ratingPlayerHighRating = getCurrentRatingAllPlayers().get(Integer.parseInt(split[1]) - 1);
-        double ratingPlayerLowRating = getCurrentRatingAllPlayers().get(Integer.parseInt(split[2]) - 1);
         int[] numberFromScoreForArray = getNumbersFromScoreForArray(split);
         if (winnerPlayer1(numberFromScoreForArray)) {
             if ((ratingPlayerHighRating - ratingPlayerLowRating) > 200) {
@@ -267,6 +250,38 @@ public class PlayService {
             delta = 0.0;
         } else delta = (-(200 - ratingPlayerLowRating + ratingPlayerHighRating) / 10 * coefficientTour);
         return Math.floor(delta * 100) / 100;
+    }
+
+    public Double scoringDeltaSet(String[] split, double coefficientTour) {
+//        Double delta;
+        double ratingPlayerHighRating = getCurrentRatingAllPlayers().get(Integer.parseInt(split[1]) - 1);
+        double ratingPlayerLowRating = getCurrentRatingAllPlayers().get(Integer.parseInt(split[2]) - 1);
+//        int[] numberFromScoreForArray = getNumbersFromScoreForArray(split);
+//        if (winnerPlayer1(numberFromScoreForArray)) {
+//            if ((ratingPlayerHighRating - ratingPlayerLowRating) > 200) {
+//                delta = 0.0;
+//            } else delta = (200 - ratingPlayerHighRating + ratingPlayerLowRating) / 10 * coefficientTour;
+//        } else if ((ratingPlayerLowRating - ratingPlayerHighRating) > 200) {
+//            delta = 0.0;
+//        } else delta = (-(200 - ratingPlayerLowRating + ratingPlayerHighRating) / 10 * coefficientTour);
+        return scoringDeltaSetCommon(split, coefficientTour, ratingPlayerHighRating, ratingPlayerLowRating);
+//                Math.floor(delta * 100) / 100;
+    }
+
+    public Double scoringDeltaSet (String[] split, double coefficientTour, List<Player> allActiveSortedByRating){
+//        Double delta;
+        double ratingPlayerHighRating = getCurrentRatingAllPlayers(allActiveSortedByRating).get(Integer.parseInt(split[1]) - 1);
+        double ratingPlayerLowRating = getCurrentRatingAllPlayers(allActiveSortedByRating).get(Integer.parseInt(split[2])  - 1);
+//        int[] numberFromScoreForArray = getNumbersFromScoreForArray(split);
+//        if (winnerPlayer1(numberFromScoreForArray)){
+//            if ((ratingPlayerHighRating - ratingPlayerLowRating ) > 200){
+//                delta = 0.0;
+//            } else delta = (200 - ratingPlayerHighRating + ratingPlayerLowRating)/10 * coefficientTour;
+//        }else if ((ratingPlayerLowRating - ratingPlayerHighRating ) > 200) {
+//            delta = 0.0;
+//        }else delta = (-(200 - ratingPlayerLowRating + ratingPlayerHighRating)/10 * coefficientTour);
+//        Math.floor(delta * 100)/100;
+        return scoringDeltaSetCommon(split, coefficientTour, ratingPlayerHighRating, ratingPlayerLowRating);
     }
 
     public List<List<String>> compileResultTable(List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoList) {
@@ -296,12 +311,8 @@ public class PlayService {
         double coefficientTour = getCoefficientTour();
         Map<String, Scoring> scoringMap = writeMapWithNullScore(allActiveSortedByRating);
         for (int i = 0; i < listResultTour.size(); i++) {
-            String[] split = listResultTour.get(i).split("[xy='.,/ ;:*-]+");
-            if(split[1].equals("1") || split[1].equals("2") || split[1].equals("3")
-            || split[1].equals("4") || split[1].equals("5") || split[1].equals("6")
-            || split[1].equals("7") || split[1].equals("8") || split[1].equals("9")
-            || split[1].equals("10") || split[1].equals("11") || split[1].equals("12")
-            || split[1].equals("13")){
+            String[] split = listResultTour.get(i).split("[xy='/]+");
+            if(split[1].matches("[1234567891011213]+")){
                 writeScoreInMap(split, scoringMap, coefficientTour, allActiveSortedByRating);
             } else writeMapWithNullScore(allActiveSortedByRating);
         }return scoringMap;
@@ -311,29 +322,40 @@ public class PlayService {
         int i = Integer.parseInt(split[1]);
         Scoring scoringCurrent = scoringMap.get(String.valueOf(i - 1));
         Double deltaSet = scoringDeltaSet(split, coefficientTour, allActiveSortedByRating);
+//        scoringCurrent.setRating(scoringCurrent.getRating() + deltaSet);
+//        scoringCurrent.setDelta(scoringCurrent.getDelta() + deltaSet);
+//        scoringCurrent.setSet(scoringCurrent.getSet() + sumSet(getNumbersFromScoreForArray(split)));
+//        scoringCurrent.setSetWin(scoringCurrent.getSetWin() + sumWinSet(getNumbersFromScoreForArray(split)));
+//        scoringCurrent.setCountWin(scoringCurrent.getCountWin() + sumWin(getNumbersFromScoreForArray(split)));
+//        scoringCurrent.setIndexPlayer(Integer.parseInt(split[1]));
+        scoringMap.put(String.valueOf(i - 1), setScoring(scoringCurrent, deltaSet, split));
+    }
+
+    public void writeScoreInMap(String[] split, Map<String, Scoring> scoringMap, double coefficientTour) {
+        int i = Integer.parseInt(split[1]);
+        Scoring scoringCurrent = scoringMap.get(String.valueOf(i - 1));
+        Double deltaSet = scoringDeltaSet(split, coefficientTour);
+//        setScoring(scoringCurrent, deltaSet, split);
+//        scoringCurrent.setRating(scoringCurrent.getRating() + deltaSet);
+//        scoringCurrent.setDelta(scoringCurrent.getDelta() + deltaSet);
+//        scoringCurrent.setSet(scoringCurrent.getSet() + sumSet(getNumbersFromScoreForArray(split)));
+//        scoringCurrent.setSetWin(scoringCurrent.getSetWin() + sumWinSet(getNumbersFromScoreForArray(split)));
+//        scoringCurrent.setCountWin(scoringCurrent.getCountWin() + sumWin(getNumbersFromScoreForArray(split)));
+//        scoringCurrent.setIndexPlayer(Integer.parseInt(split[1]));
+        scoringMap.put(String.valueOf(i - 1), setScoring(scoringCurrent, deltaSet, split));
+    }
+
+    public Scoring setScoring(Scoring scoringCurrent,Double deltaSet, String[] split){
         scoringCurrent.setRating(scoringCurrent.getRating() + deltaSet);
         scoringCurrent.setDelta(scoringCurrent.getDelta() + deltaSet);
         scoringCurrent.setSet(scoringCurrent.getSet() + sumSet(getNumbersFromScoreForArray(split)));
         scoringCurrent.setSetWin(scoringCurrent.getSetWin() + sumWinSet(getNumbersFromScoreForArray(split)));
         scoringCurrent.setCountWin(scoringCurrent.getCountWin() + sumWin(getNumbersFromScoreForArray(split)));
         scoringCurrent.setIndexPlayer(Integer.parseInt(split[1]));
-        scoringMap.put(String.valueOf(i - 1), scoringCurrent);
+        return scoringCurrent;
     }
 
-    public Double scoringDeltaSet (String[] split, double coefficientTour, List<Player> allActiveSortedByRating){
-        Double delta;
-        double ratingPlayerHighRating = getCurrentRatingAllPlayers(allActiveSortedByRating).get(Integer.parseInt(split[1]) - 1);
-        double ratingPlayerLowRating = getCurrentRatingAllPlayers(allActiveSortedByRating).get(Integer.parseInt(split[2])  - 1);
-        int[] numberFromScoreForArray = getNumbersFromScoreForArray(split);
-        if (winnerPlayer1(numberFromScoreForArray)){
-            if ((ratingPlayerHighRating - ratingPlayerLowRating ) > 200){
-                delta = 0.0;
-            } else delta = (200 - ratingPlayerHighRating + ratingPlayerLowRating)/10 * coefficientTour;
-        }else if ((ratingPlayerLowRating - ratingPlayerHighRating ) > 200) {
-            delta = 0.0;
-        }else delta = (-(200 - ratingPlayerLowRating + ratingPlayerHighRating)/10 * coefficientTour);
-        return Math.floor(delta * 100)/100;
-    }
+
 
     public Map<String, Scoring> writeMapWithNullScore (List<Player> allActiveSortedByRating){
         Map<String, Scoring> scoringMap = new HashMap<>();

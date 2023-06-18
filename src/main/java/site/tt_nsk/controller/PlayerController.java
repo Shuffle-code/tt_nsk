@@ -39,11 +39,13 @@ public class PlayerController {
     private final PairService pairService;
     private final PlayerImageService playerImageService;
     private final UpdateRatingTtw updateRatingTtw;
+    private final TourService tourService;
 
     @GetMapping("/all")
     public String getPlayerList(Model model, HttpSession httpSession){
         httpSession.setAttribute("count", playerService.count().toString());
-        httpSession.setAttribute("countPlaying", playerService.countPlaying());
+        httpSession.setAttribute("dateUpcomingTour", tourService.getCurrentTour().getDate());
+        httpSession.setAttribute("countPlaying", tourService.countPlayingForTour());
         model.addAttribute("players", playerService.addListForMainPage());
         return "player/players-list";
     }

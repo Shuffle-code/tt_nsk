@@ -39,11 +39,11 @@
                     <a class="nav-link" th:classappend="${activeTab == 'TourUpcoming' ? 'active' : ''}" th:href="@{/upcomingTournaments/all}">Выбрать турнир</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${activeTab == 'Video' ? 'active' : ''}" th:href="@{/video}">Трансляция</a>
+                    <a class="nav-link" th:classappend="${activeTab == 'Video' ? 'active' : ''}" th:href="@{/video(id=${session.tourId})}">Трансляция</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:classappend="${activeTab == 'Participate' ? 'active' : ''}"
-                       th:text="'ЦУМ 400-650(' + ${session.countPlaying == null ? '0)' : session.countPlaying + ')'}">
+                    <a class="nav-link dropdown-toggle" th:href="@{/tour(id=${session.tourId})}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:classappend="${activeTab == 'Participate' ? 'active' : ''}"
+                       th:text="${session.countPlaying == 0 ? 'Правила турнира' : session.dateUpcomingTour + '(' + session.countPlaying + ')'}">
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
@@ -51,7 +51,7 @@
                         </li>
                         <li>
                             <a class="dropdown-item" th:classappend="${activeTab == 'Participate' ? 'active' : ''}" th:href="@{/tour}"
-                               th:text="'ЦУМ 400-650(' + ${session.countPlaying == null ? '0)' : session.countPlaying + ')'}"></a>
+                               th:text="${session.countPlaying == 0 ? '' : 'WL⚡500-700(' + session.countPlaying + ')'}"></a>
                         </li>
                     </ul>
                 </li>

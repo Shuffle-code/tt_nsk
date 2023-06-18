@@ -25,7 +25,6 @@ public class Tour extends InfoEntity {
     @Id
     @Column(name = "id")
     Long id;
-
     @NotBlank
     @Column(name = "title")
     private String title;

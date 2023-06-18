@@ -53,8 +53,8 @@ spring:
     allowPublicKeyRetrieval=true&useSSL=false&
     useUnicode=true&
     characterEncoding=UTF-8&serverTimezone=UTC"
-    username: "admin"
-    password: "qwertyuiop"
+    username: "shuffle"
+    password: "shuffle"
     #url: "jdbc:mysql://localhost:3306/tt_Nsk"
 
 storage:

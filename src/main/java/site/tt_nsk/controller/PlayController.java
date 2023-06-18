@@ -1,5 +1,6 @@
 package site.tt_nsk.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import site.tt_nsk.dao.PlayerDao;
 import site.tt_nsk.dao.PlayerTournamentRepo;
 import site.tt_nsk.dao.TourDao;
@@ -33,7 +34,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Api
 @Controller
 @RequiredArgsConstructor
@@ -75,13 +76,14 @@ public class PlayController {
     }
     @GetMapping("/current-score")
     public String createCurrentTournament(HttpSession httpSession, Model model){
-        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(91L);
+        List<PlayerBriefRepresentationDto> playerBriefRepresentationDtoListSortedByRatingDesc = getAllRegisteredPlayers(3L);
         List<List<String>> results = playService.compileResultTable(playerBriefRepresentationDtoListSortedByRatingDesc);
         CurrentTournament ct = CurrentTournament.builder()
                 .players(playerBriefRepresentationDtoListSortedByRatingDesc)
                 .resultTable(results)
                 .build();
         model.addAttribute("score", ct);
+
         return "tour/currentScore";
     }
 
@@ -127,7 +129,7 @@ public class PlayController {
         }
         model.addAttribute("addressService", addressService);
         model.addAttribute("tour", tour);
-        filename = createScreenshotMultipleScreens();
+//        filename = createScreenshotMultipleScreens();
         return "tour/add-played-tour";
     }
     @PostMapping("/save")

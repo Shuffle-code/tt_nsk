@@ -13,7 +13,7 @@
 
 <div th:replace="~{common/navbar :: navi(Participate)}"></div>
 
-<div class="d-flex justify-content-center">
+<div class="container shadow p-3" style="background-color: rgba(0, 0, 0, 0.1); width: 45%;">
     <span th:if="${playersTour.size() == 0}">Игроков нет</span>
     <div th:unless="${playersTour.size() == 0}">
      <div>
@@ -22,28 +22,16 @@
             <tr>
                 <th scope="col">№</th>
                 <th colspan="2" scope="col">Фамилия Имя/Рейтинг</th>
-                <th scope="col">1</th>
-                <th scope="col">2</th>
-                <th scope="col">3</th>
-                <th scope="col">4</th>
-                <th scope="col">5</th>
-                <th scope="col">6</th>
-                <th scope="col">7</th>
-                <th scope="col">8</th>
-                <th scope="col">9</th>
-                <th scope="col">10</th>
-                <th scope="col">11</th>
-                <th scope="col">12</th>
-                <th scope="col">Сеты</th>
-                <th scope="col">Рейтинг</th>
-                <th scope="col">Дельта</th>
-                <th scope="col">Место</th>
+<!--                <th scope="col">Сеты</th>-->
+<!--                <th scope="col">Рейтинг</th>-->
+<!--                <th scope="col">Дельта</th>-->
+<!--                <th scope="col">Место</th>-->
             </tr>
             </thead>
             <tbody data-mdb-spy="scroll">
             <tr th:each="player, i : ${playersTour}"
-                th:classappend="${player.status.name() == 'ACTIVE'} ? 'table-light' : 'table-info'"
                 th:attr="play_index=${player.id}">
+<!--                th:classappend="${player.status.name() == 'ACTIVE'} ? 'table-light' : 'table-info'"-->
                 <th scope="row" th:text="${i.count}"></th>
                 <td colspan="2">
                     <div class="d-flex align-items-center">
@@ -53,33 +41,23 @@
                         </div>
                     </div>
                 </td>
-                <td width="60px"></td>
-                <td width="60px" class="table-active"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td width="60px"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+<!--                <td width="60px"></td>-->
+<!--                <td width="60px" class="table-active"></td>-->
+<!--                <td></td>-->
+<!--                <td></td>-->
+<!--                <td></td>-->
+<!--                <td></td>-->
             </tr>
             </tbody>
         </table>
      </div>
-        <div class="col-md-5" th:object="${tour}">
-            <div class="input-group" >
-                <button class="btn btn-primary" type="submit">Сохранить</button>
-                <input type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"
-                       aria-describedby="inputGroup-sizing-default" th:field="*{title}">
-            </div>
-        </div>
+<!--        <div class="col-md-5" th:object="${tour}">-->
+<!--            <div class="input-group" >-->
+<!--                <button class="btn btn-primary" type="submit">Сохранить</button>-->
+<!--                <input type="text" class="form-control" placeholder="Перед сохранением введите: Имя турнира" aria-label="Sizing example input"-->
+<!--                       aria-describedby="inputGroup-sizing-default" th:field="*{title}">-->
+<!--            </div>-->
+<!--        </div>-->
         </form>
     </div>
 </div>

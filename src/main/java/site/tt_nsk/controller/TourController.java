@@ -1,9 +1,11 @@
 package site.tt_nsk.controller;
 import lombok.extern.slf4j.Slf4j;
+import site.tt_nsk.dao.PlayerTournamentRepo;
 import site.tt_nsk.dao.TourDao;
 import site.tt_nsk.dao.security.AccountRoleDao;
 import site.tt_nsk.entity.*;
 import site.tt_nsk.entity.enums.Status;
+import site.tt_nsk.entity.enums.TourStatus;
 import site.tt_nsk.entity.security.AccountRole;
 import site.tt_nsk.entity.security.AccountUser;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import site.tt_nsk.entity.security.PlayerTournament;
 import site.tt_nsk.service.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,11 +41,13 @@ public class TourController {
     private final AccountRoleDao accountRoleDao;
     private final PlayService playService;
     private final PairService pairService;
+    private final PlayerTournamentRepo playerTournamentRepo;
     @GetMapping
     public String findAllActiveSortedRatingForWebpage(Model model, Score score, HttpSession httpSession,
                                                       @RequestParam(name = "id", required = false) Long id) {
         LegUp legUp = null;
         List<Player> allByRating;
+        id = id == null ? tourService.getCurrentTourId() : id;
         Tour tour;
         if (id != null) {
             tour = tourDao.findById(id).get();
@@ -57,6 +63,8 @@ public class TourController {
         model.addAttribute("legUp", legUp);
         model.addAttribute("tour", tour);
         model.addAttribute("scope", score);
+        httpSession.setAttribute("count", playerService.count().toString());
+        httpSession.setAttribute("tourId", id);
         httpSession.setMaxInactiveInterval(25000);
         Map<String, Scoring> resultTour = playService.writeMapWithNullScore(allByRating);
         return returnPage(allByRating, model, httpSession, resultTour);
@@ -100,7 +108,7 @@ public class TourController {
               return "tour/tour-form-server-for13players";
           default:
               model.addAttribute("playersTour", allSortedByRating);
-              httpSession.setAttribute("countPlaying", playerService.countPlaying());
+              setHttpSession(httpSession);
               return "tour/tour-form";
       }
     }
@@ -296,45 +304,44 @@ public class TourController {
         model.addAttribute("result13" , resultTour.get("12"));
     }
     public void setHttpSession (HttpSession httpSession){
-        httpSession.setAttribute("countPlaying", playerService.countPlaying());
+        httpSession.setAttribute("dateUpcomingTour", tourService.getCurrentTour().getDate());
+        httpSession.setAttribute("countPlaying", tourService.countPlayingForTour());
     }
+
     @GetMapping("/all")
     public String getTourList(Model model) {
-        model.addAttribute("tours", tourService.findAllSortedByData());
+        model.addAttribute("tours", tourService.findAllByStatusEquals(TourStatus.FINISHED));
         return "tour/tour-list";
     }
     @GetMapping("/participate")
-    public String changeStatus(Model model, Score score,
+    public String changeRegister(Model model, Score score,
                                Principal principal, HttpSession httpSession){
-        Tour tour = new Tour();
-        Player player;
-        AccountUser accountUser = changeRole(principal);
-        player = accountUser.getPlayer();
-        player.setStatus(Status.ACTIVE);
-        playerService.save(player);
-        List<Player> allActiveSortedByRating = playerService.findAllActiveSortedByRating();
-        LegUp legUp = legUpService.getLegUp(legUpService.getLegUpBeforeStartingTour(playService.getCurrentRatingAllPlayers(allActiveSortedByRating)));
-        model.addAttribute("playersTour", allActiveSortedByRating);
-        model.addAttribute("scope", score);
-        httpSession.setAttribute("countPlaying", playerService.countPlaying());
-        model.addAttribute("legUp", legUp);
-//        httpSession.setAttribute("role", accountUser.getRoles());
-        model.addAttribute("tour", tour);
-        Map<String, Scoring> resultTour = playService.writeMapWithNullScore(allActiveSortedByRating);
-        return returnPage(allActiveSortedByRating, model, httpSession, resultTour);
+        Tour tour = tourService.getCurrentTour();
+        Long id = tour.getId();
+        AccountUser accountUser = userService.findByUsername(principal.getName());
+        PlayerTournament playerTournament = new PlayerTournament(accountUser.getPlayer().getId(), id);
+        try {
+            playerTournamentRepo.save(playerTournament);
+        }catch (Exception e){
+            log.error("Player already exist");
+        }
+        int size = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(id).size();
+        tour.setAmountPlayers(BigDecimal.valueOf(size));
+        tourDao.save(tour);
+        return findAllActiveSortedRatingForWebpage(model, score, httpSession, id);
     }
+
     @GetMapping("/noParticipate")
-    public String changeStatusBack(Model model, Principal principal, HttpSession httpSession) {
-        Player player;
-        Tour tour = new Tour();
-        AccountUser accountUser = changeRoleBack(principal);
-        player = accountUser.getPlayer();
-        player.setStatus(Status.DISABLE);
-        playerService.save(player);
-        model.addAttribute("playersTour", playerService.findAllActiveSortedByRating());
-        httpSession.setAttribute("countPlaying", playerService.countPlaying());
-        model.addAttribute("tour", tour);
-        return "redirect:/player/all";
+    public String changeRegisterBack(Model model,  Score score, Principal principal, HttpSession httpSession) {
+
+        Tour tour = tourService.getCurrentTour();
+        Long id = tour.getId();
+        AccountUser accountUser = userService.findByUsername(principal.getName());
+        playerTournamentRepo.disenroll(accountUser.getPlayer().getId(), id);
+        int size = playerTournamentRepo.findAllByTournamentIdOrderByPlayerId(id).size();
+        tour.setAmountPlayers(BigDecimal.valueOf(size));
+        tourDao.save(tour);
+        return findAllActiveSortedRatingForWebpage(model, score, httpSession, id);
     }
 
     public AccountUser changeRoleBack(Principal principal){
@@ -403,7 +410,7 @@ public class TourController {
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasAnyAuthority('player.delete')")
     public String deleteById(@PathVariable(name = "id") Long id) {
-        tourService.deleteById(id);
+        tourService.deleteById(id); // TODO: 18.06.2023 либо каскадное удаление либо статус delete 
         return "redirect:/tour/all";
     }
 

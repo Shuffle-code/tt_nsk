@@ -1,4 +1,5 @@
 package site.tt_nsk.controller;
+import lombok.extern.slf4j.Slf4j;
 import site.tt_nsk.dao.PlayerTournamentRepo;
 import site.tt_nsk.dao.TourDao;
 import site.tt_nsk.dto.TournamentBriefRepresentationDto;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 @Controller
+@Slf4j
 @AllArgsConstructor
 @RequestMapping("/upcomingTournaments")
 @ConditionalOnProperty(prefix = "enrolltournament", name = "version", havingValue = "1")
@@ -92,7 +94,7 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
 
     private List<TournamentBriefRepresentationDto> createTournamentBriefRepresentationDtoList(long playerId) {
         Date date = new Date(System.currentTimeMillis());
-        List<Tour> upcomingTours = tourDao.findByDateGreaterThanEqual(date);
+        List<Tour> upcomingTours = tourDao.findByDateGreaterThan(date);
         List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
         List<Long> registeredTournaments = compileTournamentRegistration(playerId);
         upcomingTours.forEach(tour -> {
@@ -107,7 +109,7 @@ public class EnrollTournamentImpl_v1 implements EnrollTournament {
 
     private List<TournamentBriefRepresentationDto> createTournamentBriefRepresentationDtoList() {
         Date date = new Date(System.currentTimeMillis());
-        List<Tour> upcomingTours = tourDao.findByDateGreaterThanEqual(date);
+        List<Tour> upcomingTours = tourDao.findByDateGreaterThan(date);
         List<TournamentBriefRepresentationDto> tournamentBriefRepresentationDtoList = new ArrayList<>();
         upcomingTours.forEach(tour -> {
             tournamentBriefRepresentationDtoList.add(modelMapper.map(tour, TournamentBriefRepresentationDto.class));

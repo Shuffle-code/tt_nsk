@@ -6,6 +6,7 @@ import site.tt_nsk.entity.Player;
 import site.tt_nsk.entity.Tour;
 import site.tt_nsk.entity.TourImage;
 import site.tt_nsk.entity.enums.Status;
+import site.tt_nsk.entity.enums.TourStatus;
 import site.tt_nsk.entity.security.PlayerTournament;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.*;
 
 @Service
@@ -29,6 +32,7 @@ public class TourService {
     private final TourImageService tourImageService;
     private final PlayerTournamentRepo playerTournamentRepo;
     private final PlayerService playerService;
+    private Date now = new Date(System.currentTimeMillis());
 
     @Transactional(propagation = Propagation.NEVER, isolation = Isolation.DEFAULT)
     public Long count() {
@@ -120,8 +124,38 @@ public class TourService {
     }
 
     @Transactional(readOnly = true)
+    public List<Tour> findAllByStatusNot(TourStatus tourStatus) {
+        return tourDao.findAllByStatusNot(tourStatus, Sort.by(Sort.Direction.DESC,"date"));
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<Tour> findAllByStatusEquals(TourStatus tourStatus) {
+        return tourDao.findAllByStatusEquals(tourStatus, Sort.by(Sort.Direction.DESC,"date"));
+    }
+
+    @Transactional(readOnly = true)
     public Tour findById(Long id) {
     return tourDao.findById(id).orElse(null);
 }
 
+    public Long getCurrentTourForTranslation(){
+        Long currentTourId;
+        Tour byDateEquals = tourDao.findByDateEquals(now);
+        if (byDateEquals == null){
+           currentTourId = tourDao.findFirstByDateAfter(now).getId();
+        }else currentTourId = byDateEquals.getId();
+        return currentTourId;
+    }
+
+    public BigDecimal countPlayingForTour() {
+        return tourDao.findById(getCurrentTourId()).get().getAmountPlayers();
+    }
+
+    public Long getCurrentTourId(){
+        return tourDao.findFirstByDateAfter(now).getId();
+    }
+    public Tour getCurrentTour(){
+        return tourDao.findFirstByDateAfter(now);
+    }
 }

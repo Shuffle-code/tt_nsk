@@ -1,5 +1,6 @@
 package site.tt_nsk.dao;
 
+import liquibase.pro.packaged.ac;
 import site.tt_nsk.entity.Tour;
 import site.tt_nsk.entity.enums.Status;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import site.tt_nsk.entity.enums.TourStatus;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
@@ -18,13 +20,20 @@ public interface TourDao extends JpaRepository<Tour, Long> {
 //    List<Tour> findAllByStatus(Status status, Sort sort);
     List<Tour> findAllByStatus(Status status, Pageable pageable);
     List<Tour> findAllByStatus(Status status, Sort sort);
-    Tour findTourByStatus(Status status);
+//    Tour findTourByStatus(Status status);
 
     Optional<Tour> findByTitle(String title);
     List<Tour> findAllByTitleContaining(String title);
+    List<Tour> findAllByStatusNot(TourStatus tourStatus, Sort sort);
+    List<Tour> findAllByStatusEquals(TourStatus tourStatus, Sort sort);
 
 
-    List<Tour> findByDateGreaterThanEqual(Date date);
+    List<Tour> findByDateGreaterThan(Date date);
+
+    Tour findByDateEquals(Date date);
+
+    Tour findFirstByDateBefore(Date date);
+    Tour findFirstByDateAfter(Date date);
 
     @Query(nativeQuery = true, value = "SELECT current_tournament FROM tournament WHERE id = :id")
     Optional<String> findCurrentTournamentById(@Param("id") long id);
@@ -45,5 +54,6 @@ public interface TourDao extends JpaRepository<Tour, Long> {
     void updateTourAfterSave(@Param("score") String score, @Param("scoring") String scoring,
                              @Param("status") String status, @Param("winnerId")long winnerId,
                              @Param("id")long id);
+
 
 }
